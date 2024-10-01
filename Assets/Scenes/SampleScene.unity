@@ -486,7 +486,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 795310154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7391b575028355498a071828fe47b1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 397ea921c1fd3654287f0f946f5efdc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 0}
@@ -495,7 +495,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 72
-  player: {fileID: 9194855060049838843}
+  player: {fileID: 0}
   myTransform: {fileID: 0}
   lookSpeed: 20
   groundedFollowSpeed: 20
@@ -729,10 +729,10 @@ GameObject:
   m_Component:
   - component: {fileID: 9194855060049838840}
   - component: {fileID: 2420700782335437560}
-  - component: {fileID: 9194855060049838843}
-  - component: {fileID: 9194855060049838841}
-  - component: {fileID: 9194855060049838844}
   - component: {fileID: 9194855060049838845}
+  - component: {fileID: 9194855060049838841}
+  - component: {fileID: 9194855060049838843}
+  - component: {fileID: 9194855060049838844}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1620,7 +1620,7 @@ Animator:
   m_GameObject: {fileID: 459768022045448386}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 63fdb230e35611141b18195fb2be42ae, type: 3}
-  m_Controller: {fileID: 9100000, guid: c45c683d38fc41348b92614720526afb, type: 2}
+  m_Controller: {fileID: 9100000, guid: cc688bcd666ed3946b26d28dbfc300a4, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2850,9 +2850,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 459768022045448386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7f1ad6cc8b7e974fb1719b76c5a9f69, type: 3}
+  m_Script: {fileID: 11500000, guid: 13b1b75af9bae4c4c898a150dadfe1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   animator: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &9194855060049838843
@@ -2864,21 +2865,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 459768022045448386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a7b61956d1ecc949ad134058ffdc350, type: 3}
+  m_Script: {fileID: 11500000, guid: 49943285c8639f045b726b13605a6fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterAnimatorManager: {fileID: 0}
-  cc: {fileID: 0}
-  isInvulnerable: 0
-  isGrounded: 0
-  isPerformingAction: 0
-  moveSpeed: 3
-  rotationSpeed: 10
-  playerAnimatorManager: {fileID: 0}
-  playerInputManager: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 72
 --- !u!143 &9194855060049838844
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2906,9 +2895,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 459768022045448386}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4418b47e2edf54541b46a46272855e14, type: 3}
+  m_Script: {fileID: 11500000, guid: 55813be9fa8b4d746bfcf137fc98085d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterAnimatorManager: {fileID: 0}
+  cc: {fileID: 0}
+  isInvulnerable: 0
+  isGrounded: 0
+  isPerformingAction: 0
+  moveSpeed: 3
+  rotationSpeed: 10
+  playerAnimatorManager: {fileID: 0}
+  playerInputManager: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 72
 --- !u!1 &9214942590742904646
 GameObject:
   m_ObjectHideFlags: 0

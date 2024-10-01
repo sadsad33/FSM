@@ -17,6 +17,8 @@ public class PlayerManager : CharacterManager
 
     public float GroundCheckSphereRadius { get; set; }
 
+    public float RunningStateTimer { get; set; }
+
     public LayerMask groundLayer;
     
     protected override void Awake() {
@@ -41,6 +43,7 @@ public class PlayerManager : CharacterManager
 
     protected void LateUpdate() {
         playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
+        playerInputManager.RollFlag = false;
     }
 
     private void PlayerInit() {

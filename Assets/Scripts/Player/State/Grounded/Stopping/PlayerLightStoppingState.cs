@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLightStoppingState : PlayerGroundedState {
+public class PlayerLightStoppingState : PlayerStoppingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.RunningStateTimer = 0f;
         player.isPerformingAction = true;
         player.playerAnimatorManager.PlayAnimation("Light Stop", player.isPerformingAction);
     }

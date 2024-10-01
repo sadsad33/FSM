@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerRunningState : PlayerMovingState {
-
-    private float runningStateTimer;
+   
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        runningStateTimer = 0f;
+        player.playerInputManager.SprintInputTimer = 0f;
         moveSpeedModifier = 1f;
     }
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
-        runningStateTimer += Time.deltaTime;
+        player.RunningStateTimer += Time.deltaTime;
         HandleGroundedMovement();
         player.playerAnimatorManager.animator.SetFloat("Vertical", 1f, 0.1f, Time.deltaTime);
     }
@@ -24,7 +23,7 @@ public class PlayerRunningState : PlayerMovingState {
     public override void HandleInput() {
         base.HandleInput();
         if (moveAmount <= 0f) {
-            if (runningStateTimer >= 0.5f)
+            if (player.RunningStateTimer >= 0.5f)
                 player.pmsm.ChangeState(player.pmsm.lightStoppingState);
             else
                 player.pmsm.ChangeState(player.pmsm.idlingState);

@@ -13,8 +13,6 @@ public class PlayerMovementState : IState
     protected float verticalInput;
     protected float horizontalInput;
     protected float moveAmount;
-    protected float v;
-    protected float h;
     protected float mouseXInput;
     protected float mouseYInput;
 
@@ -57,17 +55,19 @@ public class PlayerMovementState : IState
         if (player.isPerformingAction) return;
         if (player.playerInputManager.SprintInput) {
             player.playerInputManager.SprintInputTimer += delta;
-            player.playerInputManager.RollFlag = false;
         }
     }
 
     private void HandleRollInput() {
-        player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.RollFlag = true;
+        if (player.playerInputManager.SprintInput) {
+            player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.RollFlag = true;
+        }
     }
 
     private void HandleGroundCheck() {
         player.isGrounded = Physics.CheckSphere(player.transform.position, player.GroundCheckSphereRadius, player.groundLayer);
     }
+
     private void HandleYVelocity() {
         Vector3 tempYVelocity = player.YVelocity;
         if (player.isGrounded) {
@@ -85,13 +85,13 @@ public class PlayerMovementState : IState
             tempYVelocity.y += player.GravityForce * Time.deltaTime;
             player.YVelocity = tempYVelocity;
         }
-        //player.playerAnimatorManager.animator.SetFloat("inAirTimer", inAirTimer);
+        player.playerAnimatorManager.animator.SetFloat("inAirTimer", player.InAirTimer);
         player.cc.Move(player.YVelocity * Time.deltaTime);
     }
 
     protected void HandleGroundedRotation() {
         if (!player.isGrounded) return;
-        //if (player.isInteracting) return;
+        if (player.isPerformingAction) return;
         Vector3 targetDir;
         targetDir = CameraManager.instance.cameraTransform.forward * verticalInput;
         targetDir += CameraManager.instance.cameraTransform.right * horizontalInput;
@@ -108,6 +108,7 @@ public class PlayerMovementState : IState
     }
 
     protected virtual void HandleGroundedMovement() {
+        if (player.isPerformingAction) return;
         moveDirection = CameraManager.instance.myTransform.forward * verticalInput;
         moveDirection += CameraManager.instance.myTransform.right * horizontalInput;
         moveDirection.Normalize();

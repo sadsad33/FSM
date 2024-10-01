@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInputManager : MonoBehaviour {
     public PlayerInput PlayerInput { get; set; }
-    
+   
     public bool WalkInput { get; set; }
     public bool SprintInput { get; set; }
     public float SprintInputTimer { get; set; }
@@ -27,6 +27,7 @@ public class PlayerInputManager : MonoBehaviour {
         
         PlayerInput.PlayerActions.Sprint.performed += i => SprintInput = true;
         PlayerInput.PlayerActions.Sprint.canceled += i => SprintInput = false;
+
 
         PlayerInput.Enable();
     }

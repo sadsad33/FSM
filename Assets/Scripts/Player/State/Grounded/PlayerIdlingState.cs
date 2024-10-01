@@ -6,10 +6,9 @@ public class PlayerIdlingState : PlayerGroundedState {
 
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        moveSpeedModifier = 0f;
-
-        //TODO
-        //Idle 상태의 애니메이션 재생
+        player.RunningStateTimer = 0f;
+        moveSpeedModifier = 0f; 
+        player.playerInputManager.SprintInputTimer = 0f;
     }
 
     public override void Stay(CharacterManager character) {

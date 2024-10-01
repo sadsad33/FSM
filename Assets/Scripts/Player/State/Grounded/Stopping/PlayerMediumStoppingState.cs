@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMediumStoppingState : PlayerGroundedState {
+public class PlayerMediumStoppingState : PlayerStoppingState {
 
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.RunningStateTimer = 0f;
         player.isPerformingAction = true;
+        player.playerInputManager.SprintInputTimer = 0f;
         player.playerAnimatorManager.PlayAnimation("Medium Stop", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
-        player.playerInputManager.SprintInputTimer = 0f;
+        //player.playerInputManager.SprintInputTimer = 0f;
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
     }
 

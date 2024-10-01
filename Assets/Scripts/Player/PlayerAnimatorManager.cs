@@ -14,6 +14,10 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         base.PlayAnimation(animation, isInteracting);
     }
 
+    public void StartAction() {
+        player.isPerformingAction = true;
+    }
+
     public void FinishAction() {
         player.isPerformingAction = false;
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovingState : PlayerGroundedState {
+    
     public override void Enter(CharacterManager character) {
         base.Enter(character);
     }

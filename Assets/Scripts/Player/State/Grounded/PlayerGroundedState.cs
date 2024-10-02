@@ -24,6 +24,8 @@ public class PlayerGroundedState : PlayerMovementState {
                 if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
                     player.pmsm.ChangeState(player.pmsm.rollingState);
                 }
+            } else if (player.playerInputManager.JumpInput) {
+                player.pmsm.ChangeState(player.pmsm.jumpingState);
             }
         }
     }

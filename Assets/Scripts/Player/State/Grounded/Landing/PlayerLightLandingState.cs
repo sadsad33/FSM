@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerLightLandingState : PlayerLandingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.InAirTimer = 0;
         player.isPerformingAction = true;
         player.playerAnimatorManager.PlayAnimation("Light Landing", player.isPerformingAction);
     }

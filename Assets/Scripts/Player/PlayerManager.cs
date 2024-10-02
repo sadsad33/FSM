@@ -8,15 +8,28 @@ public class PlayerManager : CharacterManager
     public PlayerInputManager playerInputManager;
     public PlayerMovementStateMachine pmsm;
 
+    public float pushingForceOnEdge = 1f;
+
+    #region Ariborne
     public float InAirTimer { get; set; }
+
+    #region Falling
+    public Vector2 groundCheckRaycastStartingPosition = Vector2.zero;
     public Vector3 YVelocity { get; set; }
     public float GroundedYVelocity { get; set; }
     public float GravityForce { get; set; }
     public float FallStartYVelocity { get; set; }
     public bool FallingVelocitySet { get; set; }
-
     public float GroundCheckSphereRadius { get; set; }
+    #endregion
 
+    #region Jumping
+    public float MaximumJumpHeight { get; set; }
+    public float JumpStartYVelocity { get; set; }
+    public float JumpForce { get; set; }
+    #endregion
+
+    #endregion
     public float RunningStateTimer { get; set; }
 
     public LayerMask groundLayer;
@@ -43,6 +56,8 @@ public class PlayerManager : CharacterManager
 
     protected void LateUpdate() {
         playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
+        playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
+        playerInputManager.JumpInput = false;
         playerInputManager.RollFlag = false;
     }
 
@@ -54,5 +69,15 @@ public class PlayerManager : CharacterManager
         FallStartYVelocity = -3f;
         FallingVelocitySet = false;
         GroundCheckSphereRadius = 0.4f;
+    }
+
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(transform.position, GroundCheckSphereRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.forward * groundCheckRaycastStartingPosition.x);
+        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.forward * groundCheckRaycastStartingPosition.x);
+        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
+        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
     }
 }

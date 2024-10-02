@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 730343698}
   - component: {fileID: 730343697}
   m_Layer: 3
-  m_Name: Cube
+  m_Name: Slope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 730343696}
   m_LocalRotation: {x: -0.21615225, y: -0, z: -0, w: 0.9763597}
   m_LocalPosition: {x: -21.22, y: 2.11, z: 1.93}
-  m_LocalScale: {x: 3.0174, y: 0.116007455, z: 22.902021}
+  m_LocalScale: {x: 3.0174, y: 3.4630544, z: 45.43761}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2880,11 +2880,11 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.8
-  m_Radius: 0.4
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.94, z: 0}
 --- !u!114 &9194855060049838845
 MonoBehaviour:
@@ -2907,6 +2907,8 @@ MonoBehaviour:
   rotationSpeed: 10
   playerAnimatorManager: {fileID: 0}
   playerInputManager: {fileID: 0}
+  pushingForceOnEdge: 0.6
+  groundCheckRaycastStartingPosition: {x: 0.45, y: -0.1}
   groundLayer:
     serializedVersion: 2
     m_Bits: 72

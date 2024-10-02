@@ -10,8 +10,9 @@ public class PlayerInputManager : MonoBehaviour {
     public float SprintInputTimer { get; set; }
     public Vector2 MovementInput { get; set; }
     public Vector2 CameraInput { get; set; }
-    public bool SprintFlag { get; set; }
     public bool RollFlag { get; set; }
+
+    public bool JumpInput { get; set; }
     
     private void Awake() {
         if (PlayerInput == null)
@@ -28,6 +29,7 @@ public class PlayerInputManager : MonoBehaviour {
         PlayerInput.PlayerActions.Sprint.performed += i => SprintInput = true;
         PlayerInput.PlayerActions.Sprint.canceled += i => SprintInput = false;
 
+        PlayerInput.PlayerActions.Jump.performed += i => JumpInput = true;
 
         PlayerInput.Enable();
     }

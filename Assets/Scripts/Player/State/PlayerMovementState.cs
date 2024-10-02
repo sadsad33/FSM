@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovementState : IState
-{
+public class PlayerMovementState : IState {
     protected PlayerManager player;
 
     protected Vector3 moveDirection;
-    
+
     protected float moveSpeedModifier;
 
     protected float verticalInput;
@@ -16,9 +15,10 @@ public class PlayerMovementState : IState
     protected float mouseXInput;
     protected float mouseYInput;
 
+    protected bool isBottomGrounded;
     public virtual void Enter(CharacterManager character) {
         player = character as PlayerManager;
-        Debug.Log("Player Current State : " + GetType());
+        //Debug.Log("Player Current State : " + GetType());
     }
 
     public virtual void Stay(CharacterManager character) {
@@ -26,7 +26,7 @@ public class PlayerMovementState : IState
     }
 
     public virtual void Exit(CharacterManager character) {
-        
+
     }
 
     public virtual void HandleInput() {
@@ -64,14 +64,46 @@ public class PlayerMovementState : IState
         }
     }
 
+    bool front, back, right, left;
     private void HandleGroundCheck() {
-        player.isGrounded = Physics.CheckSphere(player.transform.position, player.GroundCheckSphereRadius, player.groundLayer);
+        Vector3 pushingDirection;
+        isBottomGrounded = Physics.CheckSphere(player.transform.position, player.GroundCheckSphereRadius, player.groundLayer);
+        if (isBottomGrounded) {
+            player.isGrounded = true;
+        } else {
+            pushingDirection = moveDirection;
+            HandleEdgeGroundCheck(pushingDirection);
+            if (front || back || right || left) {
+                player.isGrounded = true;
+            } else {
+                player.isGrounded = false;
+            }
+        }
+    }
+
+    private void HandleEdgeGroundCheck(Vector3 pushingDirection) {
+        if (!player.isGrounded) return;
+        front = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.forward, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
+        //Debug.Log("Front : " + front);
+        back = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.forward, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
+        //Debug.Log("Back : " + back);
+        right = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.right, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
+        //Debug.Log("Right : " + right);
+        left = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.right, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
+        //Debug.Log("Left : " + left);
+        HandlePushingPlayerOnEdge(pushingDirection);
+    }
+
+    private void HandlePushingPlayerOnEdge(Vector3 pushingDirection) {
+        //Debug.Log("절벽에서 밀기");
+        //Debug.Log(pushingVelocity);
+
+        player.cc.Move(pushingDirection * player.pushingForceOnEdge);
     }
 
     private void HandleYVelocity() {
         Vector3 tempYVelocity = player.YVelocity;
         if (player.isGrounded) {
-            player.InAirTimer = 0;
             player.FallingVelocitySet = false;
             tempYVelocity.y = player.GroundedYVelocity;
             player.YVelocity = tempYVelocity;

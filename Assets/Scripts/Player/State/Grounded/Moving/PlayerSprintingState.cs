@@ -21,13 +21,11 @@ public class PlayerSprintingState : PlayerMovingState {
         // 질주 상태에서 Left Shift 나 이동 키 둘중 하나의 입력이 제거된다면 Medium Stopping State로 전이
         // 이때 이동키 입력을 먼저 제거하면, Sprinting State가 종료되면서 SprintInputTimer 가 0으로 초기화되지만, 아직 Left Shift 입력은 true 이므로 SprintInputTimer 는 다시 돌아감
         // Left Shift 에서 뒤늦게 손을 떼게 됐을 경우, InputTimer 의 시간이 0.3 초 미만이라면 RollFlag 가 true 가 되어 Rolling State로 전이됨
-
-        
     }
 
     public override void HandleInput() {
         base.HandleInput();
-        if (moveAmount <= 0f)
+        if (moveAmount <= 0f )
             player.pmsm.ChangeState(player.pmsm.mediumStoppingState);
         else if(!player.playerInputManager.SprintInput)player.pmsm.ChangeState(player.pmsm.runningState);
     }

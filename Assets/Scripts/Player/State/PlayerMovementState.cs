@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerMovementState : IState {
     protected PlayerManager player;
-
+    protected float currentMovingSpeed;
     protected Vector3 moveDirection;
+    protected Vector3 lookingDirection;
 
     protected float moveSpeedModifier;
 
@@ -18,11 +19,13 @@ public class PlayerMovementState : IState {
     protected bool isBottomGrounded;
     public virtual void Enter(CharacterManager character) {
         player = character as PlayerManager;
-        //Debug.Log("Player Current State : " + GetType());
+        Debug.Log("Player Current State : " + GetType());
+        Debug.Log("Current State moveDirection : " + moveDirection);
     }
 
     public virtual void Stay(CharacterManager character) {
         HandleInput();
+        //Debug.Log("Movement State Stay 의 MoveDirection : " + moveDirection);
     }
 
     public virtual void Exit(CharacterManager character) {
@@ -33,11 +36,13 @@ public class PlayerMovementState : IState {
         float delta = Time.deltaTime;
         HandleGroundCheck();
         HandleYVelocity();
-        HandleGroundedRotation();
+        HandleRotation();
+        HandleMovement();
         HandleMouseInput();
         GetWASDInput();
         HandleSprintInput(delta);
         HandleRollInput();
+        //Debug.Log("Movement State HandleInput 의 MoveDirection : " + moveDirection);
     }
 
     private void GetWASDInput() {
@@ -97,11 +102,12 @@ public class PlayerMovementState : IState {
     private void HandlePushingPlayerOnEdge(Vector3 pushingDirection) {
         //Debug.Log("절벽에서 밀기");
         //Debug.Log(pushingVelocity);
-
+        if (player.isJumping) return;
         player.cc.Move(pushingDirection * player.pushingForceOnEdge);
     }
 
     private void HandleYVelocity() {
+        if (player.isJumping) return;
         Vector3 tempYVelocity = player.YVelocity;
         if (player.isGrounded) {
             player.FallingVelocitySet = false;
@@ -121,29 +127,26 @@ public class PlayerMovementState : IState {
         player.cc.Move(player.YVelocity * Time.deltaTime);
     }
 
-    protected void HandleGroundedRotation() {
-        if (!player.isGrounded) return;
+    protected virtual void HandleRotation() {
         if (player.isPerformingAction) return;
-        Vector3 targetDir;
-        targetDir = CameraManager.instance.cameraTransform.forward * verticalInput;
-        targetDir += CameraManager.instance.cameraTransform.right * horizontalInput;
-        targetDir.Normalize();
-        targetDir.y = 0;
+        lookingDirection = CameraManager.instance.cameraTransform.forward * verticalInput;
+        lookingDirection += CameraManager.instance.cameraTransform.right * horizontalInput;
+        lookingDirection.Normalize();
+        lookingDirection.y = 0;
 
-        if (targetDir == Vector3.zero) {
-            targetDir = player.transform.forward;
+        if (lookingDirection == Vector3.zero) {
+            lookingDirection = player.transform.forward;
         }
-
-        Quaternion tr = Quaternion.LookRotation(targetDir);
-        Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, player.rotationSpeed * Time.deltaTime);
-        player.transform.rotation = targetRotation;
     }
 
-    protected virtual void HandleGroundedMovement() {
+    protected virtual void HandleMovement() {
+        if (player.isJumping) return;
         if (player.isPerformingAction) return;
         moveDirection = CameraManager.instance.myTransform.forward * verticalInput;
         moveDirection += CameraManager.instance.myTransform.right * horizontalInput;
         moveDirection.Normalize();
-        moveDirection.y = 0;
+        Vector3 tempDirection = moveDirection;
+        tempDirection.y = 0;
+        moveDirection = tempDirection;
     }
 }

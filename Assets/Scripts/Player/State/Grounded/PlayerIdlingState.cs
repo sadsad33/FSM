@@ -14,7 +14,7 @@ public class PlayerIdlingState : PlayerGroundedState {
     public override void Stay(CharacterManager character) {
         base.Stay(character);
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
-        HandleGroundedMovement();
+        //HandleMovement();
     }
 
     public override void Exit(CharacterManager character) {
@@ -31,9 +31,10 @@ public class PlayerIdlingState : PlayerGroundedState {
         }
     }
 
-    protected override void HandleGroundedMovement() {
-        base.HandleGroundedMovement();
+    protected override void HandleMovement() {
+        base.HandleMovement();
         float speed = player.moveSpeed * moveSpeedModifier;
+        currentMovingSpeed = speed;
         player.cc.Move(moveDirection * speed);
     }
 }

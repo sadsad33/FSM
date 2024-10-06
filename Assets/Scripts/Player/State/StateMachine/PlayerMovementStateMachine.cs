@@ -18,13 +18,17 @@ public class PlayerMovementStateMachine : StateMachine {
     public PlayerMediumStoppingState mediumStoppingState;
     #endregion
 
-    public PlayerFallingState fallingState;
-
+    #region LandingStates
     public PlayerLightLandingState lightLandingState;
     public PlayerMediumLandingState mediumLandingState;
     public PlayerHardLandingState hardLandingState;
+    #endregion
 
-    public PlayerJumpingState jumpingState;
+    #region AirborneStates
+    public PlayerFallingState fallingState;
+    public PlayerRunningJumpState runningJumpState;
+    public PlayerStandingJumpState standingJumpState;
+    #endregion
 
     public PlayerMovementStateMachine(PlayerManager player) : base(player){
         idlingState = new PlayerIdlingState();
@@ -38,7 +42,8 @@ public class PlayerMovementStateMachine : StateMachine {
         mediumStoppingState = new PlayerMediumStoppingState();
 
         fallingState = new PlayerFallingState();
-        jumpingState = new PlayerJumpingState();
+        runningJumpState = new PlayerRunningJumpState();
+        standingJumpState = new PlayerStandingJumpState();
         lightLandingState = new PlayerLightLandingState();
         mediumLandingState = new PlayerMediumLandingState();
         hardLandingState = new PlayerHardLandingState();

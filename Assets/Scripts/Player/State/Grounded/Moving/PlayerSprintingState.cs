@@ -12,7 +12,7 @@ public class PlayerSprintingState : PlayerMovingState {
     public override void Stay(CharacterManager character) {
         base.Stay(character);
         player.RunningStateTimer += Time.deltaTime;
-        HandleGroundedMovement();
+        //HandleMovement();
         player.playerAnimatorManager.animator.SetFloat("Vertical", 2.0f, 0.1f, Time.deltaTime);
     }
 
@@ -30,11 +30,18 @@ public class PlayerSprintingState : PlayerMovingState {
         else if(!player.playerInputManager.SprintInput)player.pmsm.ChangeState(player.pmsm.runningState);
     }
 
-    protected override void HandleGroundedMovement() {
-        base.HandleGroundedMovement();
+    protected override void HandleRotation() {
+        base.HandleRotation();
+        Quaternion tr = Quaternion.LookRotation(lookingDirection);
+        Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, player.rotationSpeed * Time.deltaTime);
+        player.transform.rotation = targetRotation;
+    }
+
+    protected override void HandleMovement() {
+        base.HandleMovement();
         float speed = player.moveSpeed * moveSpeedModifier;
+        currentMovingSpeed = speed;
         moveDirection *= speed;
-        moveDirection /= 200f;
-        player.cc.Move(moveDirection);
+        player.cc.Move(moveDirection / 200f);
     }
 }

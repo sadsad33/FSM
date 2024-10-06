@@ -9,6 +9,7 @@ public class PlayerManager : CharacterManager
     public PlayerMovementStateMachine pmsm;
 
     public float pushingForceOnEdge = 1f;
+    //public Vector3 moveDirection;
 
     #region Ariborne
     public float InAirTimer { get; set; }
@@ -30,6 +31,7 @@ public class PlayerManager : CharacterManager
     #endregion
 
     #endregion
+
     public float RunningStateTimer { get; set; }
 
     public LayerMask groundLayer;
@@ -66,9 +68,13 @@ public class PlayerManager : CharacterManager
         YVelocity = Vector3.zero;
         GroundedYVelocity = -10f;
         GravityForce = -10f;
-        FallStartYVelocity = -3f;
+        FallStartYVelocity = -2.5f;
         FallingVelocitySet = false;
         GroundCheckSphereRadius = 0.4f;
+
+        MaximumJumpHeight = 1.5f;
+        JumpStartYVelocity = 2.5f;
+        JumpForce = 1f;
     }
 
     private void OnDrawGizmosSelected() {
@@ -81,3 +87,4 @@ public class PlayerManager : CharacterManager
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
     }
 }
+ 

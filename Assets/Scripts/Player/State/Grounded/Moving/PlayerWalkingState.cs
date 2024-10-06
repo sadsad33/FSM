@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWalkingState : PlayerMovingState {
-    
+
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         moveSpeedModifier = 0.6f;
@@ -12,7 +12,7 @@ public class PlayerWalkingState : PlayerMovingState {
     public override void Stay(CharacterManager character) {
         base.Stay(character);
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0.1f, Time.deltaTime);
-        HandleGroundedMovement();
+        //HandleMovement();
     }
 
     public override void Exit(CharacterManager characer) {
@@ -25,11 +25,18 @@ public class PlayerWalkingState : PlayerMovingState {
         }
     }
 
-    protected override void HandleGroundedMovement() {
-        base.HandleGroundedMovement();
+    protected override void HandleRotation() {
+        base.HandleRotation();
+        Quaternion tr = Quaternion.LookRotation(lookingDirection);
+        Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, player.rotationSpeed * Time.deltaTime);
+        player.transform.rotation = targetRotation;
+    }
+
+    protected override void HandleMovement() {
+        base.HandleMovement();
         float speed = player.moveSpeed * moveSpeedModifier;
+        currentMovingSpeed = speed;
         moveDirection *= speed;
-        moveDirection /= 200f;
-        player.cc.Move(moveDirection);
+        player.cc.Move(moveDirection / 200f);
     }
 }

@@ -8,7 +8,7 @@ public class CharacterManager : MonoBehaviour
     public CharacterController cc;
     public bool isInvulnerable;
     public bool isGrounded;
-
+    public bool isJumping;
     public bool isPerformingAction;
 
     public float moveSpeed;

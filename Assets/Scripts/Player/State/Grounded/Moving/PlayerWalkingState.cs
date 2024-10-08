@@ -20,8 +20,9 @@ public class PlayerWalkingState : PlayerMovingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.playerInputManager.WalkInput) {
-            player.pmsm.ChangeState(player.pmsm.idlingState);
+        if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.idlingState);
+        else if (!player.playerInputManager.WalkInput) {
+            player.pmsm.ChangeState(player.pmsm.runningState);
         }
     }
 
@@ -37,6 +38,6 @@ public class PlayerWalkingState : PlayerMovingState {
         float speed = player.moveSpeed * moveSpeedModifier;
         currentMovingSpeed = speed;
         moveDirection *= speed;
-        player.cc.Move(moveDirection / 200f);
+        player.cc.Move(moveDirection * Time.deltaTime);
     }
 }

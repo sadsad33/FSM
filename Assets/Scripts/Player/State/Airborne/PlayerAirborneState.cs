@@ -35,15 +35,14 @@ public class PlayerAirborneState : PlayerMovementState {
 
     protected override void HandleMovement() {
         base.HandleMovement();
-        Debug.Log(MovingDirectionInAir);
+        //Debug.Log(MovingDirectionInAir);
         aeroInputDirection = CameraManager.instance.myTransform.forward * verticalInput;
         aeroInputDirection += CameraManager.instance.myTransform.right * horizontalInput;
         aeroInputDirection.Normalize();
         aeroInputDirection.y = 0;
         moveDirection = MovingDirectionInAir;
-
         Vector3 targetDirection = moveDirection + aeroInputDirection;
         if (aeroInputDirection == Vector3.zero) player.cc.Move(targetDirection / 350f);
-        else player.cc.Move(targetDirection / 200f);
+        else player.cc.Move(targetDirection * Time.deltaTime);
     }
 }

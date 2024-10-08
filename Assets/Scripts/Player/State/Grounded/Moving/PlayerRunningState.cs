@@ -12,7 +12,7 @@ public class PlayerRunningState : PlayerMovingState {
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
-        Debug.Log("Running State Stay 의 MoveDirection : " + moveDirection);
+        //Debug.Log("Running State Stay 의 MoveDirection : " + moveDirection);
         player.RunningStateTimer += Time.deltaTime;
         //HandleMovement();
         player.playerAnimatorManager.animator.SetFloat("Vertical", 1f, 0.1f, Time.deltaTime);
@@ -23,7 +23,7 @@ public class PlayerRunningState : PlayerMovingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        Debug.Log("Running State HandleInput 의 MoveDirection : " + moveDirection);
+        //Debug.Log("Running State HandleInput 의 MoveDirection : " + moveDirection);
         if (moveAmount <= 0f) {
             if (player.RunningStateTimer >= 0.5f)
                 player.pmsm.ChangeState(player.pmsm.lightStoppingState);
@@ -50,6 +50,6 @@ public class PlayerRunningState : PlayerMovingState {
         float speed = player.moveSpeed * moveSpeedModifier;
         currentMovingSpeed = speed;
         moveDirection *= speed;
-        player.cc.Move(moveDirection / 200f);
+        player.cc.Move(moveDirection * Time.deltaTime);
     }
 }

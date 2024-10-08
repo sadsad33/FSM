@@ -24,6 +24,7 @@ public class PlayerFallingState : PlayerAirborneState
             if (player.InAirTimer < 0.5f) player.pmsm.ChangeState(player.pmsm.lightLandingState);
             else if (player.InAirTimer < 1f) player.pmsm.ChangeState(player.pmsm.mediumLandingState);
             else  player.pmsm.ChangeState(player.pmsm.hardLandingState);
+            MovingDirectionInAir = Vector3.zero;
         }
     }
 }

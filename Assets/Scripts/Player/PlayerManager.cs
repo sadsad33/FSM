@@ -8,14 +8,16 @@ public class PlayerManager : CharacterManager
     public PlayerInputManager playerInputManager;
     public PlayerMovementStateMachine pmsm;
 
-    public float pushingForceOnEdge = 1f;
-    //public Vector3 moveDirection;
-
     #region Ariborne
     public float InAirTimer { get; set; }
+    private float prevYPosition; 
+    private float deltaYPosition;
 
     #region Falling
     public Vector2 groundCheckRaycastStartingPosition = Vector2.zero;
+    public float pushingForceOnEdge;
+    public float bottomGroundCheckRayStartingYPosition;
+    public float bottomGroundCheckRayMaxDistance;
     public Vector3 YVelocity { get; set; }
     public float GroundedYVelocity { get; set; }
     public float GravityForce { get; set; }
@@ -39,6 +41,7 @@ public class PlayerManager : CharacterManager
     protected override void Awake() {
         base.Awake();
         PlayerInit();
+        prevYPosition = transform.position.y;
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerInputManager = GetComponent<PlayerInputManager>();
         pmsm = new PlayerMovementStateMachine(this);
@@ -51,6 +54,12 @@ public class PlayerManager : CharacterManager
 
     protected override void Update() {
         pmsm.GetCurrentState().Stay(this);
+        
+        float curYPosition = transform.position.y;
+        deltaYPosition = curYPosition - prevYPosition;
+        if (deltaYPosition < -0.01) isGrounded = false;
+        prevYPosition = curYPosition;
+
         float delta = Time.deltaTime;
         CameraManager.instance.FollowTarget(delta);
         CameraManager.instance.HandleCameraRotation(delta, playerInputManager.CameraInput.x, playerInputManager.CameraInput.y);
@@ -70,7 +79,7 @@ public class PlayerManager : CharacterManager
         GravityForce = -10f;
         FallStartYVelocity = -2.5f;
         FallingVelocitySet = false;
-        GroundCheckSphereRadius = 0.4f;
+        GroundCheckSphereRadius = 0.3f;
 
         MaximumJumpHeight = 1.5f;
         JumpStartYVelocity = 2.5f;
@@ -78,12 +87,16 @@ public class PlayerManager : CharacterManager
     }
 
     private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(transform.position, GroundCheckSphereRadius);
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
+        //Gizmos.DrawSphere(transform.position, GroundCheckSphereRadius);
+        Gizmos.DrawRay(transform.position + (Vector3.up * bottomGroundCheckRayStartingYPosition), -transform.up * bottomGroundCheckRayMaxDistance);
+        Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.forward * groundCheckRaycastStartingPosition.x);
+        Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.forward * groundCheckRaycastStartingPosition.x);
+        Gizmos.color = Color.magenta;
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
+        Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
     }
 }

@@ -42,6 +42,6 @@ public class PlayerSprintingState : PlayerMovingState {
         float speed = player.moveSpeed * moveSpeedModifier;
         currentMovingSpeed = speed;
         moveDirection *= speed;
-        player.cc.Move(moveDirection / 200f);
+        player.cc.Move(moveDirection * Time.deltaTime);
     }
 }

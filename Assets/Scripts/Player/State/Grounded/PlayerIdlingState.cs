@@ -7,12 +7,15 @@ public class PlayerIdlingState : PlayerGroundedState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         player.RunningStateTimer = 0f;
-        moveSpeedModifier = 0f; 
+        moveSpeedModifier = 0f;
         player.playerInputManager.SprintInputTimer = 0f;
+        if (!sprintInputDelaySet)
+            sprintInputDelaySet = true;
     }
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
+        
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         //HandleMovement();
     }

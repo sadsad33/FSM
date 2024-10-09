@@ -25,9 +25,11 @@ public class PlayerSprintingState : PlayerMovingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (moveAmount <= 0f )
+        if (moveAmount <= 0f) {
             player.pmsm.ChangeState(player.pmsm.mediumStoppingState);
-        else if(!player.playerInputManager.SprintInput)player.pmsm.ChangeState(player.pmsm.runningState);
+        } else if (!player.playerInputManager.SprintInput) {
+            player.pmsm.ChangeState(player.pmsm.runningState);
+        }
     }
 
     protected override void HandleRotation() {

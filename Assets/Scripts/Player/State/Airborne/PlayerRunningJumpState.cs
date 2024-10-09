@@ -32,7 +32,14 @@ public class PlayerRunningJumpState : PlayerAirborneState
         //Debug.Log("Running Jump State HandleInput 의 MoveDirection : " + moveDirection);
         if (player.transform.position.y >= maximumHeight) {
             player.isJumping = false;
-            player.pmsm.fallingState.MovingDirectionInAir = player.pmsm.runningJumpState.MovingDirectionInAir;
+            //Debug.Log("기존 공중 속도 : " + MovingVelocityInAir.normalized);
+            //Debug.Log("공중 입력에 따른 속도 : " + aeroInputDirection.normalized);
+            //float dotProduct = Vector3.Dot(MovingVelocityInAir.normalized, aeroInputDirection.normalized);
+            //if (dotProduct == 1 || aeroInputDirection == Vector3.zero) player.pmsm.fallingState.MovingVelocityInAir = aeroInputDirection;
+            //else {
+            //    player.pmsm.fallingState.MovingVelocityInAir = (MovingVelocityInAir + aeroInputDirection).normalized;
+            //}
+            player.pmsm.fallingState.MovingVelocityInAir = (MovingVelocityInAir + aeroInputDirection).normalized;
             player.pmsm.ChangeState(player.pmsm.fallingState);
         }
     }
@@ -45,6 +52,4 @@ public class PlayerRunningJumpState : PlayerAirborneState
             player.cc.Move(player.YVelocity * Time.deltaTime);
         }
     }
-
-    
 }

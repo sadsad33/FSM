@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerAirborneState : PlayerMovementState {
 
     protected Vector3 aeroInputDirection;
-    public Vector3 MovingDirectionInAir { get; set; } // 공중에 떠 있는 상태에서의 이동방향
+    public Vector3 MovingVelocityInAir { get; set; } // 공중에 떠 있는 상태에서의 이동방향
     public override void Enter(CharacterManager character) {
         base.Enter(character);
     }
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
+        //Debug.Log("MovingVelocityInAir Update : " + MovingVelocityInAir);
         //Debug.Log("Airborne State Stay 의 MoveDirection : " + moveDirection);
     }
 
@@ -40,9 +41,12 @@ public class PlayerAirborneState : PlayerMovementState {
         aeroInputDirection += CameraManager.instance.myTransform.right * horizontalInput;
         aeroInputDirection.Normalize();
         aeroInputDirection.y = 0;
-        moveDirection = MovingDirectionInAir;
+        moveDirection = MovingVelocityInAir;
         Vector3 targetDirection = moveDirection + aeroInputDirection;
+        //if (player.pmsm.GetCurrentState() == player.pmsm.runningJumpState) Debug.Log("RunningJump Target Velocity : " + targetDirection);
+        //if (player.pmsm.GetCurrentState() == player.pmsm.fallingState) Debug.Log("Falling Target Velocity : " + targetDirection);
         if (aeroInputDirection == Vector3.zero) player.cc.Move(targetDirection / 350f);
         else player.cc.Move(targetDirection * Time.deltaTime);
     }
+
 }

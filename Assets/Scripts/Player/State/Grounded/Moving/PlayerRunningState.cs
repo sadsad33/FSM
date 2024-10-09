@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerRunningState : PlayerMovingState {
-   
+
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         player.playerInputManager.SprintInputTimer = 0f;
+        if (!sprintInputDelaySet)
+            sprintInputDelaySet = true;
         moveSpeedModifier = 1f;
     }
 
@@ -29,8 +31,7 @@ public class PlayerRunningState : PlayerMovingState {
                 player.pmsm.ChangeState(player.pmsm.lightStoppingState);
             else
                 player.pmsm.ChangeState(player.pmsm.idlingState);
-        }
-        else {
+        } else {
             if (player.playerInputManager.WalkInput) player.pmsm.ChangeState(player.pmsm.walkingState);
             if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f) player.pmsm.ChangeState(player.pmsm.sprintingState);
         }

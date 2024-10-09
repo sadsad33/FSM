@@ -28,6 +28,7 @@ public class PlayerInputManager : MonoBehaviour {
         
         PlayerInput.PlayerActions.Sprint.performed += i => SprintInput = true;
         PlayerInput.PlayerActions.Sprint.canceled += i => SprintInput = false;
+       
 
         PlayerInput.PlayerActions.Jump.performed += i => JumpInput = true;
 

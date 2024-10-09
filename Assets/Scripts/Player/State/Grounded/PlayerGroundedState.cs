@@ -27,10 +27,12 @@ public class PlayerGroundedState : PlayerMovementState {
                 if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
                     player.pmsm.ChangeState(player.pmsm.rollingState);
                 }
+
             } else if (player.playerInputManager.JumpInput) {
                 if (moveAmount > 0f) {
+                    player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
+                    //Debug.Log("달리기 점프 속도 : " + player.pmsm.runningJumpState.MovingVelocityInAir);
                     player.pmsm.ChangeState(player.pmsm.runningJumpState);
-                    player.pmsm.runningJumpState.MovingDirectionInAir = moveDirection;
                 } else {
                     player.pmsm.ChangeState(player.pmsm.standingJumpState);
                 }

@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : CharacterManager
-{
+public class PlayerManager : CharacterManager {
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerInputManager playerInputManager;
     public PlayerMovementStateMachine pmsm;
 
     #region Ariborne
     public float InAirTimer { get; set; }
-    private float prevYPosition; 
+    private float prevYPosition;
     private float deltaYPosition;
 
     #region Falling
@@ -37,7 +36,7 @@ public class PlayerManager : CharacterManager
     public float RunningStateTimer { get; set; }
 
     public LayerMask groundLayer;
-    
+
     protected override void Awake() {
         base.Awake();
         PlayerInit();
@@ -54,10 +53,22 @@ public class PlayerManager : CharacterManager
 
     protected override void Update() {
         pmsm.GetCurrentState().Stay(this);
-        
+
+        //if (playerInputManager.SprintInput && playerInputManager.SprintInputTrue == null) {
+        //    playerInputManager.SprintInputTrue = Time.deltaTime;
+        //    Debug.Log(playerInputManager.SprintInputTrue);
+        //}
+        //if (playerInputManager.SprintInputFalse != null) {
+        //    Debug.Log(playerInputManager.SprintInputTrue - playerInputManager.SprintInputFalse);
+        //}
+
+
         float curYPosition = transform.position.y;
         deltaYPosition = curYPosition - prevYPosition;
-        if (deltaYPosition < -0.01) isGrounded = false;
+        if (deltaYPosition <= -0.02) {
+            //Debug.Log("³«ÇÏ °­Á¦");
+            isGrounded = false;
+        }
         prevYPosition = curYPosition;
 
         float delta = Time.deltaTime;
@@ -77,7 +88,7 @@ public class PlayerManager : CharacterManager
         YVelocity = Vector3.zero;
         GroundedYVelocity = -10f;
         GravityForce = -10f;
-        FallStartYVelocity = -2.5f;
+        FallStartYVelocity = -1.5f;
         FallingVelocitySet = false;
         GroundCheckSphereRadius = 0.3f;
 
@@ -100,4 +111,3 @@ public class PlayerManager : CharacterManager
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
     }
 }
- 

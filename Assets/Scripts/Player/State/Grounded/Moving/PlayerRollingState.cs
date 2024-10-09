@@ -21,7 +21,8 @@ public class PlayerRollingState : PlayerMovingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.isPerformingAction)
+        if (!player.isPerformingAction) {
             player.pmsm.ChangeState(player.pmsm.idlingState);
+        }
     }
 }

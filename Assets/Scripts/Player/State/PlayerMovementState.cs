@@ -9,6 +9,8 @@ public class PlayerMovementState : IState {
     protected Vector3 lookingDirection;
 
     protected float moveSpeedModifier;
+    protected bool sprintInputDelaySet;
+    protected float sprintInputDelay;
 
     protected float verticalInput;
     protected float horizontalInput;
@@ -18,14 +20,25 @@ public class PlayerMovementState : IState {
 
     protected bool isBottomGrounded;
 
-    private float playerDeltaYPosition;
     public virtual void Enter(CharacterManager character) {
         player = character as PlayerManager;
-        //Debug.Log("Player Current State : " + GetType());
+        Debug.Log("Player Current State : " + GetType());
         //Debug.Log("Current State moveDirection : " + moveDirection);
     }
 
     public virtual void Stay(CharacterManager character) {
+        if (sprintInputDelaySet) {
+            sprintInputDelay += Time.deltaTime;
+            if (sprintInputDelay < 0.3f) {
+                player.playerInputManager.SprintInputTimer = 0f;
+            } else {
+                sprintInputDelaySet = false;
+                sprintInputDelay = 0f;
+            }
+        }
+        //Debug.Log("Delta : " + delta);
+        //Debug.Log("SprintInputTimer Traker : " + player.playerInputManager.SprintInputTimer);
+        //Debug.Log(player.playerInputManager.SprintInputTimer);
         HandleGroundCheck();
         HandleYVelocity();
         HandleInput();
@@ -68,6 +81,8 @@ public class PlayerMovementState : IState {
     private void HandleRollInput() {
         if (player.playerInputManager.SprintInput) {
             player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.RollFlag = true;
+            //if (player.playerInputManager.SprintInputFalse == null) 
+            //    player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.SprintInputFalse = Time.deltaTime;
         }
     }
 

@@ -2,29 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFallingState : PlayerAirborneState
-{
+public class PlayerFallingState : PlayerAirborneState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         player.playerAnimatorManager.PlayAnimation("Falling", false);
     }
-    
+
     public override void Stay(CharacterManager character) {
         base.Stay(character);
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
     }
 
     public override void Exit(CharacterManager character) {
-    
+
     }
 
     public override void HandleInput() {
         base.HandleInput();
         if (player.isGrounded) {
+            //Debug.Log("ÂøÁö ¼Óµµ : " + MovingVelocityInAir);
             if (player.InAirTimer < 0.5f) player.pmsm.ChangeState(player.pmsm.lightLandingState);
             else if (player.InAirTimer < 1f) player.pmsm.ChangeState(player.pmsm.mediumLandingState);
-            else  player.pmsm.ChangeState(player.pmsm.hardLandingState);
-            MovingDirectionInAir = Vector3.zero;
+            else player.pmsm.ChangeState(player.pmsm.hardLandingState);
+            MovingVelocityInAir = Vector3.zero;
         }
+    }
+
+    protected override void HandleMovement() {
+        base.HandleMovement();
     }
 }

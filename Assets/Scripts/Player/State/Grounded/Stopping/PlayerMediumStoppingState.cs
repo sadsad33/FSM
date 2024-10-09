@@ -15,6 +15,7 @@ public class PlayerMediumStoppingState : PlayerStoppingState {
     public override void Stay(CharacterManager character) {
         base.Stay(character);
         //player.playerInputManager.SprintInputTimer = 0f;
+        //if (moveAmount > 0) player.isPerformingAction = false;
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
     }
 

@@ -29,7 +29,7 @@ public class PlayerMovementState : IState {
     public virtual void Stay(CharacterManager character) {
         if (sprintInputDelaySet) {
             sprintInputDelay += Time.deltaTime;
-            if (sprintInputDelay < 0.3f) {
+            if (sprintInputDelay < 0.15f) {
                 player.playerInputManager.SprintInputTimer = 0f;
             } else {
                 sprintInputDelaySet = false;
@@ -106,21 +106,21 @@ public class PlayerMovementState : IState {
         //if (player.isGrounded) return;
         RaycastHit hit;
         front = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        if (front) {
-            Debug.Log(hit.transform.gameObject);
-        }
+        //if (front) {
+        //    Debug.Log(hit.transform.gameObject);
+        //}
         back = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        if (back) {
-            Debug.Log(hit.transform.gameObject);
-        }
+        //if (back) {
+        //    Debug.Log(hit.transform.gameObject);
+        //}
         right = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.right, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        if (right) {
-            Debug.Log(hit.transform.gameObject);
-        }
+        //if (right) {
+        //    Debug.Log(hit.transform.gameObject);
+        //}
         left = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.right, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        if (left) {
-            Debug.Log(hit.transform.gameObject);
-        }
+        //if (left) {
+        //    Debug.Log(hit.transform.gameObject);
+        //}
         HandlePushingPlayerOnEdge(pushingDirection);
     }
 

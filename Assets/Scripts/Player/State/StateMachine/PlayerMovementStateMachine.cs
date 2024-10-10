@@ -11,6 +11,7 @@ public class PlayerMovementStateMachine : StateMachine {
     public PlayerRunningState runningState;
     public PlayerSprintingState sprintingState;
     public PlayerRollingState rollingState;
+    public PlayerLandToMoveState landToMoveState;
     #endregion
 
     #region StoppingStates
@@ -37,6 +38,7 @@ public class PlayerMovementStateMachine : StateMachine {
         runningState = new PlayerRunningState();
         sprintingState = new PlayerSprintingState();
         rollingState = new PlayerRollingState();
+        landToMoveState = new PlayerLandToMoveState();
 
         lightStoppingState = new PlayerLightStoppingState();
         mediumStoppingState = new PlayerMediumStoppingState();

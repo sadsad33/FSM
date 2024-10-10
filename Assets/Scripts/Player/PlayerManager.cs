@@ -53,7 +53,6 @@ public class PlayerManager : CharacterManager {
 
     protected override void Update() {
         pmsm.GetCurrentState().Stay(this);
-
         //if (playerInputManager.SprintInput && playerInputManager.SprintInputTrue == null) {
         //    playerInputManager.SprintInputTrue = Time.deltaTime;
         //    Debug.Log(playerInputManager.SprintInputTrue);

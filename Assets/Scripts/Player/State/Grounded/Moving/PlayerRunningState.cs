@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerRunningState : PlayerMovingState {
 
+    private float canSlidingDelayTimer;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         player.playerInputManager.SprintInputTimer = 0f;
@@ -14,6 +15,10 @@ public class PlayerRunningState : PlayerMovingState {
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
+        canSlidingDelayTimer += Time.deltaTime;
+        if (canSlidingDelayTimer > 0.3f) {
+            player.canSliding = false;
+        }
         //Debug.Log("Running State Stay ÀÇ MoveDirection : " + moveDirection);
         player.RunningStateTimer += Time.deltaTime;
         //HandleMovement();
@@ -21,6 +26,7 @@ public class PlayerRunningState : PlayerMovingState {
     }
 
     public override void Exit(CharacterManager character) {
+        canSlidingDelayTimer = 0f;
     }
 
     public override void HandleInput() {
@@ -32,8 +38,10 @@ public class PlayerRunningState : PlayerMovingState {
             else
                 player.pmsm.ChangeState(player.pmsm.idlingState);
         } else {
+            //if (player.canSliding && player.playerInputManager.CrouchInput)player.pmsm.ChangeState(player.pmsm.slidingState);
+            //else 
             if (player.playerInputManager.WalkInput) player.pmsm.ChangeState(player.pmsm.walkingState);
-            if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f) player.pmsm.ChangeState(player.pmsm.sprintingState);
+            else if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f) player.pmsm.ChangeState(player.pmsm.sprintingState);
         }
     }
 
@@ -49,8 +57,10 @@ public class PlayerRunningState : PlayerMovingState {
         base.HandleMovement();
         //Debug.Log("Move Direction After Call Base : " + moveDirection);
         float speed = player.moveSpeed * moveSpeedModifier;
-        currentMovingSpeed = speed;
+        //currentMovingSpeed = speed;
         moveDirection *= speed;
+        if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
+            PlayerMaximumVelocity = moveDirection;
         player.cc.Move(moveDirection * Time.deltaTime);
     }
 }

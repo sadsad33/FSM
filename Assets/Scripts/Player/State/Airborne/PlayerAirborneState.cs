@@ -29,6 +29,7 @@ public class PlayerAirborneState : PlayerMovementState {
         base.HandleRotation();
         //Debug.Log("Looking Direction : " + lookingDirection);
         //Debug.Log("공중에서 회전");
+        if (lookingDirection == Vector3.zero) lookingDirection = player.transform.forward;
         Quaternion tr = Quaternion.LookRotation(lookingDirection);
         Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, (player.rotationSpeed * 0.1f) * Time.deltaTime);
         player.transform.rotation = targetRotation;
@@ -45,8 +46,9 @@ public class PlayerAirborneState : PlayerMovementState {
         Vector3 targetDirection = moveDirection + aeroInputDirection;
         //if (player.pmsm.GetCurrentState() == player.pmsm.runningJumpState) Debug.Log("RunningJump Target Velocity : " + targetDirection);
         //if (player.pmsm.GetCurrentState() == player.pmsm.fallingState) Debug.Log("Falling Target Velocity : " + targetDirection);
+        if (targetDirection.magnitude > PlayerMaximumVelocity.magnitude)
+            PlayerMaximumVelocity = targetDirection;
         if (aeroInputDirection == Vector3.zero) player.cc.Move(targetDirection / 350f);
         else player.cc.Move(targetDirection * Time.deltaTime);
     }
-
 }

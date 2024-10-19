@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerStandingJumpState : PlayerAirborneState {
     private float maximumHeight;
-    Vector3 playerYVelocity;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        Vector3 playerYVelocity;
         player.isJumping = true;
         maximumHeight = player.transform.position.y + player.MaximumJumpHeight;
         playerYVelocity = player.YVelocity;

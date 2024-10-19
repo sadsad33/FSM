@@ -53,14 +53,6 @@ public class PlayerManager : CharacterManager {
 
     protected override void Update() {
         pmsm.GetCurrentState().Stay(this);
-        //if (playerInputManager.SprintInput && playerInputManager.SprintInputTrue == null) {
-        //    playerInputManager.SprintInputTrue = Time.deltaTime;
-        //    Debug.Log(playerInputManager.SprintInputTrue);
-        //}
-        //if (playerInputManager.SprintInputFalse != null) {
-        //    Debug.Log(playerInputManager.SprintInputTrue - playerInputManager.SprintInputFalse);
-        //}
-
 
         float curYPosition = transform.position.y;
         deltaYPosition = curYPosition - prevYPosition;
@@ -78,6 +70,7 @@ public class PlayerManager : CharacterManager {
     protected void LateUpdate() {
         playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
         playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
+        playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
         playerInputManager.JumpInput = false;
         playerInputManager.RollFlag = false;
     }

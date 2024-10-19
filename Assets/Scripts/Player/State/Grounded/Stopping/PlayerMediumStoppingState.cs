@@ -6,9 +6,6 @@ public class PlayerMediumStoppingState : PlayerStoppingState {
 
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.RunningStateTimer = 0f;
-        player.isPerformingAction = true;
-        player.playerInputManager.SprintInputTimer = 0f;
         player.playerAnimatorManager.PlayAnimation("Medium Stop", player.isPerformingAction);
     }
 

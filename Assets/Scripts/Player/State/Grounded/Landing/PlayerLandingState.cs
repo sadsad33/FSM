@@ -6,6 +6,7 @@ public class PlayerLandingState : PlayerGroundedState
 {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.isPerformingAction = true;
     }
 
     public override void Stay(CharacterManager character) {

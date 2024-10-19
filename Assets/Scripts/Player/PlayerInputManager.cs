@@ -8,6 +8,7 @@ public class PlayerInputManager : MonoBehaviour {
     public bool WalkInput { get; set; }
     public bool SprintInput { get; set; }
     public float SprintInputTimer { get; set; }
+    public bool CrouchInput { get; set; }
     public Vector2 MovementInput { get; set; }
     public Vector2 CameraInput { get; set; }
     public bool RollFlag { get; set; }
@@ -28,7 +29,9 @@ public class PlayerInputManager : MonoBehaviour {
         
         PlayerInput.PlayerActions.Sprint.performed += i => SprintInput = true;
         PlayerInput.PlayerActions.Sprint.canceled += i => SprintInput = false;
-       
+
+        PlayerInput.PlayerActions.Slide.performed += i => CrouchInput = true;
+        PlayerInput.PlayerActions.Slide.canceled += i => CrouchInput = false;
 
         PlayerInput.PlayerActions.Jump.performed += i => JumpInput = true;
 

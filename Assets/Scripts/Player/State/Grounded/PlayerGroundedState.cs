@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGroundedState : PlayerMovementState {
-
     public override void Enter(CharacterManager character) {
         base.Enter(character);
     }
@@ -21,13 +20,12 @@ public class PlayerGroundedState : PlayerMovementState {
         base.HandleInput();
         //Debug.Log("Grounded State HandleInput ÀÇ MoveDirection : " + moveDirection);
         if (!player.isGrounded) {
-            if (player.InAirTimer <= 0.3f) player.pmsm.ChangeState(player.pmsm.fallingState);  
+            if (player.InAirTimer <= 0.3f) player.pmsm.ChangeState(player.pmsm.fallingState);
         } else if (!player.isPerformingAction) {
             if (player.playerInputManager.RollFlag) {
                 if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
                     player.pmsm.ChangeState(player.pmsm.rollingState);
                 }
-
             } else if (player.playerInputManager.JumpInput) {
                 if (moveAmount > 0f) {
                     player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
@@ -35,6 +33,13 @@ public class PlayerGroundedState : PlayerMovementState {
                     player.pmsm.ChangeState(player.pmsm.runningJumpState);
                 } else {
                     player.pmsm.ChangeState(player.pmsm.standingJumpState);
+                }
+            } else if (player.playerInputManager.CrouchInput) {
+                if (player.canSliding) player.pmsm.ChangeState(player.pmsm.slidingState);
+                else {
+                    if (!player.isCrouched) {
+                        player.pmsm.ChangeState(player.pmsm.standToCrouchState);
+                    }
                 }
             }
         }

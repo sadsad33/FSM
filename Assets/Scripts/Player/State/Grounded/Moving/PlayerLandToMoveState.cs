@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLandToMoveState : PlayerGroundedState
+public class PlayerLandToMoveState : PlayerLandingState
 {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.InAirTimer = 0;
-        player.isPerformingAction = true;
+        //Debug.Log(player.isPerformingAction);
         player.playerAnimatorManager.PlayAnimation("Land To Move", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {
-        Debug.Log(player.isPerformingAction);
+        //Debug.Log(player.isPerformingAction);
         base.Stay(character);
         //player.cc.Move(Vector3.zero);
     }

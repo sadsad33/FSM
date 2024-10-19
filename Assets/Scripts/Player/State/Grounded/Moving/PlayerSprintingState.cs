@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerSprintingState : PlayerMovingState {
 
+    float accelerateTimer;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         moveSpeedModifier = 1.6f;
@@ -11,6 +12,10 @@ public class PlayerSprintingState : PlayerMovingState {
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
+        accelerateTimer += Time.deltaTime;
+        if (accelerateTimer >= 0.5f) {
+            player.canSliding = true;
+        }
         player.RunningStateTimer += Time.deltaTime;
         //HandleMovement();
         player.playerAnimatorManager.animator.SetFloat("Vertical", 2.0f, 0.1f, Time.deltaTime);
@@ -27,8 +32,12 @@ public class PlayerSprintingState : PlayerMovingState {
         base.HandleInput();
         if (moveAmount <= 0f) {
             player.pmsm.ChangeState(player.pmsm.mediumStoppingState);
-        } else if (!player.playerInputManager.SprintInput) {
-            player.pmsm.ChangeState(player.pmsm.runningState);
+        } else {
+            //if (player.canSliding && player.playerInputManager.CrouchInput)
+            //    player.pmsm.ChangeState(player.pmsm.slidingState);
+            //else 
+            if (!player.playerInputManager.SprintInput)
+                player.pmsm.ChangeState(player.pmsm.runningState);
         }
     }
 
@@ -42,8 +51,10 @@ public class PlayerSprintingState : PlayerMovingState {
     protected override void HandleMovement() {
         base.HandleMovement();
         float speed = player.moveSpeed * moveSpeedModifier;
-        currentMovingSpeed = speed;
+        //currentMovingSpeed = speed;
         moveDirection *= speed;
+        if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
+            PlayerMaximumVelocity = moveDirection;
         player.cc.Move(moveDirection * Time.deltaTime);
     }
 }

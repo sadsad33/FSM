@@ -9,7 +9,9 @@ public class CharacterManager : MonoBehaviour
     public bool isInvulnerable;
     public bool isGrounded;
     public bool isJumping;
+    public bool isCrouched;
     public bool isPerformingAction;
+    public bool canSliding;
 
     public float moveSpeed;
     public float rotationSpeed;

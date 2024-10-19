@@ -21,16 +21,12 @@ public class PlayerFallingState : PlayerAirborneState {
         base.HandleInput();
         if (player.isGrounded) {
             //Debug.Log("ÂøÁö ¼Óµµ : " + MovingVelocityInAir);
-            if (player.InAirTimer < 0.5f) {
+            if (player.InAirTimer <= 0.5f) {
                 if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.lightLandingState);
                 else player.pmsm.ChangeState(player.pmsm.landToMoveState);
-            } else if (player.InAirTimer < 1f) player.pmsm.ChangeState(player.pmsm.mediumLandingState);
+            } else if (player.InAirTimer <= 1f) player.pmsm.ChangeState(player.pmsm.mediumLandingState);
             else player.pmsm.ChangeState(player.pmsm.hardLandingState);
             MovingVelocityInAir = Vector3.zero;
         }
-    }
-
-    protected override void HandleMovement() {
-        base.HandleMovement();
     }
 }

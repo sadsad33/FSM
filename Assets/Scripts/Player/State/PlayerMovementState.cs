@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerMovementState : IState {
     protected PlayerManager player;
-    protected float currentMovingSpeed;
+
     protected Vector3 moveDirection;
     protected Vector3 lookingDirection;
+    public Vector3 PlayerMaximumVelocity { get; set; }
 
     protected float moveSpeedModifier;
     protected bool sprintInputDelaySet;
@@ -73,6 +74,7 @@ public class PlayerMovementState : IState {
 
     private void HandleSprintInput(float delta) {
         if (player.isPerformingAction) return;
+        if (player.isJumping) return;
         if (player.playerInputManager.SprintInput) {
             player.playerInputManager.SprintInputTimer += delta;
         }
@@ -92,11 +94,14 @@ public class PlayerMovementState : IState {
         isBottomGrounded = Physics.Raycast(player.transform.position + (Vector3.up * player.bottomGroundCheckRayStartingYPosition), -player.transform.up, player.bottomGroundCheckRayMaxDistance, player.groundLayer);
         if (isBottomGrounded) {
             player.isGrounded = true;
+            player.InAirTimer = 0f;
         } else {
             pushingDirection = moveDirection;
             HandleEdgeGroundCheck(pushingDirection);
-            if (front || back || right || left) player.isGrounded = true;
-            else {
+            if (front || back || right || left) {
+                player.isGrounded = true;
+                player.InAirTimer = 0f;
+            } else {
                 player.isGrounded = false;
             }
         }

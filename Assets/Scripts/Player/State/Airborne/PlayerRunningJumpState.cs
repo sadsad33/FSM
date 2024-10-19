@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRunningJumpState : PlayerAirborneState
-{
+public class PlayerRunningJumpState : PlayerAirborneState {
     private float maximumHeight;
-    Vector3 playerYVelocity;
-    public Vector3 moveDirectionInRunningJumpState;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        Vector3 playerYVelocity;
         player.isJumping = true;
         maximumHeight = player.transform.position.y + player.MaximumJumpHeight;
         playerYVelocity = player.YVelocity;

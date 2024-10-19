@@ -15,7 +15,7 @@ public class PlayerIdlingState : PlayerGroundedState {
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
-        
+        player.cc.Move(Vector3.zero);
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         //HandleMovement();
     }
@@ -37,7 +37,10 @@ public class PlayerIdlingState : PlayerGroundedState {
     protected override void HandleMovement() {
         base.HandleMovement();
         float speed = player.moveSpeed * moveSpeedModifier;
-        currentMovingSpeed = speed;
+        //currentMovingSpeed = speed;
+        moveDirection *= speed;
+        if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
+            PlayerMaximumVelocity = moveDirection;
         player.cc.Move(moveDirection * speed);
     }
 }

@@ -36,8 +36,10 @@ public class PlayerWalkingState : PlayerMovingState {
     protected override void HandleMovement() {
         base.HandleMovement();
         float speed = player.moveSpeed * moveSpeedModifier;
-        currentMovingSpeed = speed;
+        //currentMovingSpeed = speed;
         moveDirection *= speed;
+        if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
+            PlayerMaximumVelocity = moveDirection;
         player.cc.Move(moveDirection * Time.deltaTime);
     }
 }

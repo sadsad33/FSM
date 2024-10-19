@@ -5,8 +5,6 @@ using UnityEngine;
 public class PlayerLightStoppingState : PlayerStoppingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.RunningStateTimer = 0f;
-        player.isPerformingAction = true;
         player.playerAnimatorManager.PlayAnimation("Light Stop", player.isPerformingAction);
     }
 

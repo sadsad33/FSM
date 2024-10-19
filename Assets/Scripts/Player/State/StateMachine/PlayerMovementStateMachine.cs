@@ -6,12 +6,20 @@ public class PlayerMovementStateMachine : StateMachine {
     //PlayerMovementState currentPlayerMovementState;
     public PlayerIdlingState idlingState;
 
+    #region CrouchingState
+    public PlayerStandToCrouchState standToCrouchState;
+    public PlayerCrouchToStandState crouchToStandState;
+    public PlayerCrouchedIdlingState crouchedIdlingState;
+    public PlayerCrouchedWalkingState crouchedWalkingState;
+    #endregion
+
     #region MovingStates
     public PlayerWalkingState walkingState;
     public PlayerRunningState runningState;
     public PlayerSprintingState sprintingState;
     public PlayerRollingState rollingState;
     public PlayerLandToMoveState landToMoveState;
+    public PlayerSlidingState slidingState;
     #endregion
 
     #region StoppingStates
@@ -32,13 +40,20 @@ public class PlayerMovementStateMachine : StateMachine {
     #endregion
 
     public PlayerMovementStateMachine(PlayerManager player) : base(player){
+
         idlingState = new PlayerIdlingState();
+
+        standToCrouchState = new PlayerStandToCrouchState();
+        crouchToStandState = new PlayerCrouchToStandState();
+        crouchedIdlingState = new PlayerCrouchedIdlingState();
+        crouchedWalkingState = new PlayerCrouchedWalkingState();
 
         walkingState = new PlayerWalkingState();
         runningState = new PlayerRunningState();
         sprintingState = new PlayerSprintingState();
         rollingState = new PlayerRollingState();
         landToMoveState = new PlayerLandToMoveState();
+        slidingState = new PlayerSlidingState();
 
         lightStoppingState = new PlayerLightStoppingState();
         mediumStoppingState = new PlayerMediumStoppingState();

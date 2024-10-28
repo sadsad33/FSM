@@ -12,6 +12,7 @@ public class PlayerInputManager : MonoBehaviour {
     public Vector2 MovementInput { get; set; }
     public Vector2 CameraInput { get; set; }
     public bool RollFlag { get; set; }
+    public bool LightAttackInput { get; set; }
 
     public bool JumpInput { get; set; }
     
@@ -34,6 +35,8 @@ public class PlayerInputManager : MonoBehaviour {
         PlayerInput.PlayerActions.Slide.canceled += i => CrouchInput = false;
 
         PlayerInput.PlayerActions.Jump.performed += i => JumpInput = true;
+
+        PlayerInput.PlayerActions.LightAttack.performed += i => LightAttackInput = true;
 
         PlayerInput.Enable();
     }

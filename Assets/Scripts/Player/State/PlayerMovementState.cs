@@ -23,7 +23,7 @@ public class PlayerMovementState : IState {
 
     public virtual void Enter(CharacterManager character) {
         player = character as PlayerManager;
-        Debug.Log("Player Current State : " + GetType());
+        Debug.Log("Player Current Movement State : " + GetType());
         //Debug.Log("Current State moveDirection : " + moveDirection);
     }
 
@@ -40,9 +40,9 @@ public class PlayerMovementState : IState {
         //Debug.Log("Delta : " + delta);
         //Debug.Log("SprintInputTimer Traker : " + player.playerInputManager.SprintInputTimer);
         //Debug.Log(player.playerInputManager.SprintInputTimer);
-        HandleGroundCheck();
-        HandleYVelocity();
         HandleInput();
+        HandleYVelocity();
+        HandleGroundCheck();
         //Debug.Log("Movement State Stay ÀÇ MoveDirection : " + moveDirection);
     }
 

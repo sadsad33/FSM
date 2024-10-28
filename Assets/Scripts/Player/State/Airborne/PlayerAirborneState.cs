@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAirborneState : PlayerMovementState {
 
+    protected float inAirTimer;
     protected Vector3 aeroInputDirection;
     public Vector3 MovingVelocityInAir { get; set; } // 공중에 떠 있는 상태에서의 이동방향
     public override void Enter(CharacterManager character) {

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSlidingState : PlayerMovingState {
+public class PlayerRollingState : PlayerMovingState {
+
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        moveSpeedModifier = 2f;
-        player.isPerformingAction = true;
-        player.playerAnimatorManager.PlayAnimation("Sliding", player.isPerformingAction);
-        //Debug.Log(player.canSliding);
+        player.playerAnimatorManager.PlayAnimation("Rolling", true);
+        player.isInvulnerable = true;
+        player.playerInputManager.RollFlag = false;
     }
 
     public override void Stay(CharacterManager character) {
@@ -16,12 +16,13 @@ public class PlayerSlidingState : PlayerMovingState {
     }
 
     public override void Exit(CharacterManager character) {
-        player.canSliding = false;
+        player.isInvulnerable = false;
     }
 
     public override void HandleInput() {
-        if (player.isPerformingAction) return;
         base.HandleInput();
-        player.pmsm.ChangeState(player.pmsm.idlingState);
+        if (!player.isPerformingAction) {
+            player.pmsm.ChangeState(player.pmsm.idlingState);
+        }
     }
 }

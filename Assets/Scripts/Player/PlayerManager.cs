@@ -6,6 +6,7 @@ public class PlayerManager : CharacterManager {
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerInputManager playerInputManager;
     public PlayerMovementStateMachine pmsm;
+    public PlayerActionStateMachine pasm;
 
     #region Ariborne
     public float InAirTimer { get; set; }
@@ -44,20 +45,23 @@ public class PlayerManager : CharacterManager {
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerInputManager = GetComponent<PlayerInputManager>();
         pmsm = new PlayerMovementStateMachine(this);
+        pasm = new PlayerActionStateMachine(this);
         CameraManager.instance.AssignCameraToPlayer(this);
     }
 
     protected override void Start() {
         pmsm.ChangeState(pmsm.idlingState);
+        pasm.ChangeState(pasm.actionIdlingState);
     }
 
     protected override void Update() {
         pmsm.GetCurrentState().Stay(this);
+        pasm.GetCurrentState().Stay(this);
 
         float curYPosition = transform.position.y;
         deltaYPosition = curYPosition - prevYPosition;
         if (deltaYPosition <= -0.02) {
-            //Debug.Log("開馬 悪薦");
+            //Debug.Log("悪薦 開馬");
             isGrounded = false;
         }
         prevYPosition = curYPosition;
@@ -71,6 +75,7 @@ public class PlayerManager : CharacterManager {
         playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
         playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
         playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
+        playerInputManager.LightAttackInput = false;
         playerInputManager.JumpInput = false;
         playerInputManager.RollFlag = false;
     }

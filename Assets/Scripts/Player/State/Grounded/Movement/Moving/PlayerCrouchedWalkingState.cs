@@ -20,7 +20,8 @@ public class PlayerCrouchedWalkingState : PlayerMovingState
 
     public override void HandleInput() {
         base.HandleInput();
-        if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.crouchedIdlingState);
+        if (!player.playerInputManager.CrouchInput) player.pmsm.ChangeState(player.pmsm.crouchToStandState);
+        else if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.crouchedIdlingState);
     }
 
     protected override void HandleRotation() {

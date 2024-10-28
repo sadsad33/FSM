@@ -12,6 +12,7 @@ public class CharacterManager : MonoBehaviour
     public bool isCrouched;
     public bool isPerformingAction;
     public bool canSliding;
+    public bool canDoComboAttack;
 
     public float moveSpeed;
     public float rotationSpeed;

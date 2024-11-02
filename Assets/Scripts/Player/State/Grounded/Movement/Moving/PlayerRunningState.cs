@@ -44,6 +44,9 @@ public class PlayerRunningState : PlayerMovingState {
 
     protected override void HandleRotation() {
         base.HandleRotation();
+        if (lookingDirection == Vector3.zero) {
+            lookingDirection = player.transform.forward;
+        }
         Quaternion tr = Quaternion.LookRotation(lookingDirection);
         Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, player.rotationSpeed * Time.deltaTime);
         player.transform.rotation = targetRotation;
@@ -55,6 +58,7 @@ public class PlayerRunningState : PlayerMovingState {
         //Debug.Log("Move Direction After Call Base : " + moveDirection);
         float speed = player.moveSpeed * moveSpeedModifier;
         moveDirection *= speed;
+        //Debug.Log(moveDirection);
         if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
             PlayerMaximumVelocity = moveDirection;
         player.cc.Move(moveDirection * Time.deltaTime);

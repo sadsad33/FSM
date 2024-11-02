@@ -55,8 +55,11 @@ public class PlayerManager : CharacterManager {
     }
 
     protected override void Update() {
-        pmsm.GetCurrentState().Stay(this);
-        pasm.GetCurrentState().Stay(this);
+        //Debug.Log(playerInputManager.MovementInput);
+        //if (!isPerformingAction)
+            pmsm.GetCurrentState().Stay(this);
+        //if (!isPerformingAction)
+            pasm.GetCurrentState().Stay(this);
 
         float curYPosition = transform.position.y;
         deltaYPosition = curYPosition - prevYPosition;

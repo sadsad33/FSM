@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerOneHandSwordAttackState : PlayerActionState
-{
+public class PlayerOneHandSwordFirstAttackState : PlayerActionState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         player.isPerformingAction = true;
@@ -16,9 +15,12 @@ public class PlayerOneHandSwordAttackState : PlayerActionState
 
     public override void Exit(CharacterManager character) {
         base.Exit(character);
+        player.isPerformingAction = false;
     }
 
     public override void HandleInput() {
         base.HandleInput();
+        //if (!player.isPerformingAction) 
+        player.pasm.ChangeState(player.pasm.actionIdlingState);
     }
 }

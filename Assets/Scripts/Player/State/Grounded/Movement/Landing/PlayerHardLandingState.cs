@@ -18,7 +18,7 @@ public class PlayerHardLandingState : PlayerLandingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.isPerformingAction)
-            player.pmsm.ChangeState(player.pmsm.idlingState);
+        //if (!player.isPerformingAction)
+        player.pmsm.ChangeState(player.pmsm.idlingState);
     }
 }

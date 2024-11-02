@@ -40,9 +40,10 @@ public class PlayerMovementState : IState {
         //Debug.Log("Delta : " + delta);
         //Debug.Log("SprintInputTimer Traker : " + player.playerInputManager.SprintInputTimer);
         //Debug.Log(player.playerInputManager.SprintInputTimer);
-        HandleInput();
         HandleYVelocity();
         HandleGroundCheck();
+        if (player.isPerformingAction) return;
+        HandleInput();
         //Debug.Log("Movement State Stay 의 MoveDirection : " + moveDirection);
     }
 
@@ -50,46 +51,8 @@ public class PlayerMovementState : IState {
 
     }
 
-    public virtual void HandleInput() {
-        float delta = Time.deltaTime;
-        HandleRotation();
-        HandleMovement();
-        HandleMouseInput();
-        GetWASDInput();
-        HandleSprintInput(delta);
-        HandleRollInput();
-        //Debug.Log("Movement State HandleInput 의 MoveDirection : " + moveDirection);
-    }
-
-    private void GetWASDInput() {
-        verticalInput = player.playerInputManager.MovementInput.y;
-        horizontalInput = player.playerInputManager.MovementInput.x;
-        moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
-    }
-
-    private void HandleMouseInput() {
-        mouseXInput = player.playerInputManager.CameraInput.x;
-        mouseYInput = player.playerInputManager.CameraInput.y;
-    }
-
-    private void HandleSprintInput(float delta) {
-        if (player.isPerformingAction) return;
-        if (player.isJumping) return;
-        if (player.playerInputManager.SprintInput) {
-            player.playerInputManager.SprintInputTimer += delta;
-        }
-    }
-
-    private void HandleRollInput() {
-        if (player.playerInputManager.SprintInput) {
-            player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.RollFlag = true;
-            //if (player.playerInputManager.SprintInputFalse == null) 
-            //    player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.SprintInputFalse = Time.deltaTime;
-        }
-    }
-
     bool front = false, back = false, right = false, left = false;
-    private void HandleGroundCheck() {
+    protected void HandleGroundCheck() {
         Vector3 pushingDirection;
         isBottomGrounded = Physics.Raycast(player.transform.position + (Vector3.up * player.bottomGroundCheckRayStartingYPosition), -player.transform.up, player.bottomGroundCheckRayMaxDistance, player.groundLayer);
         if (isBottomGrounded) {
@@ -107,7 +70,7 @@ public class PlayerMovementState : IState {
         }
     }
 
-    private void HandleEdgeGroundCheck(Vector3 pushingDirection) {
+    protected void HandleEdgeGroundCheck(Vector3 pushingDirection) {
         //if (player.isGrounded) return;
         RaycastHit hit;
         front = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
@@ -129,15 +92,15 @@ public class PlayerMovementState : IState {
         HandlePushingPlayerOnEdge(pushingDirection);
     }
 
-    private void HandlePushingPlayerOnEdge(Vector3 pushingDirection) {
+    protected void HandlePushingPlayerOnEdge(Vector3 pushingDirection) {
         //Debug.Log("절벽에서 밀기");
         //Debug.Log(pushingVelocity);
-        
+
         if (player.isJumping) return;
         player.cc.Move(((pushingDirection * player.pushingForceOnEdge) + Vector3.down) * Time.deltaTime);
     }
 
-    private void HandleYVelocity() {
+    protected void HandleYVelocity() {
         if (player.isJumping) return;
         Vector3 tempYVelocity = player.YVelocity;
         if (player.isGrounded) {
@@ -158,8 +121,50 @@ public class PlayerMovementState : IState {
         player.cc.Move(player.YVelocity * Time.deltaTime);
     }
 
+    public virtual void HandleInput() {
+        float delta = Time.deltaTime;
+        HandleRotation();
+        HandleMovement();
+        HandleMouseInput();
+        GetWASDInput();
+        HandleSprintInput(delta);
+        HandleRollInput();
+        //Debug.Log("Movement State HandleInput 의 MoveDirection : " + moveDirection);
+    }
+
+    private void GetWASDInput() {
+        //if (player.isPerformingAction) return;
+        verticalInput = player.playerInputManager.MovementInput.y;
+        horizontalInput = player.playerInputManager.MovementInput.x;
+        moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+    }
+
+    private void HandleMouseInput() {
+        mouseXInput = player.playerInputManager.CameraInput.x;
+        mouseYInput = player.playerInputManager.CameraInput.y;
+    }
+
+    private void HandleSprintInput(float delta) {
+        //if (player.isPerformingAction) return;
+        if (player.isJumping) return;
+        if (player.playerInputManager.SprintInput) {
+            player.playerInputManager.SprintInputTimer += delta;
+        }
+    }
+
+    private void HandleRollInput() {
+        //if (player.isPerformingAction) return;
+        if (player.playerInputManager.SprintInput) {
+            player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.RollFlag = true;
+            //if (player.playerInputManager.SprintInputFalse == null) 
+            //    player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.SprintInputFalse = Time.deltaTime;
+        }
+    }
+
+    
+
     protected virtual void HandleRotation() {
-        if (player.isPerformingAction) return;
+        //if (player.isPerformingAction) return;
         lookingDirection = CameraManager.instance.cameraTransform.forward * verticalInput;
         lookingDirection += CameraManager.instance.cameraTransform.right * horizontalInput;
         lookingDirection.Normalize();
@@ -172,7 +177,7 @@ public class PlayerMovementState : IState {
 
     protected virtual void HandleMovement() {
         if (player.isJumping) return;
-        if (player.isPerformingAction) return;
+        //if (player.isPerformingAction) return;
         moveDirection = CameraManager.instance.myTransform.forward * verticalInput;
         moveDirection += CameraManager.instance.myTransform.right * horizontalInput;
         moveDirection.Normalize();

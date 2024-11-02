@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCrouchToStandState : PlayerGroundedState
-{
+public class PlayerCrouchToStandState : PlayerGroundedState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.isCrouched = false;
         player.isPerformingAction = true;
-        player.playerAnimatorManager.PlayAnimation("Crouched To Standing", player.isPerformingAction);
+        player.playerAnimatorManager.PlayAnimation("Crouched To Standing", false);
     }
 
     public override void Stay(CharacterManager character) {
@@ -18,10 +16,12 @@ public class PlayerCrouchToStandState : PlayerGroundedState
     }
 
     public override void Exit(CharacterManager character) {
+        player.isCrouched = false;
     }
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.isPerformingAction) player.pmsm.ChangeState(player.pmsm.idlingState);
+        //if (!player.isPerformingAction)
+        player.pmsm.ChangeState(player.pmsm.idlingState);
     }
 }

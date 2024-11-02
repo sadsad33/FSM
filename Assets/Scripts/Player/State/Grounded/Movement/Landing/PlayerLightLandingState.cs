@@ -10,7 +10,7 @@ public class PlayerLightLandingState : PlayerLandingState {
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
-        if (moveAmount > 0) player.isPerformingAction = false;
+        //if (moveAmount > 0) player.isPerformingAction = false;
         player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
     }
 
@@ -19,8 +19,8 @@ public class PlayerLightLandingState : PlayerLandingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.isPerformingAction) {
-            player.pmsm.ChangeState(player.pmsm.idlingState);
-        }
+        //if (!player.isPerformingAction) {
+        player.pmsm.ChangeState(player.pmsm.idlingState);
+        //}
     }
 }

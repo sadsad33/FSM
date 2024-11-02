@@ -2982,7 +2982,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!114 &9194855060049838845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3000,7 +3000,10 @@ MonoBehaviour:
   isInvulnerable: 0
   isGrounded: 0
   isJumping: 0
+  isCrouched: 0
   isPerformingAction: 0
+  canSliding: 0
+  canDoComboAttack: 0
   moveSpeed: 3
   rotationSpeed: 10
   playerAnimatorManager: {fileID: 0}

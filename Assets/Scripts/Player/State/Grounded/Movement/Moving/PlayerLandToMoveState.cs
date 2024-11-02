@@ -20,13 +20,13 @@ public class PlayerLandToMoveState : PlayerLandingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.isPerformingAction) {
-            if (player.playerInputManager.SprintInput)
-                player.pmsm.ChangeState(player.pmsm.sprintingState);
-            else if (player.playerInputManager.WalkInput)
-                player.pmsm.ChangeState(player.pmsm.walkingState);
-            else
-                player.pmsm.ChangeState(player.pmsm.runningState);
-        }
+        //if (!player.isPerformingAction) {
+        if (player.playerInputManager.SprintInput)
+            player.pmsm.ChangeState(player.pmsm.sprintingState);
+        else if (player.playerInputManager.WalkInput)
+            player.pmsm.ChangeState(player.pmsm.walkingState);
+        else
+            player.pmsm.ChangeState(player.pmsm.runningState);
+        //}
     }
 }

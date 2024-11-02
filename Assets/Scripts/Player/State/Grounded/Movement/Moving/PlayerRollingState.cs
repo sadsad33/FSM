@@ -6,7 +6,8 @@ public class PlayerRollingState : PlayerMovingState {
 
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.playerAnimatorManager.PlayAnimation("Rolling", true);
+        player.isPerformingAction = true;
+        player.playerAnimatorManager.PlayAnimation("Rolling", player.isPerformingAction);
         player.isInvulnerable = true;
         player.playerInputManager.RollFlag = false;
     }
@@ -21,8 +22,8 @@ public class PlayerRollingState : PlayerMovingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (!player.isPerformingAction) {
-            player.pmsm.ChangeState(player.pmsm.idlingState);
-        }
+        //if (!player.isPerformingAction) {
+        player.pmsm.ChangeState(player.pmsm.idlingState);
+        //}
     }
 }

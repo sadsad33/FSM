@@ -11,6 +11,7 @@ public class PlayerActionState : IState
     }
 
     public virtual void Stay(CharacterManager character) {
+        if (player.isPerformingAction) return;
         HandleInput();
     }
 

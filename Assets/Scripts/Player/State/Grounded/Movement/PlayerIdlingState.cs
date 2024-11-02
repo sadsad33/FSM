@@ -25,11 +25,13 @@ public class PlayerIdlingState : PlayerGroundedState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (moveAmount > 0f) {
-            if (player.playerInputManager.WalkInput) {
-                player.pmsm.ChangeState(player.pmsm.walkingState);
-            } else {
-                player.pmsm.ChangeState(player.pmsm.runningState);
+        if (!player.playerInputManager.CrouchInput) {
+            if (moveAmount > 0f) {
+                if (player.playerInputManager.WalkInput) {
+                    player.pmsm.ChangeState(player.pmsm.walkingState);
+                } else {
+                    player.pmsm.ChangeState(player.pmsm.runningState);
+                }
             }
         }
     }

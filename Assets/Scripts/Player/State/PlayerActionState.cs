@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerActionState : IState
 {
     protected PlayerManager player;
+
     public virtual void Enter(CharacterManager character) {
         player = character as PlayerManager;
         Debug.Log("Player Current Action State : " + GetType());

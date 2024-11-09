@@ -21,6 +21,6 @@ public class PlayerOneHandSwordFirstAttackState : PlayerActionState {
     public override void HandleInput() {
         base.HandleInput();
         //if (!player.isPerformingAction) 
-        player.pasm.ChangeState(player.pasm.actionIdlingState);
+        player.pasm.ChangeState(player.pasm.standingActionIdlingState);
     }
 }

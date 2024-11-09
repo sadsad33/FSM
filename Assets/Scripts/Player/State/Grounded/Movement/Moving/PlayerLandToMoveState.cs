@@ -6,7 +6,8 @@ public class PlayerLandToMoveState : PlayerLandingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         //Debug.Log(player.isPerformingAction);
-        player.playerAnimatorManager.PlayAnimation("Land To Move", player.isPerformingAction);
+        if (!player.isAttacking)
+            player.playerAnimatorManager.PlayAnimation("Land To Move", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {

@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerLightLandingState : PlayerLandingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.playerAnimatorManager.PlayAnimation("Light Landing", player.isPerformingAction);
+        if (!player.isAttacking)
+            player.playerAnimatorManager.PlayAnimation("Light Landing", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {

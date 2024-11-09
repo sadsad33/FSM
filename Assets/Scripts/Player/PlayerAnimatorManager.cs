@@ -14,11 +14,35 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         base.PlayAnimation(animation, isInteracting);
     }
 
-    public void StartAction() {
-        player.isPerformingAction = true;
-    }
+    //public void StartAction() {
+    //    player.isPerformingAction = true;
+    //}
 
     public void FinishAction() {
         player.isPerformingAction = false;
+    }
+
+    public void FinishAttack() {
+        player.isAttacking = false;
+    }
+
+    public void FinishMovement() {
+        player.isMoving = false;
+    }
+
+    public void EnableAttack() {
+        player.canAttackDuringAction = true;
+    }
+
+    public void DisableAttack() {
+        player.canAttackDuringAction = false;
+    }
+
+    public void EnableCombo() {
+        player.canDoCombo = true;
+    }
+
+    public void DisableCombo() {
+        player.canDoCombo = false;
     }
 }

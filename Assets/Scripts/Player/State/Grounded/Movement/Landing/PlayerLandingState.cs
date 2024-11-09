@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerLandingState : PlayerGroundedState
-{
+public class PlayerLandingState : PlayerGroundedState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         //player.InAirTimer = 0f;
         player.canSliding = false;
-        player.isPerformingAction = true;
+        if (!player.isAttacking)
+            player.isPerformingAction = true;
     }
 
     public override void Stay(CharacterManager character) {

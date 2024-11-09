@@ -6,9 +6,10 @@ public class PlayerSlidingState : PlayerMovingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         moveSpeedModifier = 2f;
+        //player.isPerformingAction = true;
+        player.isMoving = true;
         player.canSliding = false;
-        player.isPerformingAction = true;
-        player.playerAnimatorManager.PlayAnimation("Sliding", player.isPerformingAction);
+        player.playerAnimatorManager.PlayAnimation("Sliding", player.isMoving);
         //Debug.Log(player.canSliding);
     }
 
@@ -23,6 +24,9 @@ public class PlayerSlidingState : PlayerMovingState {
     public override void HandleInput() {
         base.HandleInput();
         //if (!player.isPerformingAction)
-        player.pmsm.ChangeState(player.pmsm.idlingState);
+        if (!player.isMoving) {
+            player.pmsm.ChangeState(player.pmsm.idlingState);
+            player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+        }
     }
 }

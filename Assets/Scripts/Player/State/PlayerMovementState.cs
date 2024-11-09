@@ -161,8 +161,6 @@ public class PlayerMovementState : IState {
         }
     }
 
-    
-
     protected virtual void HandleRotation() {
         //if (player.isPerformingAction) return;
         lookingDirection = CameraManager.instance.cameraTransform.forward * verticalInput;

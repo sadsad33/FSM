@@ -13,7 +13,7 @@ public class CharacterAnimatorManager : MonoBehaviour
     }
 
     public void OnAnimatorMove() {
-        if (!character.isPerformingAction) return;
+        if (!character.isMoving && !character.isPerformingAction) return;
         Vector3 velocity = animator.deltaPosition;
         if (character.cc.enabled) character.cc.Move(velocity);
     }

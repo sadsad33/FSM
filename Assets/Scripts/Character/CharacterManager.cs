@@ -10,7 +10,15 @@ public class CharacterManager : MonoBehaviour
     public bool isGrounded;
     public bool isJumping;
     public bool isCrouched;
+    
     public bool isPerformingAction;
+    public bool isAttacking;
+    public bool isMoving;
+
+    public bool canAttackDuringAction;
+    public bool canDoCombo;
+
+    public bool actionOverride;
     public bool canSliding;
     public bool canDoComboAttack;
 

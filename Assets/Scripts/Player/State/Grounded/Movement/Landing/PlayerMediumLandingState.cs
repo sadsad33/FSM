@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerMediumLandingState : PlayerLandingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.playerAnimatorManager.PlayAnimation("Medium Landing", player.isPerformingAction);
+        if (!player.isAttacking)
+            player.playerAnimatorManager.PlayAnimation("Medium Landing", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {

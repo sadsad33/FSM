@@ -16,7 +16,7 @@ public class CharacterManager : MonoBehaviour
     public bool isMoving;
 
     public bool canAttackDuringAction;
-    public bool canDoCombo;
+    public bool canRotateDuringAction;
 
     public bool actionOverride;
     public bool canSliding;

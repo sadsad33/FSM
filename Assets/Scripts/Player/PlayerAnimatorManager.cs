@@ -14,10 +14,6 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         base.PlayAnimation(animation, isInteracting);
     }
 
-    //public void StartAction() {
-    //    player.isPerformingAction = true;
-    //}
-
     public void FinishAction() {
         player.isPerformingAction = false;
     }
@@ -39,10 +35,18 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
     }
 
     public void EnableCombo() {
-        player.canDoCombo = true;
+        player.canDoComboAttack = true;
     }
 
     public void DisableCombo() {
-        player.canDoCombo = false;
+        player.canDoComboAttack = false;
+    }
+
+    public void EnableRotateDuringAction() {
+        player.canRotateDuringAction = true;
+    }
+
+    public void DisableRotateDuringAction() {
+        player.canRotateDuringAction = false;
     }
 }

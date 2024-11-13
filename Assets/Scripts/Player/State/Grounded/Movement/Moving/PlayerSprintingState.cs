@@ -32,8 +32,13 @@ public class PlayerSprintingState : PlayerMovingState {
         base.HandleInput();
         if (moveAmount <= 0f) {
             player.pmsm.ChangeState(player.pmsm.mediumStoppingState);
-        } else if (!player.playerInputManager.SprintInput) {
-            player.pmsm.ChangeState(player.pmsm.runningState);
+        } else {
+            if (player.playerInputManager.JumpInput) {
+                player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
+                player.pmsm.ChangeState(player.pmsm.runningJumpState);
+            } else if (!player.playerInputManager.SprintInput) {
+                player.pmsm.ChangeState(player.pmsm.runningState);
+            }
         }
     }
 

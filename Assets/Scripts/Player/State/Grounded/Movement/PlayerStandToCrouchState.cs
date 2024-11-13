@@ -18,6 +18,8 @@ public class PlayerStandToCrouchState : PlayerGroundedState {
     }
 
     public override void Exit(CharacterManager character) {
+        player.isPerformingAction = false;
+        player.pasm.ChangeState(player.pasm.crouchedActionIdlingState);
     }
 
     public override void HandleInput() {

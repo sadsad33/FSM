@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerLightStoppingState : PlayerStoppingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.playerAnimatorManager.PlayAnimation("Light Stop", player.isPerformingAction);
+        if (!player.isAttacking)
+            player.playerAnimatorManager.PlayAnimation("Light Stop", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {

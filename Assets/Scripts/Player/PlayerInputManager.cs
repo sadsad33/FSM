@@ -13,9 +13,9 @@ public class PlayerInputManager : MonoBehaviour {
     public Vector2 CameraInput { get; set; }
     public bool RollFlag { get; set; }
     public bool LightAttackInput { get; set; }
-
     public bool JumpInput { get; set; }
-    
+    public bool HeavyAttackInput { get; set; }
+
     private void Awake() {
         if (PlayerInput == null)
             PlayerInput = new PlayerInput();
@@ -37,6 +37,7 @@ public class PlayerInputManager : MonoBehaviour {
         PlayerInput.PlayerActions.Jump.performed += i => JumpInput = true;
 
         PlayerInput.PlayerActions.LightAttack.performed += i => LightAttackInput = true;
+        PlayerInput.PlayerActions.HeavyAttack.performed += i => HeavyAttackInput = true;
 
         PlayerInput.Enable();
     }

@@ -6,11 +6,10 @@ public class PlayerSlidingState : PlayerMovingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
         moveSpeedModifier = 2f;
-        //player.isPerformingAction = true;
+        player.pasm.ChangeState(player.pasm.slidingActionIdlingState);
         player.isMoving = true;
         player.canSliding = false;
         player.playerAnimatorManager.PlayAnimation("Sliding", player.isMoving);
-        //Debug.Log(player.canSliding);
     }
 
     public override void Stay(CharacterManager character) {
@@ -19,6 +18,7 @@ public class PlayerSlidingState : PlayerMovingState {
     }
 
     public override void Exit(CharacterManager character) {
+        player.isMoving = false;
     }
 
     public override void HandleInput() {

@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStoppingState : PlayerGroundedState {
+public class PlayerRunningActionIdlingState : PlayerGroundedActionIdlingState
+{
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.RunningStateTimer = 0f;
-        if (!player.isAttacking)
-            player.isPerformingAction = true;
-        player.playerInputManager.SprintInputTimer = 0f;
     }
 
     public override void Stay(CharacterManager character) {
         base.Stay(character);
-        player.canSliding = false;
     }
 
     public override void Exit(CharacterManager character) {
+        base.Exit(character);
     }
 
     public override void HandleInput() {
         base.HandleInput();
+        if (player.playerInputManager.LightAttackInput)
+            player.pasm.ChangeState(player.pasm.runningAttackState);
     }
 }

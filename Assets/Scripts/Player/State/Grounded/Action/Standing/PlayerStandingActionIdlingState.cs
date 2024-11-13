@@ -22,6 +22,8 @@ public class PlayerStandingActionIdlingState : PlayerGroundedActionIdlingState
         base.HandleInput();
         if (player.playerInputManager.LightAttackInput) {
             player.pasm.ChangeState(player.pasm.oneHandSwordFirstAttackState);
+        } else if (player.playerInputManager.HeavyAttackInput) {
+            player.pasm.ChangeState(player.pasm.oneHandSwordHeavyAttackPerformingState);
         }
     }
 }

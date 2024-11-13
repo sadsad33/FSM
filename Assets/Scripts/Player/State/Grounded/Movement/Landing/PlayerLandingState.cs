@@ -16,6 +16,7 @@ public class PlayerLandingState : PlayerGroundedState {
     }
 
     public override void Exit(CharacterManager character) {
+        player.pasm.ChangeState(player.pasm.standingActionIdlingState);
     }
 
     public override void HandleInput() {

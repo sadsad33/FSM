@@ -6,6 +6,7 @@ public class PlayerStandingJumpState : PlayerAirborneState {
     private float maximumHeight;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
         Vector3 playerYVelocity;
         player.isJumping = true;
         maximumHeight = player.transform.position.y + player.MaximumJumpHeight;

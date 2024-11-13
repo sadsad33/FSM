@@ -6,7 +6,8 @@ public class PlayerMediumStoppingState : PlayerStoppingState {
 
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.playerAnimatorManager.PlayAnimation("Medium Stop", player.isPerformingAction);
+        if (!player.isAttacking)
+            player.playerAnimatorManager.PlayAnimation("Medium Stop", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {

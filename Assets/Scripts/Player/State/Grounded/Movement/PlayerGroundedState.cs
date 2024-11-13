@@ -25,31 +25,11 @@ public class PlayerGroundedState : PlayerMovementState {
                 player.pmsm.ChangeState(player.pmsm.fallingState);
                 player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
             }
-        }else {
+        } else {
             if (player.playerInputManager.RollFlag) {
                 if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
                     player.pmsm.ChangeState(player.pmsm.rollingState);
                 }
-            } else if (player.playerInputManager.JumpInput) {
-                if (moveAmount > 0f) {
-                    player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
-                    //Debug.Log("달리기 점프 속도 : " + player.pmsm.runningJumpState.MovingVelocityInAir);
-                    player.pmsm.ChangeState(player.pmsm.runningJumpState);
-                } else {
-                    player.pmsm.ChangeState(player.pmsm.standingJumpState);
-                }
-                player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
-            } else if (player.playerInputManager.CrouchInput) {
-                if (player.canSliding) {
-                    //Debug.Log("슬라이딩!!");
-                    player.pmsm.ChangeState(player.pmsm.slidingState);
-                    player.pasm.ChangeState(player.pasm.slidingActionIdlingState);
-                } 
-                //else {
-                //    if (!player.isCrouched) {
-                //        player.pmsm.ChangeState(player.pmsm.standToCrouchState);
-                //    }
-                //}
             }
         }
     }

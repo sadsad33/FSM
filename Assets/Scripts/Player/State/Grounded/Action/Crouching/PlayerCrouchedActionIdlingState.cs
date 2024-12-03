@@ -17,7 +17,8 @@ public class PlayerCrouchedActionIdlingState : PlayerGroundedActionIdlingState {
 
     public override void HandleInput() {
         base.HandleInput();
-        if (player.playerInputManager.LightAttackInput)
+        if (player.playerStatsManager.currentStamina <= 10f) return;
+        else if (player.playerInputManager.LightAttackInput)
             player.pasm.ChangeState(player.pasm.crouchingAttackState);
     }
 }

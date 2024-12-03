@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerMeleeJumpLightAttackState : PlayerAirborneActionIdlingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.playerStatsManager.DeductStamina(15f);
+        player.consumingStamina = true;
         player.isAttacking = true;
         player.playerAnimatorManager.PlayAnimation("Melee Jump Light Attack", false);
     }

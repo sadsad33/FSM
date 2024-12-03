@@ -8,12 +8,13 @@ public class PlayerActionStateMachine : StateMachine
     public PlayerAirborneActionIdlingState airborneActionIdlingState;
     public PlayerSlidingActionIdlingState slidingActionIdlingState;
     public PlayerCrouchedActionIdlingState crouchedActionIdlingState;
-    public PlayerRunningActionIdlingState runningActionIdlingState;
+    public PlayerSprintingActionIdlingState sprintingActionIdlingState;
 
     public PlayerOneHandSwordFirstAttackState oneHandSwordFirstAttackState;
     public PlayerOneHandSwordComboAttackState oneHandSwordComboAttackState;
     public PlayerOneHandSwordFinalAttackState oneHandSwordFinalAttackState;
-    public PlayerOneHandSwordHeavyAttackPerformingState oneHandSwordHeavyAttackPerformingState;
+    public PlayerOneHandSwordHeavyAttackState oneHandSwordHeavyAttackState;
+    public PlayerOneHandSwordHeavyAttackComboState oneHandSwordHeavyAttackComboState;
 
     public PlayerMeleeJumpLightAttackState meleeJumpLightAttackState;
     public PlayerLightAttackLandingState lightAttackLandingState;
@@ -30,7 +31,8 @@ public class PlayerActionStateMachine : StateMachine
         airborneActionIdlingState = new PlayerAirborneActionIdlingState();
         meleeJumpLightAttackState = new PlayerMeleeJumpLightAttackState();
         lightAttackLandingState = new PlayerLightAttackLandingState();
-        oneHandSwordHeavyAttackPerformingState = new PlayerOneHandSwordHeavyAttackPerformingState();
+        oneHandSwordHeavyAttackState = new PlayerOneHandSwordHeavyAttackState();
+        oneHandSwordHeavyAttackComboState = new PlayerOneHandSwordHeavyAttackComboState();
 
         slidingActionIdlingState = new PlayerSlidingActionIdlingState();
         slidingAttackState = new PlayerSlideAttackState();
@@ -38,7 +40,7 @@ public class PlayerActionStateMachine : StateMachine
         crouchedActionIdlingState = new PlayerCrouchedActionIdlingState();
         crouchingAttackState = new PlayerCrouchingAttackState();
 
-        runningActionIdlingState = new PlayerRunningActionIdlingState();
+        sprintingActionIdlingState = new PlayerSprintingActionIdlingState();
         runningAttackState = new PlayerRunningAttackState();
     }
 

@@ -7,7 +7,6 @@ public class PlayerRunningState : PlayerMovingState {
     private float canSlidingDelayTimer;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.pasm.ChangeState(player.pasm.runningActionIdlingState);
         player.playerInputManager.SprintInputTimer = 0f;
         if (!sprintInputDelaySet)
             sprintInputDelaySet = true;
@@ -30,6 +29,7 @@ public class PlayerRunningState : PlayerMovingState {
         canSlidingDelayTimer = 0f;
     }
 
+    
     public override void HandleInput() {
         base.HandleInput();
         if (moveAmount <= 0f) {
@@ -37,8 +37,8 @@ public class PlayerRunningState : PlayerMovingState {
                 player.pmsm.ChangeState(player.pmsm.lightStoppingState);
             else
                 player.pmsm.ChangeState(player.pmsm.idlingState);
-        } else {
-            if (player.playerInputManager.JumpInput) {
+        } else{
+            if (player.playerInputManager.JumpInput && player.playerStatsManager.currentStamina > 10f) {
                 player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
                 player.pmsm.ChangeState(player.pmsm.runningJumpState);
             } else if (player.playerInputManager.CrouchInput) {
@@ -47,7 +47,8 @@ public class PlayerRunningState : PlayerMovingState {
                 else if (!player.isCrouched)
                     player.pmsm.ChangeState(player.pmsm.standToCrouchState);
             } else if (player.playerInputManager.WalkInput) player.pmsm.ChangeState(player.pmsm.walkingState);
-            else if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f) player.pmsm.ChangeState(player.pmsm.sprintingState);
+            else if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f)
+                player.pmsm.ChangeState(player.pmsm.sprintingState);
         }
     }
 

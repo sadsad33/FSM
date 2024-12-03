@@ -7,7 +7,8 @@ public class PlayerManager : CharacterManager {
     public PlayerInputManager playerInputManager;
     public PlayerMovementStateMachine pmsm;
     public PlayerActionStateMachine pasm;
-
+    public PlayerStatsManager playerStatsManager;
+    public PlayerEquipmentManager playerEquipmentManager;
     #region Ariborne
     public float InAirTimer { get; set; }
     private float prevYPosition;
@@ -38,12 +39,17 @@ public class PlayerManager : CharacterManager {
 
     public LayerMask groundLayer;
 
+    public bool consumingStamina;
+    public float staminaRegenerateTimer;
+
     protected override void Awake() {
         base.Awake();
         PlayerInit();
         prevYPosition = transform.position.y;
+        playerStatsManager = GetComponent<PlayerStatsManager>();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerInputManager = GetComponent<PlayerInputManager>();
+        playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
         pmsm = new PlayerMovementStateMachine(this);
         pasm = new PlayerActionStateMachine(this);
         CameraManager.instance.AssignCameraToPlayer(this);
@@ -55,13 +61,12 @@ public class PlayerManager : CharacterManager {
     }
 
     protected override void Update() {
-        //Debug.Log(playerInputManager.MovementInput);
-        //if (!isPerformingAction)
-        //HandleGroundCheck();
-        //HandleYVelocity();
         pmsm.GetCurrentState().Stay(this);
         pasm.GetCurrentState().Stay(this);
-        //if (!isPerformingAction)
+        
+        if (playerInputManager.RightWeaponChangeInput) {
+            playerEquipmentManager.ChangeRightHandWeapon();
+        }
 
         float curYPosition = transform.position.y;
         deltaYPosition = curYPosition - prevYPosition;
@@ -71,6 +76,10 @@ public class PlayerManager : CharacterManager {
         }
         prevYPosition = curYPosition;
 
+        if (!consumingStamina && staminaRegenerateTimer < 2f) {
+            staminaRegenerateTimer += Time.deltaTime;
+        }
+        
         float delta = Time.deltaTime;
         CameraManager.instance.FollowTarget(delta);
         CameraManager.instance.HandleCameraRotation(delta, playerInputManager.CameraInput.x, playerInputManager.CameraInput.y);
@@ -84,6 +93,8 @@ public class PlayerManager : CharacterManager {
         playerInputManager.HeavyAttackInput = false;
         playerInputManager.JumpInput = false;
         playerInputManager.RollFlag = false;
+        playerInputManager.RightWeaponChangeInput = false;
+        playerInputManager.LeftWeaponChangeInput = false;
     }
 
     private void PlayerInit() {
@@ -112,5 +123,9 @@ public class PlayerManager : CharacterManager {
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
+    }
+
+    public void M(){
+        Debug.Log("Hi");
     }
 }

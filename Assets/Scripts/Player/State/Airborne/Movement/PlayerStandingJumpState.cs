@@ -6,6 +6,8 @@ public class PlayerStandingJumpState : PlayerAirborneState {
     private float maximumHeight;
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.playerStatsManager.DeductStamina(20f);
+        player.consumingStamina = true;
         player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
         Vector3 playerYVelocity;
         player.isJumping = true;
@@ -23,6 +25,8 @@ public class PlayerStandingJumpState : PlayerAirborneState {
     }
 
     public override void Exit(CharacterManager character) {
+        player.consumingStamina = false;
+        player.staminaRegenerateTimer = 0f;
     }
 
     public override void HandleInput() {

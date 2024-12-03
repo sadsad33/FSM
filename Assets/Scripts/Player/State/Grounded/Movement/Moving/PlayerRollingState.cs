@@ -6,6 +6,8 @@ public class PlayerRollingState : PlayerMovingState {
 
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.playerStatsManager.DeductStamina(25f);
+        player.consumingStamina = true;
         player.isPerformingAction = true;
         player.playerAnimatorManager.PlayAnimation("Rolling", player.isPerformingAction);
         player.isInvulnerable = true;
@@ -18,6 +20,8 @@ public class PlayerRollingState : PlayerMovingState {
 
     public override void Exit(CharacterManager character) {
         player.isInvulnerable = false;
+        player.consumingStamina = false;
+        player.staminaRegenerateTimer = 0f;
     }
 
     public override void HandleInput() {

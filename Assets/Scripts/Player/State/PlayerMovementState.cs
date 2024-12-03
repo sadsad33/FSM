@@ -28,6 +28,8 @@ public class PlayerMovementState : IState {
     }
 
     public virtual void Stay(CharacterManager character) {
+        if (!player.consumingStamina && player.staminaRegenerateTimer >= 2f)
+            player.playerStatsManager.RegenerateStamina(0.15f);
         if (sprintInputDelaySet) {
             sprintInputDelay += Time.deltaTime;
             if (sprintInputDelay < 0.15f) {
@@ -37,14 +39,11 @@ public class PlayerMovementState : IState {
                 sprintInputDelay = 0f;
             }
         }
-        //Debug.Log("Delta : " + delta);
-        //Debug.Log("SprintInputTimer Traker : " + player.playerInputManager.SprintInputTimer);
-        //Debug.Log(player.playerInputManager.SprintInputTimer);
+ 
         HandleYVelocity();
         HandleGroundCheck();
         if (player.isPerformingAction) return;
         HandleInput();
-        //Debug.Log("Movement State Stay ÀÇ MoveDirection : " + moveDirection);
     }
 
     public virtual void Exit(CharacterManager character) {

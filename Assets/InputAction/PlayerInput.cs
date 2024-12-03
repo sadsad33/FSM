@@ -172,6 +172,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightWeaponChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""646e5394-d8c6-4506-a170-1bd0d80a229f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftWeaponChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca3f84c9-0c29-48c3-ac99-3937570b934b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -240,6 +258,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""HeavyAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b0179e5-f044-4fc3-9a64-7deb9be59bfb"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightWeaponChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b15d00c2-0719-42a9-8b3d-f37702cd76bb"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftWeaponChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -258,6 +298,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerActions_Slide = m_PlayerActions.FindAction("Slide", throwIfNotFound: true);
         m_PlayerActions_LightAttack = m_PlayerActions.FindAction("LightAttack", throwIfNotFound: true);
         m_PlayerActions_HeavyAttack = m_PlayerActions.FindAction("HeavyAttack", throwIfNotFound: true);
+        m_PlayerActions_RightWeaponChange = m_PlayerActions.FindAction("RightWeaponChange", throwIfNotFound: true);
+        m_PlayerActions_LeftWeaponChange = m_PlayerActions.FindAction("LeftWeaponChange", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -379,6 +421,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Slide;
     private readonly InputAction m_PlayerActions_LightAttack;
     private readonly InputAction m_PlayerActions_HeavyAttack;
+    private readonly InputAction m_PlayerActions_RightWeaponChange;
+    private readonly InputAction m_PlayerActions_LeftWeaponChange;
     public struct PlayerActionsActions
     {
         private @PlayerInput m_Wrapper;
@@ -389,6 +433,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Slide => m_Wrapper.m_PlayerActions_Slide;
         public InputAction @LightAttack => m_Wrapper.m_PlayerActions_LightAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_PlayerActions_HeavyAttack;
+        public InputAction @RightWeaponChange => m_Wrapper.m_PlayerActions_RightWeaponChange;
+        public InputAction @LeftWeaponChange => m_Wrapper.m_PlayerActions_LeftWeaponChange;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -416,6 +462,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @HeavyAttack.started += instance.OnHeavyAttack;
             @HeavyAttack.performed += instance.OnHeavyAttack;
             @HeavyAttack.canceled += instance.OnHeavyAttack;
+            @RightWeaponChange.started += instance.OnRightWeaponChange;
+            @RightWeaponChange.performed += instance.OnRightWeaponChange;
+            @RightWeaponChange.canceled += instance.OnRightWeaponChange;
+            @LeftWeaponChange.started += instance.OnLeftWeaponChange;
+            @LeftWeaponChange.performed += instance.OnLeftWeaponChange;
+            @LeftWeaponChange.canceled += instance.OnLeftWeaponChange;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -438,6 +490,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @HeavyAttack.started -= instance.OnHeavyAttack;
             @HeavyAttack.performed -= instance.OnHeavyAttack;
             @HeavyAttack.canceled -= instance.OnHeavyAttack;
+            @RightWeaponChange.started -= instance.OnRightWeaponChange;
+            @RightWeaponChange.performed -= instance.OnRightWeaponChange;
+            @RightWeaponChange.canceled -= instance.OnRightWeaponChange;
+            @LeftWeaponChange.started -= instance.OnLeftWeaponChange;
+            @LeftWeaponChange.performed -= instance.OnLeftWeaponChange;
+            @LeftWeaponChange.canceled -= instance.OnLeftWeaponChange;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -468,5 +526,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnSlide(InputAction.CallbackContext context);
         void OnLightAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);
+        void OnRightWeaponChange(InputAction.CallbackContext context);
+        void OnLeftWeaponChange(InputAction.CallbackContext context);
     }
 }

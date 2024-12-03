@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRunningActionIdlingState : PlayerGroundedActionIdlingState
+public class PlayerSprintingActionIdlingState : PlayerGroundedActionIdlingState
 {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
@@ -18,7 +18,8 @@ public class PlayerRunningActionIdlingState : PlayerGroundedActionIdlingState
 
     public override void HandleInput() {
         base.HandleInput();
-        if (player.playerInputManager.LightAttackInput)
+        if (player.playerStatsManager.currentStamina <= 10f) return;
+        else if (player.playerInputManager.LightAttackInput)
             player.pasm.ChangeState(player.pasm.runningAttackState);
     }
 }

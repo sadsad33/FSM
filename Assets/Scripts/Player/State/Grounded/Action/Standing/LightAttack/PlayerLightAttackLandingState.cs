@@ -6,6 +6,8 @@ public class PlayerLightAttackLandingState : PlayerActionState
 {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.playerStatsManager.DeductStamina(15f);
+        player.consumingStamina = true;
         player.isPerformingAction = true;
         player.playerAnimatorManager.PlayAnimation("Light Attack Landing", player.isPerformingAction);
     }
@@ -15,7 +17,8 @@ public class PlayerLightAttackLandingState : PlayerActionState
     }
 
     public override void Exit(CharacterManager character) {
-        base.Exit(character);
+        player.consumingStamina = false;
+        player.staminaRegenerateTimer = 0f;
     }
 
     public override void HandleInput() {

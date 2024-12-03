@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerOneHandSwordFinalAttackState : PlayerActionState
+public class PlayerOneHandSwordHeavyAttackComboState : PlayerActionState
 {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
-        player.playerStatsManager.DeductStamina(20f);
+        player.playerStatsManager.DeductStamina(30f);
         player.consumingStamina = true;
         player.canDoComboAttack = false;
         player.isPerformingAction = true;
-        player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack3", player.isPerformingAction);
+        player.playerAnimatorManager.PlayAnimation("OH_Sword_HeavyAttack2", player.isPerformingAction);
     }
 
     public override void Stay(CharacterManager character) {
@@ -19,6 +19,7 @@ public class PlayerOneHandSwordFinalAttackState : PlayerActionState
     }
 
     public override void Exit(CharacterManager character) {
+        player.isPerformingAction = false;
         player.consumingStamina = false;
         player.staminaRegenerateTimer = 0f;
     }

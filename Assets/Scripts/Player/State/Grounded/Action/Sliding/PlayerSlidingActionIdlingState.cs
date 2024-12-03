@@ -18,7 +18,8 @@ public class PlayerSlidingActionIdlingState : PlayerGroundedActionIdlingState
 
     public override void HandleInput() {
         base.HandleInput();
-        if (player.canAttackDuringAction && player.playerInputManager.LightAttackInput)
+        if (player.playerStatsManager.currentStamina <= 10f) return;
+        else if (player.canAttackDuringAction && player.playerInputManager.LightAttackInput)
             player.pasm.ChangeState(player.pasm.slidingAttackState);
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerOneHandSwordComboAttackState : PlayerActionState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.playerStatsManager.DeductStamina(20f);
+        player.consumingStamina = true;
         player.canDoComboAttack = false;
         player.isPerformingAction = true;
         player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack2", player.isPerformingAction);
@@ -17,7 +19,8 @@ public class PlayerOneHandSwordComboAttackState : PlayerActionState {
     }
 
     public override void Exit(CharacterManager character) {
-        base.Exit(character);
+        player.consumingStamina = false;
+        player.staminaRegenerateTimer = 0f;
     }
 
     public override void HandleInput() {
@@ -28,8 +31,12 @@ public class PlayerOneHandSwordComboAttackState : PlayerActionState {
     }
 
     private void HandleComboAttack() {
-        if (player.canDoComboAttack && player.playerInputManager.LightAttackInput)
-            player.pasm.ChangeState(player.pasm.oneHandSwordFinalAttackState);
+        if (player.canDoComboAttack && player.playerStatsManager.currentStamina >= 10f) {
+            if (player.playerInputManager.LightAttackInput)
+                player.pasm.ChangeState(player.pasm.oneHandSwordFinalAttackState);
+            else if (player.playerInputManager.HeavyAttackInput)
+                player.pasm.ChangeState(player.pasm.oneHandSwordHeavyAttackComboState);
+        }
     }
 
     private void HandleRotation() {

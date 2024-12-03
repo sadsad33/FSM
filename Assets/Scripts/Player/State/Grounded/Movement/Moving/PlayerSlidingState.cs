@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerSlidingState : PlayerMovingState {
     public override void Enter(CharacterManager character) {
         base.Enter(character);
+        player.playerStatsManager.DeductStamina(25f);
+        player.consumingStamina = true;
         moveSpeedModifier = 2f;
         player.pasm.ChangeState(player.pasm.slidingActionIdlingState);
         player.isMoving = true;
@@ -19,6 +21,8 @@ public class PlayerSlidingState : PlayerMovingState {
 
     public override void Exit(CharacterManager character) {
         player.isMoving = false;
+        player.consumingStamina = false;
+        player.staminaRegenerateTimer = 0f;
     }
 
     public override void HandleInput() {

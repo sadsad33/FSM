@@ -21,14 +21,15 @@ public class PlayerGroundedState : PlayerMovementState {
         base.HandleInput();
         //Debug.Log("Grounded State HandleInput ÀÇ MoveDirection : " + moveDirection);
         if (!player.isGrounded) {
-            if (player.InAirTimer >= 0.2f) {
-                player.pmsm.ChangeState(player.pmsm.fallingState);
-                player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
-            }
+            //if (player.InAirTimer >= 0.2f) {
+            player.pmsm.ChangeState(player.pmsm.fallingState);
+            player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
+            //}
         } else {
             if (player.playerInputManager.RollFlag) {
                 if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
-                    player.pmsm.ChangeState(player.pmsm.rollingState);
+                    if (player.playerStatsManager.currentStamina > 0f)
+                        player.pmsm.ChangeState(player.pmsm.rollingState);
                 }
             }
         }

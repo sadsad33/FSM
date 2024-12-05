@@ -7,14 +7,21 @@ public class PlayerUIManager : MonoBehaviour
     public static PlayerUIManager instance;
     public PlayerManager player;
 
-    private Stack uiStack;
+    private Stack<GameObject> uiStack;
     public GameObject hudUI;
     public HealthBar healthBar;
     public StaminaBar staminaBar;
+    public GameObject menuSelectionUI;
+    public GameObject inventoryUI;
+    public GameObject equipmentUI;
+    public GameObject interactionPopUp;
+    public GameObject itemPopUp;
 
+    public InventoryWindow inventoryWindow;
     private void Awake() {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+        uiStack = new Stack<GameObject>();
     }
 
     private void Start() {
@@ -22,14 +29,53 @@ public class PlayerUIManager : MonoBehaviour
         healthBar = hudUI.transform.GetChild(0).GetComponent<HealthBar>();
         staminaBar = hudUI.transform.GetChild(1).GetComponent<StaminaBar>();
 
+        menuSelectionUI = transform.GetChild(0).GetChild(1).gameObject;
+        inventoryUI = transform.GetChild(0).GetChild(2).gameObject;
+        equipmentUI = transform.GetChild(0).GetChild(3).gameObject;
+
+        interactionPopUp = transform.GetChild(0).GetChild(4).gameObject;
+        itemPopUp = transform.GetChild(0).GetChild(5).gameObject;
+
         healthBar.slider.maxValue = player.playerStatsManager.maxHealth;
         healthBar.slider.value = healthBar.slider.maxValue;
         staminaBar.slider.maxValue = player.playerStatsManager.maxStamina;
         staminaBar.slider.value = staminaBar.slider.maxValue;
+
+        uiStack.Push(hudUI);
     }
 
-    private void Update() {
-        healthBar.UpdateHealthBar(player.playerStatsManager.currentHealth);
-        staminaBar.UpdateStaminaBar(player.playerStatsManager.currentStamina);
+    public void HandleESCInput() {
+        if (uiStack.Peek() == hudUI) {
+            OpenMenuSelectionWindow();
+        } else {
+            CloseWindow();
+        }
+    }
+
+    public void OpenMenuSelectionWindow() {
+        uiStack.Push(menuSelectionUI);
+        menuSelectionUI.SetActive(true);
+    }
+
+    // 버튼 클릭 이벤트
+    public void OpenSelectedWindow(float uiID) {
+        uiStack.Peek().SetActive(false);
+        switch (uiID) {
+            case 0:
+                uiStack.Push(inventoryUI);
+                inventoryUI.SetActive(true);
+                break;
+            case 1:
+                uiStack.Push(equipmentUI);
+                equipmentUI.SetActive(true);
+                break;
+        }
+    }
+
+    public void CloseWindow() {
+        GameObject currentWindow = uiStack.Peek();
+        uiStack.Pop();
+        currentWindow.SetActive(false);
+        if (uiStack.Peek() != hudUI) uiStack.Peek().SetActive(true);
     }
 }

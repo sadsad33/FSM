@@ -8,6 +8,7 @@ public class PlayerManager : CharacterManager {
     public PlayerMovementStateMachine pmsm;
     public PlayerActionStateMachine pasm;
     public PlayerStatsManager playerStatsManager;
+    public PlayerInventoryManager playerInventoryManager;
     public PlayerEquipmentManager playerEquipmentManager;
     #region Ariborne
     public float InAirTimer { get; set; }
@@ -49,6 +50,7 @@ public class PlayerManager : CharacterManager {
         playerStatsManager = GetComponent<PlayerStatsManager>();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerInputManager = GetComponent<PlayerInputManager>();
+        playerInventoryManager = GetComponent<PlayerInventoryManager>();
         playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
         pmsm = new PlayerMovementStateMachine(this);
         pasm = new PlayerActionStateMachine(this);
@@ -61,11 +63,18 @@ public class PlayerManager : CharacterManager {
     }
 
     protected override void Update() {
+        PlayerUIManager.instance.healthBar.UpdateHealthBar(playerStatsManager.currentHealth);
+        PlayerUIManager.instance.staminaBar.UpdateStaminaBar(playerStatsManager.currentStamina);
+
         pmsm.GetCurrentState().Stay(this);
         pasm.GetCurrentState().Stay(this);
         
         if (playerInputManager.RightWeaponChangeInput) {
             playerEquipmentManager.ChangeRightHandWeapon();
+        }
+
+        if (playerInputManager.MenuSelectionInput) {
+            PlayerUIManager.instance.HandleESCInput();
         }
 
         float curYPosition = transform.position.y;
@@ -95,6 +104,7 @@ public class PlayerManager : CharacterManager {
         playerInputManager.RollFlag = false;
         playerInputManager.RightWeaponChangeInput = false;
         playerInputManager.LeftWeaponChangeInput = false;
+        playerInputManager.MenuSelectionInput = false;
     }
 
     private void PlayerInit() {
@@ -123,9 +133,5 @@ public class PlayerManager : CharacterManager {
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
-    }
-
-    public void M(){
-        Debug.Log("Hi");
     }
 }

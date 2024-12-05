@@ -17,8 +17,8 @@ public class PlayerInputManager : MonoBehaviour {
     public bool HeavyAttackInput { get; set; }
     public bool RightWeaponChangeInput { get; set; }
     public bool LeftWeaponChangeInput { get; set; }
-
-
+    public bool MenuSelectionInput { get; set; }
+    
     private void Awake() {
         if (PlayerInput == null)
             PlayerInput = new PlayerInput();
@@ -44,6 +44,9 @@ public class PlayerInputManager : MonoBehaviour {
 
         PlayerInput.PlayerActions.RightWeaponChange.performed += i => RightWeaponChangeInput = true;
         PlayerInput.PlayerActions.LeftWeaponChange.performed += i => LeftWeaponChangeInput = true;
+
+        PlayerInput.PlayerActions.MenuSelection.performed += i => MenuSelectionInput = true;
+
         PlayerInput.Enable();
     }
 

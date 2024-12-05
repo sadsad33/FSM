@@ -190,6 +190,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuSelection"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c38d0ec-a11f-4ab5-a812-f6e805f028f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -280,6 +289,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""LeftWeaponChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fa5d5a3-d533-4194-9eb8-942ab1398cfb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -300,6 +320,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerActions_HeavyAttack = m_PlayerActions.FindAction("HeavyAttack", throwIfNotFound: true);
         m_PlayerActions_RightWeaponChange = m_PlayerActions.FindAction("RightWeaponChange", throwIfNotFound: true);
         m_PlayerActions_LeftWeaponChange = m_PlayerActions.FindAction("LeftWeaponChange", throwIfNotFound: true);
+        m_PlayerActions_MenuSelection = m_PlayerActions.FindAction("MenuSelection", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -423,6 +444,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_HeavyAttack;
     private readonly InputAction m_PlayerActions_RightWeaponChange;
     private readonly InputAction m_PlayerActions_LeftWeaponChange;
+    private readonly InputAction m_PlayerActions_MenuSelection;
     public struct PlayerActionsActions
     {
         private @PlayerInput m_Wrapper;
@@ -435,6 +457,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_PlayerActions_HeavyAttack;
         public InputAction @RightWeaponChange => m_Wrapper.m_PlayerActions_RightWeaponChange;
         public InputAction @LeftWeaponChange => m_Wrapper.m_PlayerActions_LeftWeaponChange;
+        public InputAction @MenuSelection => m_Wrapper.m_PlayerActions_MenuSelection;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,6 +491,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @LeftWeaponChange.started += instance.OnLeftWeaponChange;
             @LeftWeaponChange.performed += instance.OnLeftWeaponChange;
             @LeftWeaponChange.canceled += instance.OnLeftWeaponChange;
+            @MenuSelection.started += instance.OnMenuSelection;
+            @MenuSelection.performed += instance.OnMenuSelection;
+            @MenuSelection.canceled += instance.OnMenuSelection;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -496,6 +522,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @LeftWeaponChange.started -= instance.OnLeftWeaponChange;
             @LeftWeaponChange.performed -= instance.OnLeftWeaponChange;
             @LeftWeaponChange.canceled -= instance.OnLeftWeaponChange;
+            @MenuSelection.started -= instance.OnMenuSelection;
+            @MenuSelection.performed -= instance.OnMenuSelection;
+            @MenuSelection.canceled -= instance.OnMenuSelection;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -528,5 +557,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnRightWeaponChange(InputAction.CallbackContext context);
         void OnLeftWeaponChange(InputAction.CallbackContext context);
+        void OnMenuSelection(InputAction.CallbackContext context);
     }
 }

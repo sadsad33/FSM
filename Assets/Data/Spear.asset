@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 069b2256d02a6844bac023f0b3e4286b, type: 3}
+  m_Script: {fileID: 11500000, guid: e748017b607f33443837bf8e7b50b0b0, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 21300000, guid: 228e21ce21775d344ae131496ee75a34, type: 3}
-  itemModel: {fileID: 7497028219746458122, guid: 5381609e953a4f7428e92a46f50947ef, type: 3}
-  itemName: "\uCC3D"
+  itemIcon: {fileID: 21300000, guid: 8eb02d2df8b89fc4ebbf2c8b6ab52300, type: 3}
+  itemModel: {fileID: 7497028219746458122, guid: d13b0db9585c074498bbd231cef01bcf, type: 3}
+  itemName: 
   flavorText: 
   damage: 0

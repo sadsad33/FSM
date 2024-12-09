@@ -2,136 +2,138 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : CharacterManager {
-    public PlayerAnimatorManager playerAnimatorManager;
-    public PlayerInputManager playerInputManager;
-    public PlayerMovementStateMachine pmsm;
-    public PlayerActionStateMachine pasm;
-    public PlayerStatsManager playerStatsManager;
-    public PlayerInventoryManager playerInventoryManager;
-    public PlayerEquipmentManager playerEquipmentManager;
-    #region Ariborne
-    public float InAirTimer { get; set; }
-    private float prevYPosition;
-    private float deltaYPosition;
+namespace KBH {
+    public class PlayerManager : CharacterManager {
+        public PlayerAnimatorManager playerAnimatorManager;
+        public PlayerInputManager playerInputManager;
+        public PlayerMovementStateMachine pmsm;
+        public PlayerActionStateMachine pasm;
+        public PlayerStatsManager playerStatsManager;
+        public PlayerInventoryManager playerInventoryManager;
+        public PlayerEquipmentManager playerEquipmentManager;
+        #region Ariborne
+        public float InAirTimer { get; set; }
+        private float prevYPosition;
+        private float deltaYPosition;
 
-    #region Falling
-    public Vector2 groundCheckRaycastStartingPosition = Vector2.zero;
-    public float pushingForceOnEdge;
-    public float bottomGroundCheckRayStartingYPosition;
-    public float bottomGroundCheckRayMaxDistance;
-    public Vector3 YVelocity { get; set; }
-    public float GroundedYVelocity { get; set; }
-    public float GravityForce { get; set; }
-    public float FallStartYVelocity { get; set; }
-    public bool FallingVelocitySet { get; set; }
-    public float GroundCheckSphereRadius { get; set; }
-    #endregion
+        #region Falling
+        public Vector2 groundCheckRaycastStartingPosition = Vector2.zero;
+        public float pushingForceOnEdge;
+        public float bottomGroundCheckRayStartingYPosition;
+        public float bottomGroundCheckRayMaxDistance;
+        public Vector3 YVelocity { get; set; }
+        public float GroundedYVelocity { get; set; }
+        public float GravityForce { get; set; }
+        public float FallStartYVelocity { get; set; }
+        public bool FallingVelocitySet { get; set; }
+        public float GroundCheckSphereRadius { get; set; }
+        #endregion
 
-    #region Jumping
-    public float MaximumJumpHeight { get; set; }
-    public float JumpStartYVelocity { get; set; }
-    public float JumpForce { get; set; }
-    #endregion
+        #region Jumping
+        public float MaximumJumpHeight { get; set; }
+        public float JumpStartYVelocity { get; set; }
+        public float JumpForce { get; set; }
+        #endregion
 
-    #endregion
+        #endregion
 
-    public float RunningStateTimer { get; set; }
+        public float RunningStateTimer { get; set; }
 
-    public LayerMask groundLayer;
+        public LayerMask groundLayer;
 
-    public bool consumingStamina;
-    public float staminaRegenerateTimer;
+        public bool consumingStamina;
+        public float staminaRegenerateTimer;
 
-    protected override void Awake() {
-        base.Awake();
-        PlayerInit();
-        prevYPosition = transform.position.y;
-        playerStatsManager = GetComponent<PlayerStatsManager>();
-        playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
-        playerInputManager = GetComponent<PlayerInputManager>();
-        playerInventoryManager = GetComponent<PlayerInventoryManager>();
-        playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
-        pmsm = new PlayerMovementStateMachine(this);
-        pasm = new PlayerActionStateMachine(this);
-        CameraManager.instance.AssignCameraToPlayer(this);
-    }
-
-    protected override void Start() {
-        pmsm.ChangeState(pmsm.idlingState);
-        pasm.ChangeState(pasm.standingActionIdlingState);
-    }
-
-    protected override void Update() {
-        PlayerUIManager.instance.healthBar.UpdateHealthBar(playerStatsManager.currentHealth);
-        PlayerUIManager.instance.staminaBar.UpdateStaminaBar(playerStatsManager.currentStamina);
-
-        pmsm.GetCurrentState().Stay(this);
-        pasm.GetCurrentState().Stay(this);
-        
-        if (playerInputManager.RightWeaponChangeInput) {
-            playerEquipmentManager.ChangeRightHandWeapon();
+        protected override void Awake() {
+            base.Awake();
+            PlayerInit();
+            prevYPosition = transform.position.y;
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            playerInputManager = GetComponent<PlayerInputManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            pmsm = new PlayerMovementStateMachine(this);
+            pasm = new PlayerActionStateMachine(this);
+            CameraManager.instance.AssignCameraToPlayer(this);
         }
 
-        if (playerInputManager.MenuSelectionInput) {
-            PlayerUIManager.instance.HandleESCInput();
+        protected override void Start() {
+            pmsm.ChangeState(pmsm.idlingState);
+            pasm.ChangeState(pasm.standingActionIdlingState);
         }
 
-        float curYPosition = transform.position.y;
-        deltaYPosition = curYPosition - prevYPosition;
-        if (deltaYPosition <= -0.02) {
-            //Debug.Log("悪薦 開馬");
-            isGrounded = false;
+        protected override void Update() {
+            PlayerUIManager.instance.healthBar.UpdateHealthBar(playerStatsManager.currentHealth);
+            PlayerUIManager.instance.staminaBar.UpdateStaminaBar(playerStatsManager.currentStamina);
+
+            pmsm.GetCurrentState().Stay(this);
+            pasm.GetCurrentState().Stay(this);
+
+            if (playerInputManager.RightWeaponChangeInput) {
+                playerEquipmentManager.ChangeRightHandWeapon();
+            }
+
+            if (playerInputManager.MenuSelectionInput) {
+                PlayerUIManager.instance.HandleESCInput();
+            }
+
+            float curYPosition = transform.position.y;
+            deltaYPosition = curYPosition - prevYPosition;
+            if (deltaYPosition <= -0.02) {
+                //Debug.Log("悪薦 開馬");
+                isGrounded = false;
+            }
+            prevYPosition = curYPosition;
+
+            if (!consumingStamina && staminaRegenerateTimer < 2f) {
+                staminaRegenerateTimer += Time.deltaTime;
+            }
+
+            float delta = Time.deltaTime;
+            CameraManager.instance.FollowTarget(delta);
+            CameraManager.instance.HandleCameraRotation(delta, playerInputManager.CameraInput.x, playerInputManager.CameraInput.y);
         }
-        prevYPosition = curYPosition;
 
-        if (!consumingStamina && staminaRegenerateTimer < 2f) {
-            staminaRegenerateTimer += Time.deltaTime;
+        protected void LateUpdate() {
+            playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
+            playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
+            playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
+            playerInputManager.LightAttackInput = false;
+            playerInputManager.HeavyAttackInput = false;
+            playerInputManager.JumpInput = false;
+            playerInputManager.RollFlag = false;
+            playerInputManager.RightWeaponChangeInput = false;
+            playerInputManager.LeftWeaponChangeInput = false;
+            playerInputManager.MenuSelectionInput = false;
         }
-        
-        float delta = Time.deltaTime;
-        CameraManager.instance.FollowTarget(delta);
-        CameraManager.instance.HandleCameraRotation(delta, playerInputManager.CameraInput.x, playerInputManager.CameraInput.y);
-    }
 
-    protected void LateUpdate() {
-        playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
-        playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
-        playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
-        playerInputManager.LightAttackInput = false;
-        playerInputManager.HeavyAttackInput = false;
-        playerInputManager.JumpInput = false;
-        playerInputManager.RollFlag = false;
-        playerInputManager.RightWeaponChangeInput = false;
-        playerInputManager.LeftWeaponChangeInput = false;
-        playerInputManager.MenuSelectionInput = false;
-    }
+        private void PlayerInit() {
+            InAirTimer = 0f;
+            YVelocity = Vector3.zero;
+            GroundedYVelocity = -10f;
+            GravityForce = -10f;
+            FallStartYVelocity = -1.5f;
+            FallingVelocitySet = false;
+            GroundCheckSphereRadius = 0.3f;
 
-    private void PlayerInit() {
-        InAirTimer = 0f;
-        YVelocity = Vector3.zero;
-        GroundedYVelocity = -10f;
-        GravityForce = -10f;
-        FallStartYVelocity = -1.5f;
-        FallingVelocitySet = false;
-        GroundCheckSphereRadius = 0.3f;
+            MaximumJumpHeight = 1.5f;
+            JumpStartYVelocity = 2.5f;
+            JumpForce = 1f;
+        }
 
-        MaximumJumpHeight = 1.5f;
-        JumpStartYVelocity = 2.5f;
-        JumpForce = 1f;
-    }
-
-    private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.green;
-        //Gizmos.DrawSphere(transform.position, GroundCheckSphereRadius);
-        Gizmos.DrawRay(transform.position + (Vector3.up * bottomGroundCheckRayStartingYPosition), -transform.up * bottomGroundCheckRayMaxDistance);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.forward * groundCheckRaycastStartingPosition.x);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.forward * groundCheckRaycastStartingPosition.x);
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.green;
+            //Gizmos.DrawSphere(transform.position, GroundCheckSphereRadius);
+            Gizmos.DrawRay(transform.position + (Vector3.up * bottomGroundCheckRayStartingYPosition), -transform.up * bottomGroundCheckRayMaxDistance);
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.forward * groundCheckRaycastStartingPosition.x);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.forward * groundCheckRaycastStartingPosition.x);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
+        }
     }
 }

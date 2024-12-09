@@ -2,34 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerMovementState {
-    public override void Enter(CharacterManager character) {
-        base.Enter(character);
-        player.InAirTimer = 0f;
-    }
+namespace KBH {
+    public class PlayerGroundedState : PlayerMovementState {
+        public override void Enter(CharacterManager character) {
+            base.Enter(character);
+            player.InAirTimer = 0f;
+        }
 
-    public override void Stay(CharacterManager character) {
-        base.Stay(character);
-        //Debug.Log("Grounded State Stay 의 MoveDirection : " + moveDirection);
-    }
+        public override void Stay(CharacterManager character) {
+            base.Stay(character);
+            //Debug.Log("Grounded State Stay 의 MoveDirection : " + moveDirection);
+        }
 
-    public override void Exit(CharacterManager character) {
+        public override void Exit(CharacterManager character) {
 
-    }
+        }
 
-    public override void HandleInput() {
-        base.HandleInput();
-        //Debug.Log("Grounded State HandleInput 의 MoveDirection : " + moveDirection);
-        if (!player.isGrounded) {
-            //if (player.InAirTimer >= 0.2f) {
-            player.pmsm.ChangeState(player.pmsm.fallingState);
-            player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
-            //}
-        } else {
-            if (player.playerInputManager.RollFlag) {
-                if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
-                    if (player.playerStatsManager.currentStamina > 0f)
-                        player.pmsm.ChangeState(player.pmsm.rollingState);
+        public override void HandleInput() {
+            base.HandleInput();
+            //Debug.Log("Grounded State HandleInput 의 MoveDirection : " + moveDirection);
+            if (!player.isGrounded) {
+                //if (player.InAirTimer >= 0.2f) {
+                player.pmsm.ChangeState(player.pmsm.fallingState);
+                player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
+                //}
+            }
+            else {
+                if (player.playerInputManager.RollFlag) {
+                    if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
+                        if (player.playerStatsManager.currentStamina > 0f)
+                            player.pmsm.ChangeState(player.pmsm.rollingState);
+                    }
                 }
             }
         }

@@ -16,13 +16,24 @@ namespace KBH {
             inventoryPage = transform.GetChild(0).GetChild(1).gameObject;
 
             PlayerUIManager.instance.inventoryWindow = this;
-            if (PlayerUIManager.instance.player.playerInventoryManager.playerInventorySlots.Count >= PlayerUIManager.instance.inventoryWindow.itemSlots.Count) {
-                PlayerUIManager.instance.inventoryWindow.AddItemSlot();
+            if (PlayerUIManager.instance.player.playerInventoryManager.GetPlayerInventorySlotsCount() >= PlayerUIManager.instance.inventoryWindow.itemSlots.Count) {
+                PlayerUIManager.instance.inventoryWindow.InstantiateItemSlot();
             }
+            UpdateItemSlots();
         }
 
-        public void AddItemSlot() {
+        public void InstantiateItemSlot() {
             itemSlots.Add(Instantiate(itemSlotModel, inventoryPage.transform));
+        }   
+
+        public void UpdateItemSlots() {
+            for (int i = 0; i < PlayerUIManager.instance.player.playerInventoryManager.GetPlayerInventorySlotsCount(); i++) {
+                if (PlayerUIManager.instance.player.playerInventoryManager.GetItemFromPlayerInventorySlots(i) != null) {
+                    ItemSlot itemSlot = itemSlots[i].GetComponent<ItemSlot>();
+                    Item currentItem = PlayerUIManager.instance.player.playerInventoryManager.GetItemFromPlayerInventorySlots(i);
+                    itemSlot.AddItem(currentItem);
+                }
+            }
         }
     }
 }

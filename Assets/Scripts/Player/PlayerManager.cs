@@ -11,6 +11,7 @@ namespace KBH {
         public PlayerStatsManager playerStatsManager;
         public PlayerInventoryManager playerInventoryManager;
         public PlayerEquipmentManager playerEquipmentManager;
+        public PlayerInteractionManager playerInteractionManager;
         #region Ariborne
         public float InAirTimer { get; set; }
         private float prevYPosition;
@@ -53,6 +54,7 @@ namespace KBH {
             playerInputManager = GetComponent<PlayerInputManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            playerInteractionManager = GetComponentInChildren<PlayerInteractionManager>();
             pmsm = new PlayerMovementStateMachine(this);
             pasm = new PlayerActionStateMachine(this);
             CameraManager.instance.AssignCameraToPlayer(this);
@@ -64,11 +66,12 @@ namespace KBH {
         }
 
         protected override void Update() {
-            PlayerUIManager.instance.healthBar.UpdateHealthBar(playerStatsManager.currentHealth);
-            PlayerUIManager.instance.staminaBar.UpdateStaminaBar(playerStatsManager.currentStamina);
-
             pmsm.GetCurrentState().Stay(this);
             pasm.GetCurrentState().Stay(this);
+
+            if (playerInputManager.InteractionInput) {
+                playerInteractionManager.HandleInteraction();
+            }
 
             if (playerInputManager.RightWeaponChangeInput) {
                 playerEquipmentManager.ChangeRightHandWeapon();
@@ -106,6 +109,7 @@ namespace KBH {
             playerInputManager.RightWeaponChangeInput = false;
             playerInputManager.LeftWeaponChangeInput = false;
             playerInputManager.MenuSelectionInput = false;
+            playerInputManager.InteractionInput = false;
         }
 
         private void PlayerInit() {

@@ -55,6 +55,12 @@ namespace KBH {
             uiStack.Push(hudUI);
         }
 
+        private void Update() {
+            healthBar.UpdateHealthBar(player.playerStatsManager.currentHealth);
+            instance.staminaBar.UpdateStaminaBar(player.playerStatsManager.currentStamina);
+            
+        }
+
         public void HandleESCInput() {
             if (uiStack.Peek() == hudUI) {
                 OpenMenuSelectionWindow();

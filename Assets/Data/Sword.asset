@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e748017b607f33443837bf8e7b50b0b0, type: 3}
+  m_Script: {fileID: 11500000, guid: a409401b09a11534d9406da0318ea3a1, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 21300000, guid: c8e4994ddc5b8684ba3ef605864c27f6, type: 3}
-  itemModel: {fileID: 3126966637286013739, guid: 8009c5684ad9b744ba89c1a8ef59d060, type: 3}
-  itemName: 
+  itemIcon: {fileID: 21300000, guid: 644908eadd1eeba458ce878a1239f270, type: 3}
+  itemModel: {fileID: 3126966637286013739, guid: 908e6b8e45f276c4c98ccec564d3455c, type: 3}
+  itemName: "\uB871\uC18C\uB4DC"
   flavorText: 
   damage: 0

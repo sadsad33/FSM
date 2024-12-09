@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e748017b607f33443837bf8e7b50b0b0, type: 3}
+  m_Script: {fileID: 11500000, guid: a409401b09a11534d9406da0318ea3a1, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 21300000, guid: b5478320a4ad11542a76fe1cc5d77c37, type: 3}
-  itemModel: {fileID: 6185253202465644732, guid: 3b00c7e1ea3b716428f85342d86ccdac, type: 3}
-  itemName: 
+  itemIcon: {fileID: 21300000, guid: 40e3505e88700ea4fa235993e8e64acf, type: 3}
+  itemModel: {fileID: 6185253202465644732, guid: 82fb3d10e5d6ee74cb5c229a1f37b9cc, type: 3}
+  itemName: "\uB3C4\uB07C"
   flavorText: 
   damage: 0

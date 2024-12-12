@@ -22,8 +22,7 @@ namespace KBH {
             if (player.playerStatsManager.currentStamina <= 0f) return;
             else if (player.playerInputManager.LightAttackInput) {
                 player.pasm.ChangeState(player.pasm.oneHandSwordFirstAttackState);
-            }
-            else if (player.playerInputManager.HeavyAttackInput) {
+            } else if (player.playerInputManager.HeavyAttackInput) {
                 player.pasm.ChangeState(player.pasm.oneHandSwordHeavyAttackState);
             }
         }

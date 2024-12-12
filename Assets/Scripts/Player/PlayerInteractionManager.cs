@@ -7,13 +7,8 @@ namespace KBH {
         public Collider interactionCollider;
         public Interactable currentInteractable;
 
-        PlayerManager player;
         private void Awake() {
             interactionCollider = GetComponent<Collider>();
-        }
-
-        private void Start() {
-            player = PlayerUIManager.instance.player;
         }
 
         private void OnTriggerStay(Collider other) {
@@ -25,15 +20,20 @@ namespace KBH {
         }
 
         private void OnTriggerExit(Collider other) {
+            currentInteractable = null;
             if (PlayerUIManager.instance.interactionPopUp.activeSelf) {
-                currentInteractable = null;
-                PlayerUIManager.instance.interactionPopUp.SetActive(false);
+                PlayerUIManager.instance.interactionPopUp.SetActive(false); 
             }
         }
 
         public void HandleInteraction() {
-            if (currentInteractable == null) return;
-            Debug.Log("æ∆¿Ã≈€ »πµÊ!");
+            if (currentInteractable == null) {
+                if (PlayerUIManager.instance.interactionPopUp.activeSelf)
+                    PlayerUIManager.instance.interactionPopUp.SetActive(false);
+                if (PlayerUIManager.instance.itemPopUp.activeSelf)
+                    PlayerUIManager.instance.itemPopUp.SetActive(false);
+                return;
+            }
             currentInteractable.Interact();
         }
     }

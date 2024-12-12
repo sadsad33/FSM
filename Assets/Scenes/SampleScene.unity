@@ -5474,8 +5474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSlotModel: {fileID: 5367487501218157872, guid: 48c98890d3bb0f94ea220b00238a15cc, type: 3}
-  inventoryIndex: {fileID: 0}
-  inventoryPage: {fileID: 0}
+  inventoryIndex: {fileID: 445208353}
+  inventoryPage: {fileID: 862556955}
   itemSlots: []
 --- !u!1 &1430678542
 GameObject:
@@ -10304,6 +10304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionMessage: "\uC544\uC774\uD15C\uC744 \uD68D\uB4DD\uD55C\uB2E4"
+  interactionCode: 0
   item: {fileID: 11400000, guid: a135b2550af2d7741a586925768d28a9, type: 2}
 --- !u!135 &1430678547
 SphereCollider:
@@ -11269,7 +11270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763645426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -13, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15363,6 +15364,7 @@ MonoBehaviour:
   playerStatsManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
+  playerInteractionManager: {fileID: 0}
   groundCheckRaycastStartingPosition: {x: 0.35, y: -0.1}
   pushingForceOnEdge: 1
   bottomGroundCheckRayStartingYPosition: 0.25
@@ -15398,7 +15400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthLevel: 10
-  staminaLevel: 10
+  staminaLevel: 10000
   maxHealth: 0
   maxStamina: 0
   currentHealth: 0

@@ -15,6 +15,7 @@ namespace KBH {
         }
 
         public int GetPlayerInventorySlotsCount() {
+            Debug.Log("플레이어 인벤토리 슬롯 수 : " + playerInventorySlots.Count);
             return playerInventorySlots.Count;
         }
 

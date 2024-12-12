@@ -41,7 +41,7 @@ namespace KBH {
         public float RunningStateTimer { get; set; }
 
         public LayerMask groundLayer;
-
+        
         public bool consumingStamina;
         public float staminaRegenerateTimer;
 

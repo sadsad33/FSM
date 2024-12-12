@@ -25,7 +25,6 @@ namespace KBH {
         public Text itemPopUpMessage;
         public Image itemPopUpImage;
 
-        public InventoryWindow inventoryWindow;
         private void Awake() {
             if (instance == null) instance = this;
             else Destroy(gameObject);
@@ -42,8 +41,9 @@ namespace KBH {
             interactionPopUpMessage = interactionPopUp.transform.GetChild(0).GetComponent<Text>();
 
             itemPopUp = transform.GetChild(0).GetChild(5).gameObject;
-            itemPopUpMessage = transform.GetChild(0).GetComponent<Text>();
+            itemPopUpMessage = itemPopUp.transform.GetChild(0).GetComponent<Text>();
             itemPopUpImage = itemPopUp.transform.GetChild(1).GetChild(0).GetComponent<Image>();
+
         }
 
         private void Start() {
@@ -58,14 +58,12 @@ namespace KBH {
         private void Update() {
             healthBar.UpdateHealthBar(player.playerStatsManager.currentHealth);
             instance.staminaBar.UpdateStaminaBar(player.playerStatsManager.currentStamina);
-            
         }
 
         public void HandleESCInput() {
             if (uiStack.Peek() == hudUI) {
                 OpenMenuSelectionWindow();
-            }
-            else {
+            } else {
                 CloseWindow();
             }
         }

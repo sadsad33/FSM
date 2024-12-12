@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour {
-    public string interactionMessage;
+namespace KBH {
+    public class Interactable : MonoBehaviour {
+        public string interactionMessage;
+        public InteractionCode interactionCode;
+        public virtual void Interact() {
 
-    public virtual void Interact() {
-
+        }
     }
 }

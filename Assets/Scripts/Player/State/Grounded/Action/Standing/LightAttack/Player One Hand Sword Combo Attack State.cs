@@ -10,6 +10,7 @@ namespace KBH {
             player.consumingStamina = true;
             player.canDoComboAttack = false;
             player.isPerformingAction = true;
+            player.isAttacking = true;
             player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack2", player.isPerformingAction);
         }
 
@@ -22,6 +23,7 @@ namespace KBH {
         public override void Exit(CharacterManager character) {
             player.consumingStamina = false;
             player.staminaRegenerateTimer = 0f;
+            player.isAttacking = false;
         }
 
         public override void HandleInput() {

@@ -31,7 +31,7 @@ namespace KBH {
             //if (!player.isPerformingAction)
             if (!player.isMoving) {
                 player.pmsm.ChangeState(player.pmsm.idlingState);
-                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+                //player.pasm.ChangeState(player.pasm.standingActionIdlingState);
             }
         }
     }

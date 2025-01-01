@@ -17,27 +17,27 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            player.cc.Move(Vector3.zero);
+            if (player.cc.enabled)
+                player.cc.Move(Vector3.zero);
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
             //HandleMovement();
         }
 
         public override void Exit(CharacterManager character) {
+            
         }
 
         public override void HandleInput() {
             base.HandleInput();
             if (player.playerInputManager.CrouchInput) {
+                player.pmsm.standToCrouchState.tr = player.transform.position;
                 player.pmsm.ChangeState(player.pmsm.standToCrouchState);
-            }
-            else if (player.playerInputManager.JumpInput) {
+            } else if (player.playerInputManager.JumpInput) {
                 player.pmsm.ChangeState(player.pmsm.standingJumpState);
-            }
-            else if (moveAmount > 0f) {
+            } else if (moveAmount > 0f) {
                 if (player.playerInputManager.WalkInput) {
                     player.pmsm.ChangeState(player.pmsm.walkingState);
-                }
-                else {
+                } else {
                     player.pmsm.ChangeState(player.pmsm.runningState);
                 }
             }
@@ -50,7 +50,8 @@ namespace KBH {
             moveDirection *= speed;
             if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
                 PlayerMaximumVelocity = moveDirection;
-            player.cc.Move(moveDirection * speed);
+            if (player.cc.enabled)
+                player.cc.Move(moveDirection * speed);
         }
     }
 }

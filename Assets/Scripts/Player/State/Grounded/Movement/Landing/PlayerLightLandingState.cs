@@ -12,7 +12,8 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            //if (moveAmount > 0) player.isPerformingAction = false;
+            if (!player.isAttacking)
+                if (moveAmount > 0 || player.isMoving) player.isPerformingAction = false;
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
@@ -21,7 +22,8 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            player.pmsm.ChangeState(player.pmsm.idlingState);
+            if (!player.isPerformingAction)
+                player.pmsm.ChangeState(player.pmsm.idlingState);
         }
     }
 }

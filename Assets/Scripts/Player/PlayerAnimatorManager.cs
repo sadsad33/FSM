@@ -5,6 +5,7 @@ using UnityEngine;
 namespace KBH {
     public class PlayerAnimatorManager : CharacterAnimatorManager {
         public PlayerManager player;
+        
         protected override void Awake() {
             base.Awake();
             player = GetComponent<PlayerManager>();

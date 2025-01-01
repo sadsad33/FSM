@@ -43,7 +43,8 @@ namespace KBH {
                 Vector3 tempVelocity = player.YVelocity;
                 tempVelocity.y += player.JumpForce * Time.deltaTime;
                 player.YVelocity = tempVelocity;
-                player.cc.Move(player.YVelocity * Time.deltaTime);
+                if (player.cc.enabled)
+                    player.cc.Move(player.YVelocity * Time.deltaTime);
             }
         }
     }

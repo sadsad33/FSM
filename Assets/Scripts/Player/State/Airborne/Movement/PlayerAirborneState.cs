@@ -39,6 +39,7 @@ namespace KBH {
 
         protected override void HandleMovement() {
             base.HandleMovement();
+            if (!player.cc.enabled) return;
             //Debug.Log(MovingDirectionInAir);
             aeroInputDirection = CameraManager.instance.myTransform.forward * verticalInput;
             aeroInputDirection += CameraManager.instance.myTransform.right * horizontalInput;

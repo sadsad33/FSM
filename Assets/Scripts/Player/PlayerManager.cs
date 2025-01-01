@@ -6,12 +6,16 @@ namespace KBH {
     public class PlayerManager : CharacterManager {
         public PlayerAnimatorManager playerAnimatorManager;
         public PlayerInputManager playerInputManager;
+        
         public PlayerMovementStateMachine pmsm;
         public PlayerActionStateMachine pasm;
+        
         public PlayerStatsManager playerStatsManager;
         public PlayerInventoryManager playerInventoryManager;
         public PlayerEquipmentManager playerEquipmentManager;
         public PlayerInteractionManager playerInteractionManager;
+
+        public Transform temp;
         #region Ariborne
         public float InAirTimer { get; set; }
         private float prevYPosition;
@@ -62,17 +66,14 @@ namespace KBH {
 
         protected override void Start() {
             pmsm.ChangeState(pmsm.idlingState);
-            pasm.ChangeState(pasm.standingActionIdlingState);
+            //pasm.ChangeState(pasm.standingActionIdlingState);
         }
 
         protected override void Update() {
+            base.Update();
             pmsm.GetCurrentState().Stay(this);
-            pasm.GetCurrentState().Stay(this);
-
-            if (playerInputManager.InteractionInput) {
-                playerInteractionManager.HandleInteraction();
-            }
-
+            //pasm.GetCurrentState().Stay(this);
+            
             if (playerInputManager.RightWeaponChangeInput) {
                 playerEquipmentManager.ChangeRightHandWeapon();
             }
@@ -81,13 +82,15 @@ namespace KBH {
                 PlayerUIManager.instance.HandleESCInput();
             }
 
-            float curYPosition = transform.position.y;
-            deltaYPosition = curYPosition - prevYPosition;
-            if (deltaYPosition <= -0.02) {
-                //Debug.Log("悪薦 開馬");
-                isGrounded = false;
+            if (!isClimbing) {
+                float curYPosition = transform.position.y;
+                deltaYPosition = curYPosition - prevYPosition;
+                if (deltaYPosition <= -0.02) {
+                    //Debug.Log("悪薦 開馬");
+                    isGrounded = false;
+                }
+                prevYPosition = curYPosition;
             }
-            prevYPosition = curYPosition;
 
             if (!consumingStamina && staminaRegenerateTimer < 2f) {
                 staminaRegenerateTimer += Time.deltaTime;
@@ -96,12 +99,20 @@ namespace KBH {
             float delta = Time.deltaTime;
             CameraManager.instance.FollowTarget(delta);
             CameraManager.instance.HandleCameraRotation(delta, playerInputManager.CameraInput.x, playerInputManager.CameraInput.y);
+
+            if (playerInputManager.DebugInput) {
+                playerAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0.01f, Time.deltaTime);
+                transform.position = Vector3.Slerp(transform.position, temp.position, 5 * Time.deltaTime);
+            }
         }
 
         protected void LateUpdate() {
             playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
+            playerAnimatorManager.animator.SetBool("isAttacking", isAttacking);
             playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
             playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
+            playerAnimatorManager.animator.SetBool("isClimbing", isClimbing);
+            playerAnimatorManager.animator.SetBool("rightFootUp", rightFootUp);
             playerInputManager.LightAttackInput = false;
             playerInputManager.HeavyAttackInput = false;
             playerInputManager.JumpInput = false;

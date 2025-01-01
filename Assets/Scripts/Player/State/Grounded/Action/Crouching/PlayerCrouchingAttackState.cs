@@ -7,6 +7,7 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.isPerformingAction = true;
+            //player.pmsm.ChangeState(player.pmsm.notMovingState);
             player.playerAnimatorManager.PlayAnimation("Crouching Attack", player.isPerformingAction);
         }
 
@@ -16,6 +17,7 @@ namespace KBH {
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
+            //player.pmsm.ChangeState(player.pmsm.idlingState);
         }
 
         public override void HandleInput() {

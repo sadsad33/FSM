@@ -39,13 +39,11 @@ namespace KBH {
             if (player.playerStatsManager.currentStamina <= 0) player.pmsm.ChangeState(player.pmsm.runningState);
             if (moveAmount <= 0f) {
                 player.pmsm.ChangeState(player.pmsm.mediumStoppingState);
-            }
-            else {
+            } else {
                 if (player.playerInputManager.JumpInput) {
                     player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
                     player.pmsm.ChangeState(player.pmsm.runningJumpState);
-                }
-                else if (!player.playerInputManager.SprintInput) {
+                } else if (!player.playerInputManager.SprintInput) {
                     player.pmsm.ChangeState(player.pmsm.runningState);
                 }
             }
@@ -65,7 +63,8 @@ namespace KBH {
             moveDirection *= speed;
             if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
                 PlayerMaximumVelocity = moveDirection;
-            player.cc.Move(moveDirection * Time.deltaTime);
+            if (player.cc.enabled)
+                player.cc.Move(moveDirection * Time.deltaTime);
         }
     }
 }

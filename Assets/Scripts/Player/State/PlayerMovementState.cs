@@ -24,7 +24,7 @@ namespace KBH {
 
         public virtual void Enter(CharacterManager character) {
             player = character as PlayerManager;
-            //Debug.Log("Player Current Movement State : " + GetType());
+            Debug.Log("Player Current Movement State : " + GetType());
             //Debug.Log("Current State moveDirection : " + moveDirection);
         }
 
@@ -35,16 +35,16 @@ namespace KBH {
                 sprintInputDelay += Time.deltaTime;
                 if (sprintInputDelay < 0.15f) {
                     player.playerInputManager.SprintInputTimer = 0f;
-                }
-                else {
+                } else {
                     sprintInputDelaySet = false;
                     sprintInputDelay = 0f;
                 }
             }
 
+            player.pasm.GetCurrentState().Stay(player);
             HandleYVelocity();
             HandleGroundCheck();
-            if (player.isPerformingAction) return;
+            //if (player.isPerformingAction) return;
             HandleInput();
         }
 
@@ -54,64 +54,49 @@ namespace KBH {
 
         bool front = false, back = false, right = false, left = false;
         protected void HandleGroundCheck() {
+            if (player.isClimbing) return;
             Vector3 pushingDirection;
             isBottomGrounded = Physics.Raycast(player.transform.position + (Vector3.up * player.bottomGroundCheckRayStartingYPosition), -player.transform.up, player.bottomGroundCheckRayMaxDistance, player.groundLayer);
             if (isBottomGrounded) {
                 player.isGrounded = true;
                 player.InAirTimer = 0f;
-            }
-            else {
+            } else {
                 pushingDirection = moveDirection;
                 HandleEdgeGroundCheck(pushingDirection);
                 if (front || back || right || left) {
                     player.isGrounded = true;
                     player.InAirTimer = 0f;
-                }
-                else {
+                } else {
                     player.isGrounded = false;
                 }
             }
         }
 
         protected void HandleEdgeGroundCheck(Vector3 pushingDirection) {
-            //if (player.isGrounded) return;
             RaycastHit hit;
             front = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-            //if (front) {
-            //    Debug.Log(hit.transform.gameObject);
-            //}
             back = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-            //if (back) {
-            //    Debug.Log(hit.transform.gameObject);
-            //}
             right = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.right, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-            //if (right) {
-            //    Debug.Log(hit.transform.gameObject);
-            //}
             left = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.right, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-            //if (left) {
-            //    Debug.Log(hit.transform.gameObject);
-            //}
             HandlePushingPlayerOnEdge(pushingDirection);
         }
 
         protected void HandlePushingPlayerOnEdge(Vector3 pushingDirection) {
             //Debug.Log("절벽에서 밀기");
-            //Debug.Log(pushingVelocity);
 
             if (player.isJumping) return;
-            player.cc.Move(((pushingDirection * player.pushingForceOnEdge) + Vector3.down) * Time.deltaTime);
+            if (player.cc.enabled)
+                player.cc.Move(((pushingDirection * player.pushingForceOnEdge) + Vector3.down) * Time.deltaTime);
         }
 
         protected void HandleYVelocity() {
-            if (player.isJumping) return;
+            if (player.isJumping || player.isClimbing) return;
             Vector3 tempYVelocity = player.YVelocity;
             if (player.isGrounded) {
                 player.FallingVelocitySet = false;
                 tempYVelocity.y = player.GroundedYVelocity;
                 player.YVelocity = tempYVelocity;
-            }
-            else {
+            } else {
                 if (!player.FallingVelocitySet) {
                     player.FallingVelocitySet = true;
                     tempYVelocity.y = player.FallStartYVelocity;
@@ -122,22 +107,26 @@ namespace KBH {
                 player.YVelocity = tempYVelocity;
             }
             player.playerAnimatorManager.animator.SetFloat("inAirTimer", player.InAirTimer);
-            player.cc.Move(player.YVelocity * Time.deltaTime);
+            if (player.cc.enabled)
+                player.cc.Move(player.YVelocity * Time.deltaTime);
         }
 
         public virtual void HandleInput() {
             float delta = Time.deltaTime;
+            // 달리기, 질주 상태에서 멈췄을 경우
+            // stopping 상태에서 더이상 아무런 입력이 없으면 애니메이션을 끝까지 재생
+            // 이동입력이 있다면 바로 다시 이동하기 위해 isPerformingAction 이 true 여도 방향키 입력은 받음
+            GetWASDInput(); 
+            if (player.isPerformingAction) return;
             HandleRotation();
             HandleMovement();
             HandleMouseInput();
-            GetWASDInput();
             HandleSprintInput(delta);
             HandleRollInput();
             //Debug.Log("Movement State HandleInput 의 MoveDirection : " + moveDirection);
         }
 
         private void GetWASDInput() {
-            //if (player.isPerformingAction) return;
             verticalInput = player.playerInputManager.MovementInput.y;
             horizontalInput = player.playerInputManager.MovementInput.x;
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
@@ -149,7 +138,6 @@ namespace KBH {
         }
 
         private void HandleSprintInput(float delta) {
-            //if (player.isPerformingAction) return;
             if (player.isJumping) return;
             if (player.playerInputManager.SprintInput) {
                 player.playerInputManager.SprintInputTimer += delta;
@@ -157,16 +145,12 @@ namespace KBH {
         }
 
         private void HandleRollInput() {
-            //if (player.isPerformingAction) return;
             if (player.playerInputManager.SprintInput) {
                 player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.RollFlag = true;
-                //if (player.playerInputManager.SprintInputFalse == null) 
-                //    player.playerInputManager.PlayerInput.PlayerActions.Sprint.canceled += i => player.playerInputManager.SprintInputFalse = Time.deltaTime;
             }
         }
 
         protected virtual void HandleRotation() {
-            //if (player.isPerformingAction) return;
             lookingDirection = CameraManager.instance.cameraTransform.forward * verticalInput;
             lookingDirection += CameraManager.instance.cameraTransform.right * horizontalInput;
             lookingDirection.Normalize();
@@ -179,7 +163,6 @@ namespace KBH {
 
         protected virtual void HandleMovement() {
             if (player.isJumping) return;
-            //if (player.isPerformingAction) return;
             moveDirection = CameraManager.instance.myTransform.forward * verticalInput;
             moveDirection += CameraManager.instance.myTransform.right * horizontalInput;
             moveDirection.Normalize();

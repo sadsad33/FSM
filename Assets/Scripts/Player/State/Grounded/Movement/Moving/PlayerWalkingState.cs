@@ -22,8 +22,10 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.idlingState);
-            else if (player.playerInputManager.CrouchInput && !player.isCrouched) player.pmsm.ChangeState(player.pmsm.standToCrouchState);
-            else if (!player.playerInputManager.WalkInput) {
+            else if (player.playerInputManager.CrouchInput && !player.isCrouched) {
+                player.pmsm.standToCrouchState.tr = player.transform.position;
+                player.pmsm.ChangeState(player.pmsm.standToCrouchState);
+            } else if (!player.playerInputManager.WalkInput) {
                 player.pmsm.ChangeState(player.pmsm.runningState);
             }
         }
@@ -42,7 +44,8 @@ namespace KBH {
             moveDirection *= speed;
             if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
                 PlayerMaximumVelocity = moveDirection;
-            player.cc.Move(moveDirection * Time.deltaTime);
+            if (player.cc.enabled)
+                player.cc.Move(moveDirection * Time.deltaTime);
         }
     }
 }

@@ -38,19 +38,18 @@ namespace KBH {
                     player.pmsm.ChangeState(player.pmsm.lightStoppingState);
                 else
                     player.pmsm.ChangeState(player.pmsm.idlingState);
-            }
-            else {
+            } else if(!player.isPerformingAction){
                 if (player.playerInputManager.JumpInput && player.playerStatsManager.currentStamina > 10f) {
                     player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
                     player.pmsm.ChangeState(player.pmsm.runningJumpState);
-                }
-                else if (player.playerInputManager.CrouchInput) {
+                } else if (player.playerInputManager.CrouchInput) {
                     if (player.canSliding)
                         player.pmsm.ChangeState(player.pmsm.slidingState);
-                    else if (!player.isCrouched)
+                    else if (!player.isCrouched) {
+                        player.pmsm.standToCrouchState.tr = player.transform.position;
                         player.pmsm.ChangeState(player.pmsm.standToCrouchState);
-                }
-                else if (player.playerInputManager.WalkInput) player.pmsm.ChangeState(player.pmsm.walkingState);
+                    }
+                } else if (player.playerInputManager.WalkInput) player.pmsm.ChangeState(player.pmsm.walkingState);
                 else if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f)
                     player.pmsm.ChangeState(player.pmsm.sprintingState);
             }
@@ -75,7 +74,8 @@ namespace KBH {
             //Debug.Log(moveDirection);
             if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
                 PlayerMaximumVelocity = moveDirection;
-            player.cc.Move(moveDirection * Time.deltaTime);
+            if (player.cc.enabled)
+                player.cc.Move(moveDirection * Time.deltaTime);
         }
     }
 }

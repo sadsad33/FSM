@@ -6,7 +6,7 @@ namespace KBH {
     public class PlayerRunningAttackState : PlayerActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            player.pmsm.ChangeState(player.pmsm.idlingState);
+            //player.pmsm.ChangeState(player.pmsm.idlingState);
             player.isAttacking = true;
             player.isPerformingAction = true;
             player.playerAnimatorManager.PlayAnimation("Running Attack", player.isPerformingAction);

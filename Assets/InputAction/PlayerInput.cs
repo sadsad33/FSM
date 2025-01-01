@@ -208,6 +208,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""649478fc-5470-4dec-9772-fdde4524a8be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -320,6 +329,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce9293c5-3f1c-4e33-89d9-226340105ba6"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -342,6 +362,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerActions_LeftWeaponChange = m_PlayerActions.FindAction("LeftWeaponChange", throwIfNotFound: true);
         m_PlayerActions_MenuSelection = m_PlayerActions.FindAction("MenuSelection", throwIfNotFound: true);
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActions_DebugKey = m_PlayerActions.FindAction("DebugKey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -467,6 +488,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_LeftWeaponChange;
     private readonly InputAction m_PlayerActions_MenuSelection;
     private readonly InputAction m_PlayerActions_Interact;
+    private readonly InputAction m_PlayerActions_DebugKey;
     public struct PlayerActionsActions
     {
         private @PlayerInput m_Wrapper;
@@ -481,6 +503,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @LeftWeaponChange => m_Wrapper.m_PlayerActions_LeftWeaponChange;
         public InputAction @MenuSelection => m_Wrapper.m_PlayerActions_MenuSelection;
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
+        public InputAction @DebugKey => m_Wrapper.m_PlayerActions_DebugKey;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -520,6 +543,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @DebugKey.started += instance.OnDebugKey;
+            @DebugKey.performed += instance.OnDebugKey;
+            @DebugKey.canceled += instance.OnDebugKey;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -554,6 +580,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @DebugKey.started -= instance.OnDebugKey;
+            @DebugKey.performed -= instance.OnDebugKey;
+            @DebugKey.canceled -= instance.OnDebugKey;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -588,5 +617,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnLeftWeaponChange(InputAction.CallbackContext context);
         void OnMenuSelection(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnDebugKey(InputAction.CallbackContext context);
     }
 }

@@ -6,7 +6,6 @@ namespace KBH {
     public class PlayerLeftFootUpIdlingState : PlayerClimbingState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-
         }
 
         public override void Stay(CharacterManager character) {
@@ -22,7 +21,6 @@ namespace KBH {
             base.HandleInput();
             if (verticalInput > 0f) {
                 if (player.isOnLadderTopEdge) {
-                    Debug.Log("1");
                     player.playerInteractionManager.pism.ChangeState(player.playerInteractionManager.pism.ladderTopEndInteractionState);
                     player.pmsm.ChangeState(player.pmsm.idlingState);
                 } else player.pmsm.ChangeState(player.pmsm.climbingUpState);

@@ -12,7 +12,7 @@ namespace KBH {
             player.isPerformingAction = true;
             player.playerAnimatorManager.PlayAnimation("Rolling", player.isPerformingAction);
             player.isInvulnerable = true;
-            player.playerInputManager.RollFlag = false;
+            //player.playerInputManager.RollFlag = false;
         }
 
         public override void Stay(CharacterManager character) {
@@ -27,9 +27,9 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            //if (!player.isPerformingAction) {
-            player.pmsm.ChangeState(player.pmsm.idlingState);
-            //}
+            if (!player.isPerformingAction) {
+                player.pmsm.ChangeState(player.pmsm.idlingState);
+            }
         }
     }
 }

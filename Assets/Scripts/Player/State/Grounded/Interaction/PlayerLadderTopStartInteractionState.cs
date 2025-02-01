@@ -7,7 +7,7 @@ namespace KBH {
         Vector3 targetPosition;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            player.playerAnimatorManager.disableOnAnimatorMove = true;
+            //player.playerAnimatorManager.disableOnAnimatorMove = true;
             curInteractable = playerInteraction.currentInteractable;
             player.isClimbing = true;
             player.isPerformingAction = true;
@@ -25,7 +25,7 @@ namespace KBH {
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
-            player.playerAnimatorManager.disableOnAnimatorMove = true;
+            //player.playerAnimatorManager.disableOnAnimatorMove = true;
         }
 
         public override void HandleInput(CharacterManager character) {

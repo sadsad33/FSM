@@ -21,7 +21,6 @@ namespace KBH {
             base.HandleInput();
             if (verticalInput > 0f) {
                 if (player.isOnLadderTopEdge) {
-                    Debug.Log("2");
                     player.playerInteractionManager.pism.ChangeState(player.playerInteractionManager.pism.ladderTopEndInteractionState);
                     player.pmsm.ChangeState(player.pmsm.idlingState);
                 } else player.pmsm.ChangeState(player.pmsm.climbingUpState);

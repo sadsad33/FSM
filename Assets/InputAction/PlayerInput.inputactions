@@ -188,7 +188,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DebugKey",
+                    "name": "UIAction1",
                     "type": "Button",
                     "id": "649478fc-5470-4dec-9772-fdde4524a8be",
                     "expectedControlType": "Button",
@@ -311,11 +311,11 @@
                 {
                     "name": "",
                     "id": "ce9293c5-3f1c-4e33-89d9-226340105ba6",
-                    "path": "<Keyboard>/rightBracket",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "DebugKey",
+                    "action": "UIAction1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

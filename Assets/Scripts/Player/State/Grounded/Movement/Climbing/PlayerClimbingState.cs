@@ -28,6 +28,7 @@ namespace KBH {
             moveDirection = moveDirection.normalized;
             float speed = player.moveSpeed * climbingSpeedModifier;
             moveDirection *= speed;
+            Debug.Log("Moving Dierction : " + moveDirection);
             if (player.cc.enabled)
                 player.cc.Move(moveDirection * Time.deltaTime);
         }

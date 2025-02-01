@@ -11,7 +11,7 @@ namespace KBH {
         protected float moveAmount;
         public virtual void Enter(CharacterManager character) {
             player = character as PlayerManager;
-            Debug.Log("Player Current Action State : " + GetType());
+            //Debug.Log("Player Current Action State : " + GetType());
         }
 
         public virtual void Stay(CharacterManager character) {

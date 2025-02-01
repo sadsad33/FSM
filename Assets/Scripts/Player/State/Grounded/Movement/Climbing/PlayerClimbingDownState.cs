@@ -11,12 +11,13 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
+            //Debug.Log("Climbing Down");
             player.playerAnimatorManager.animator.SetFloat("Vertical", -1f, 0.1f, Time.deltaTime);
         }
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
-            player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+            //player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
         public override void HandleInput() {

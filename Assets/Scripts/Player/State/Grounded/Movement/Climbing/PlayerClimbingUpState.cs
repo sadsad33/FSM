@@ -16,7 +16,7 @@ namespace KBH {
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
-            player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+            //player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
         public override void HandleInput() {

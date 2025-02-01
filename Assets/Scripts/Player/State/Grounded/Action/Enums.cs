@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public enum InteractionCode { NotInteracting, LootItem, PullLever, OpenChest, OpenDoor, ClimbLadder }
+
+    public enum ItemCategory { Consumable_Countless, Consumable_Countable, 
+        Equipment_Weapon_Melee, Equipment_Weapon_Range, Equipment_Weapon_Catalyst,
+        Equipment_Armor_Helmet, Equipment_Armor_ChestArmor, Equipment_Armor_Guntlets, Equipment_Armor_Greaves,
+        Equipment_Accessory_Ring, Equipment_Accessory_Cape
+    };
+    
     public class Enums {
     }
 }

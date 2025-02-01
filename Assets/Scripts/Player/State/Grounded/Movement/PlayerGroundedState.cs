@@ -27,10 +27,10 @@ namespace KBH {
                 player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
                 //}
             }
-            else {
+            else{
                 if (player.playerInputManager.RollFlag) {
                     if (player.playerInputManager.SprintInputTimer > 0f && player.playerInputManager.SprintInputTimer < 0.3f) {
-                        if (player.playerStatsManager.currentStamina > 0f)
+                        if (player.playerStatsManager.currentStamina > 0f && !player.isPerformingAction)
                             player.pmsm.ChangeState(player.pmsm.rollingState);
                     }
                 }

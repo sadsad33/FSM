@@ -27,4 +27,8 @@ public class CharacterStatsManager : MonoBehaviour
         currentStamina = staminaLevel * 10;
         maxStamina = currentStamina;
     }
+
+    public void DeductHealth(float deduct) {
+        currentHealth -= deduct;
+    }
 }

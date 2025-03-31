@@ -11,15 +11,15 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Environment
+  - Entrance
   - Water
   - UI
   - Floor
   - Player
-  - 
-  - 
-  - 
-  - 
+  - UnWalkable
+  - Ladder
+  - Slope
+  - Stair
   - 
   - 
   - 

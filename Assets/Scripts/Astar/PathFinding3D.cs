@@ -19,22 +19,25 @@ public class PathFinding3D : MonoBehaviour {
     IEnumerator FindPath(Vector3 startPos, Vector3 targetPos) {
         //Stopwatch sw = new Stopwatch();
         //sw.Start();
-
+        Debug.Log("경로 탐색 시작");
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
 
         //Debug.Log("시작 노드 : ");
         //Debug.Log("시작 월드 좌표 : " + startPos);
         Node3D startNode = grid.GetNodeFromWorldPoint(startPos);
-        //Debug.Log(startNode.isWalkable);
+        Debug.Log(startNode.isWalkable);
         //Debug.Log("시작 그리드 좌표 : (" + startNode.gridX + " , " + startNode.gridY + " , " + startNode.gridZ + ")");
 
         //Debug.Log("도착 노드 : ");
         //Debug.Log("타겟 월드좌표: " + targetPos);
         Node3D targetNode = grid.GetNodeFromWorldPoint(targetPos);
-        //Debug.Log(targetNode.isWalkable);
+        Debug.Log(targetNode.isWalkable);
         //Debug.Log("타겟 그리드 좌표 : (" + targetNode.gridX + ", " + targetNode.gridY + " , " + targetNode.gridZ + ")");
-        
+        //if (!startNode.isWalkable) {
+        //    FindNearestWalkableNode(ref startNode);
+        //}
+
         if (startNode.isWalkable && targetNode.isWalkable) {
             Heap<Node3D> openList = new Heap<Node3D>(grid.MaxSize);
             HashSet<Node3D> closedList = new HashSet<Node3D>();
@@ -50,7 +53,7 @@ public class PathFinding3D : MonoBehaviour {
                     pathSuccess = true;
                     break;
                 }
-                
+
                 foreach (Node3D neighbour in grid.GetNeighbours(currentNode)) {
                     if (!neighbour.isWalkable || closedList.Contains(neighbour)) continue;
 
@@ -68,12 +71,21 @@ public class PathFinding3D : MonoBehaviour {
         yield return null;
         if (pathSuccess) {
             waypoints = RetracePath(startNode, targetNode);
-            //Debug.Log("경로 길이 : " + waypoints.Length);
+            Debug.Log("경로 길이 : " + waypoints.Length);
         }
         //Debug.Log(waypoints);
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 
+    //void FindNearestWalkableNode(ref Node3D node) {
+    //    foreach (Node3D neighbour in grid.GetNeighbours(node)) {
+    //        if (!neighbour.isWalkable) continue;
+
+
+    //    }
+    //}
+
+    Vector3[] gizmoPoints;
     Vector3[] RetracePath(Node3D startNode, Node3D endNode) {
         List<Node3D> path = new List<Node3D>();
         Node3D currentNode = endNode;
@@ -82,9 +94,11 @@ public class PathFinding3D : MonoBehaviour {
             path.Add(currentNode);
             currentNode = currentNode.parentNode;
         }
-        grid.path = path;
+        //grid.path = path;
         Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
+        //MakeGradualPath(waypoints);
+        gizmoPoints = waypoints;
         return waypoints;
     }
 
@@ -98,12 +112,25 @@ public class PathFinding3D : MonoBehaviour {
                 path[i - 1].gridY - path[i].gridY,
                 path[i - 1].gridZ - path[i].gridZ);
             // 이동해야 하는 방향이 일치하지않는다면 웨이포인트에 해당 좌표를 추가한다.
-            if (directionNew != directionOld)
+            if (directionNew != directionOld) {
                 waypoints.Add(path[i].worldPos);
+                //grid.wayPoints .Add(path[i].worldPos);
+
+            }
             directionOld = directionNew;
         }
         return waypoints.ToArray();
     }
+
+    //void MakeGradualPath(Vector3[] path) {
+    //    for (int i = 0; i < path.Length; i++) {
+    //        if (Physics.Raycast(path[i], Vector3.up, out RaycastHit hit, 0.5f)) {
+    //            if (((1 << hit.collider.gameObject.layer) & grid.walkableMask.value) != 0) {
+    //                path[i] = hit.point;
+    //            }
+    //        }
+    //    }
+    //}
 
     int GetDistanceCost(Node3D nodeA, Node3D nodeB) {
         int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
@@ -121,5 +148,14 @@ public class PathFinding3D : MonoBehaviour {
         // 3D 대각선(√3), 2D 대각선(√2), 직선 이동(1) 비용 적용 + 높이 패널티 추가
         //return 17 * minDist + 14 * (midDist - minDist) + 10 * (maxDist - midDist) + heightPenalty;
         return 17 * minDist + 14 * (midDist - minDist) + 10 * (maxDist - midDist);
+    }
+
+    void OnDrawGizmos() {
+        if (gizmoPoints!= null) {
+            Gizmos.color = Color.magenta;
+            for (int i = 0; i < gizmoPoints.Length; i++) {
+                Gizmos.DrawSphere(gizmoPoints[i], 0.5f);
+            }
+        }
     }
 }

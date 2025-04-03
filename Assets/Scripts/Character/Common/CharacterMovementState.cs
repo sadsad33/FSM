@@ -33,7 +33,7 @@ namespace KBH {
                 character.isGrounded = true;
                 character.InAirTimer = 0f;
             } else {
-                pushingDirection = moveDirection;
+                pushingDirection += moveDirection;
                 HandleEdgeGroundCheck(pushingDirection);
                 if (front || back || right || left) {
                     character.isGrounded = true;

@@ -19,7 +19,7 @@ namespace KBH {
         }
 
         public override void Thinking() {
-
+            base.Thinking();
         }
     }
 }

@@ -80,17 +80,7 @@ namespace KBH {
         }
 
         protected override void CharacterInit() {
-            InAirTimer = 0f;
-            YVelocity = Vector3.zero;
-            GroundedYVelocity = -10f;
-            GravityForce = -10f;
-            FallStartYVelocity = -1.5f;
-            FallingVelocitySet = false;
-            GroundCheckSphereRadius = 0.3f;
-
-            MaximumJumpHeight = 1.5f;
-            JumpStartYVelocity = 2.5f;
-            JumpForce = 1f;
+            base.CharacterInit();
         }
 
         private void OnDrawGizmosSelected() {

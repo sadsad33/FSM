@@ -11,8 +11,36 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            if (character.InAirTimer != 0) {
-                
+            if (character.InAirTimer != 0)
+                inAirTimer = aiCharacter.InAirTimer;
+            aiCharacter.characterAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+        }
+
+        public override void Exit(CharacterManager character) {
+            inAirTimer = 0f;
+        }
+
+        public override void Thinking() {
+            base.Thinking();
+            if(aiCharacter.isGrounded) {
+                //Debug.Log("ÂøÁö ¼Óµµ : " + MovingVelocityInAir);
+                //if (inAirTimer <= 0.5f) {
+                //    if (moveAmount <= 0f) {
+                //        //Debug.Log("aiCharacter InAirTimer : " + aiCharacter.InAirTimer);
+                //        aiCharacter.acsm.ChangeState(aiCharacter.acsm.lightLandingState);
+                //    } else {
+                //        //Debug.Log("aiCharacter InAirTimer : " + aiCharacter.InAirTimer);
+                //        aiCharacter.acsm.ChangeState(aiCharacter.acsm.landToMoveState);
+                //    }
+                //} else if (inAirTimer <= 1f) {
+                //    //Debug.Log("aiCharacter InAirTimer : " + aiCharacter.InAirTimer);
+                //    aiCharacter.acsm.ChangeState(aiCharacter.acsm.mediumLandingState);
+                //} else {
+                //    //Debug.Log("aiCharacter InAirTimer : " + aiCharacter.InAirTimer);
+                //    aiCharacter.acsm.ChangeState(aiCharacter.acsm.hardLandingState);
+                //}
+                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiIdlingState);
+                MovingVelocityInAir = Vector3.zero;
             }
         }
     }

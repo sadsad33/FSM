@@ -11,7 +11,8 @@ namespace KBH {
 
         Vector3[] path;
         int targetIndex;
-
+        public Vector3 currentWaypoint;
+        bool isFollowingPath = false;
         protected override void Awake() {
             base.Awake();
             aiStatsManager = GetComponent<AICharacterStatsManager>();
@@ -29,7 +30,8 @@ namespace KBH {
             base.Update();
             CharacterInit();
             //StartMoving();
-            acsm.GetCurrentState().Stay(this);
+            if (currentWaypoint != null) Debug.Log("현재 웨이포인트 : " + currentWaypoint);
+            acsm.GetCurrentState().Stay(this); 
         }
 
         protected void LateUpdate() {
@@ -37,17 +39,7 @@ namespace KBH {
         }
 
         protected override void CharacterInit() {
-            InAirTimer = 0f;
-            YVelocity = Vector3.zero;
-            GroundedYVelocity = -10f;
-            GravityForce = -10f;
-            FallStartYVelocity = -1.5f;
-            FallingVelocitySet = false;
-            GroundCheckSphereRadius = 0.3f;
-
-            MaximumJumpHeight = 1.5f;
-            JumpStartYVelocity = 2.5f;
-            JumpForce = 1f;
+            base.CharacterInit();
         }
 
         private void OnDrawGizmosSelected() {
@@ -72,16 +64,19 @@ namespace KBH {
             else
                 Debug.Log("공격!!!");
         }
+
+
         public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
             if (pathSuccessful) {
                 path = newPath;
-                StopCoroutine("FollowPath");
-                StartCoroutine("FollowPath");
+                Debug.Log("경로 길이 : " + path.Length);
+                StopCoroutine(nameof(FollowPath));
+                StartCoroutine(nameof(FollowPath));
             }
         }
 
         IEnumerator FollowPath() {
-            Vector3 currentWaypoint = path[0];
+            currentWaypoint = path[0];
             while (true) {
                 if (transform.position == currentWaypoint) {
                     targetIndex++;
@@ -89,28 +84,8 @@ namespace KBH {
                         yield break;
                     currentWaypoint = path[targetIndex];
                 }
-                Vector3 moveDirection = currentWaypoint - transform.position;
-                moveDirection.Normalize();
-                Vector3 tempDirection = moveDirection;
-                tempDirection.y = 0;
-                moveDirection = tempDirection;
-                if (moveDirection != Vector3.zero)
-                    transform.forward = moveDirection;
-                Debug.Log("경사 처리 전 :" + moveDirection);
-                AdjustSlope(ref moveDirection);
-                Debug.Log("경사 처리 후 :" + moveDirection);
-                cc.Move(3f * Time.deltaTime * moveDirection);
+                //transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, 3f * Time.deltaTime);
                 yield return null;
-            }
-        }
-
-        private void AdjustSlope(ref Vector3 moveDirection) {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 5f)) {
-                //Debug.Log("경사면 각도 : " + Vector3.Angle(hit.normal, Vector3.up));
-                //if (Vector3.Angle(hit.normal, Vector3.up) < controller.slopeLimit) {
-                moveDirection = Vector3.ProjectOnPlane(moveDirection, hit.normal);
-                //}
             }
         }
     }

@@ -12,7 +12,8 @@ namespace KBH {
         }
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            character.cc.Move(Vector3.zero);
+            
+            //character.cc.Move(Vector3.zero);
             character.characterAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 

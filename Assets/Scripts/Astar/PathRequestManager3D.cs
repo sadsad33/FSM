@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PathRequestManager3D : MonoBehaviour {
-    Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
+    readonly Queue<PathRequest> pathRequestQueue = new();
     PathRequest currentPathRequest;
 
-    static PathRequestManager3D instance;
+    public static PathRequestManager3D instance;
     PathFinding3D pathFinding;
     bool isProcessingPath;
 
     void Awake() {
-        instance = this;
+        if (instance == null)
+            instance = this;
+        else Destroy(gameObject);
         pathFinding = GetComponent<PathFinding3D>();
     }
 
@@ -31,11 +33,15 @@ public class PathRequestManager3D : MonoBehaviour {
     }
 
     public void FinishedProcessingPath(Vector3[] path, bool success) {
-        if (path.Length > 0)
+        //Debug.Log("현재 경로 탐색 종료");
+        if (path.Length > 0) {
+            //Debug.Log("콜백");
             currentPathRequest.callback(path, success);
+        }
         isProcessingPath = false;
         TryProcessNext();
     }
+
 
     struct PathRequest {
         public Vector3 pathStart;

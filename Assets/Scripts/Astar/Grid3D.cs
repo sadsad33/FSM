@@ -26,11 +26,11 @@ public class Grid3D : MonoBehaviour {
         nodeDiameter = nodeRadius * 2;
 
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-        Debug.Log("X축 그리드의 개수 : " + gridSizeX);
+        //Debug.Log("X축 그리드의 개수 : " + gridSizeX);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-        Debug.Log("Y축 그리드의 개수 : " + gridSizeY);
+        //Debug.Log("Y축 그리드의 개수 : " + gridSizeY);
         gridSizeZ = Mathf.RoundToInt(gridWorldSize.z / nodeDiameter);
-        Debug.Log("Z축 그리드의 개수 : " + gridSizeZ);
+        //Debug.Log("Z축 그리드의 개수 : " + gridSizeZ);
 
         // 월드 좌표를 그리드 좌표로 변환할 때 중심값을 맞춰주기 위한 보정값
         // GridCenterPosition = transform.position + Correction
@@ -38,9 +38,9 @@ public class Grid3D : MonoBehaviour {
         correctionX = gridSizeX / 2 * nodeDiameter - transform.position.x;
         correctionY = gridSizeY / 2 * nodeDiameter - transform.position.y;
         correctionZ = gridSizeZ / 2 * nodeDiameter - transform.position.z;
-        Debug.Log("correctionX : " + correctionX);
-        Debug.Log("correctionY : " + correctionY);
-        Debug.Log("correctionZ : " + correctionZ);
+        //Debug.Log("correctionX : " + correctionX);
+        //Debug.Log("correctionY : " + correctionY);
+        //Debug.Log("correctionZ : " + correctionZ);
 
         foreach (TerrainType region in walkableRegions) {
             walkableMask.value += region.terrainMask.value;
@@ -82,6 +82,7 @@ public class Grid3D : MonoBehaviour {
                         if (Physics.CheckSphere(worldPoint, nodeRadius, walkableMask)) {
                             if (y > 0 && grid[x, y - 1, z].isWalkable) {
                                 grid[x, y - 1, z].isWalkable = false;
+                                grid[x, y - 1, z].isAscendable = false;
                                 grid[x, y - 1, z].movementPenalty = obstacleProximityPenalty;
                             }
                             walkable = true;
@@ -188,8 +189,8 @@ public class Grid3D : MonoBehaviour {
                 }
             }
         }
-        Debug.Log("패널티 최대값 : " + penaltyMax);
-        Debug.Log("패널티 최소값 : " + penaltyMin);
+        //Debug.Log("패널티 최대값 : " + penaltyMax);
+        //Debug.Log("패널티 최소값 : " + penaltyMin);
     }
 
     public List<Node3D> GetNeighbours(Node3D node) {
@@ -216,35 +217,35 @@ public class Grid3D : MonoBehaviour {
     }
 
     public Node3D GetNodeFromWorldPoint(Vector3 worldPosition) {
-        Debug.Log("월드 좌표 : " + worldPosition);
+        //Debug.Log("월드 좌표 : " + worldPosition);
         float percentX = (worldPosition.x + correctionX) / gridWorldSize.x;
-        Debug.Log("PercentX : " + percentX);
+        //Debug.Log("PercentX : " + percentX);
         float percentY = (worldPosition.y + correctionY) / gridWorldSize.y;
-        Debug.Log("PercentY : " + percentY);
+        //Debug.Log("PercentY : " + percentY);
         float percentZ = (worldPosition.z + correctionZ) / gridWorldSize.z;
-        Debug.Log("PercentZ : " + percentZ);
+        //Debug.Log("PercentZ : " + percentZ);
 
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
         percentZ = Mathf.Clamp01(percentZ);
 
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-        Debug.Log("그리드 x좌표 : " + x);
+        //Debug.Log("그리드 x좌표 : " + x);
         int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
-        Debug.Log("그리드 y좌표 : " + y);
+        //Debug.Log("그리드 y좌표 : " + y);
         int z = Mathf.RoundToInt((gridSizeZ - 1) * percentZ);
-        Debug.Log("그리드 z좌표 : " + z);
+        //Debug.Log("그리드 z좌표 : " + z);
         return grid[x, y, z];
     }
 
-    //public List<Node3D> path;
+    public List<Node3D> path;
     void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, gridWorldSize.z));
 
         if (grid != null && displayGridGizmos) {
             foreach (Node3D n in grid) {
-                //Gizmos.color = Color.white;
-                Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
+                Gizmos.color = Color.white;
+                //Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
                 Gizmos.color = (n.isWalkable) ? Gizmos.color : Color.red;
                 //if (path != null) {
                 //    if (path.Contains(n))

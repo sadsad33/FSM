@@ -26,16 +26,15 @@ namespace KBH {
 
         private void HandleMovement() {
             aiCharacter.StartMoving();
-            moveDirection = aiCharacter.currentWaypoint - aiCharacter.transform.position;
-            moveDirection.y = 0;
-            moveDirection.Normalize();
-            Vector3 temp = moveDirection;
-            temp.y = 0;
-            if (temp != Vector3.zero) {
-                aiCharacter.transform.forward = temp;
-            }
-            aiCharacter.cc.Move(moveSpeedModifier * Time.deltaTime * moveDirection);
-
+            //moveDirection = aiCharacter.currentWaypoint - aiCharacter.transform.position;
+            //moveDirection.y = 0;
+            //moveDirection.Normalize();
+            //Vector3 temp = moveDirection;
+            //temp.y = 0;
+            //if (temp != Vector3.zero) {
+            //    aiCharacter.transform.forward = temp;
+            //}
+            //aiCharacter.cc.Move(moveSpeedModifier * Time.deltaTime * moveDirection);
         }
     }
 }

@@ -75,6 +75,10 @@ public class PathFinding3D : MonoBehaviour {
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 
+    // 이동을 위해 탐색된 경로에 사다리를 통한 경로가 포함되어 있다면
+    // 사다리의 시작지점/끝지점을 반드시 포함하도록 경로를 수정한다.
+    // 경로가 내려가는 방향이라면 사다리의 시작지점은 사다리의 꼭대기
+    // 경로가 올라가는 방향이라면 사다리의 시작지점은 사다리의 바닥
     Vector3[] gizmoPoints;
     Vector3[] RetracePath(Node3D startNode, Node3D endNode) {
         List<Node3D> path = new List<Node3D>();
@@ -108,6 +112,11 @@ public class PathFinding3D : MonoBehaviour {
             directionOld = directionNew;
         }
         return waypoints.ToArray();
+    }
+
+    
+    void WaypointsCheck() {
+        
     }
 
     int GetDistanceCost(Node3D nodeA, Node3D nodeB) {

@@ -16,7 +16,7 @@ public class Octree {
         CreateTree(worldObjects, minNodeSize);
         GetEmptyLeaves(root);
         GetEdges();
-        Debug.Log(graph.edges.Count);
+        //Debug.Log(graph.edges.Count);
     }
 
     public OctreeNode FindClosestNode(Vector3 position) => FindClosestNode(root, position);
@@ -77,10 +77,13 @@ public class Octree {
         foreach (var obj in worldObjects) {
             root.Divide(obj);
         }
+
+        root.MarkWalkableNode();
     }
 
     // 전체 경계를 구한다
     void CalculateBounds(GameObject[] worldObjects) {
+        // 맵을 구성하는 게임 오브젝트 Collider 의 경계를 전부 포함하는 경계를 만듬 
         foreach (var obj in worldObjects) {
             bounds.Encapsulate(obj.GetComponent<Collider>().bounds);
         }

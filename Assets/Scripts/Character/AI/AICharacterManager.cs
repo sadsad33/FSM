@@ -30,9 +30,9 @@ namespace KBH {
         protected override void Update() {
             base.Update();
             CharacterInit();
-            StartMoving();
+            //StartMoving();
             //if (currentWaypoint != null) Debug.Log("현재 웨이포인트 : " + currentWaypoint);
-            //acsm.GetCurrentState().Stay(this);
+            acsm.GetCurrentState().Stay(this);
         }
 
         protected void LateUpdate() {
@@ -61,10 +61,10 @@ namespace KBH {
             if (aiEyesManager.currentTarget == null) return;
             float distance = Vector3.Distance(transform.position, aiEyesManager.currentTarget.transform.position);
             if (distance > aiStatsManager.attackDistance) {
-                if (WaypointProgressingStatus()) {
-                    Debug.Log("경로 요청");
-                    PathRequestManager3D.RequestPath(transform.position, aiEyesManager.currentTarget.transform.position, OnPathFound);
-                }
+                //if (WaypointProgressingStatus()) {
+                Debug.Log("경로 요청");
+                PathRequestManager3D.RequestPath(transform.position, aiEyesManager.currentTarget.transform.position, OnPathFound);
+                //}
             } else
                 Debug.Log("공격!!!");
         }
@@ -86,20 +86,21 @@ namespace KBH {
             currentWaypoint = path[0];
             Debug.Log("경로 따라가기");
             while (true) {
-                if (transform.position == currentWaypoint) {
+                //if (transform.position == currentWaypoint) {
+                if(Vector3.Distance(transform.position, currentWaypoint) < 0.5f){
                     targetIndex++;
                     if (targetIndex >= path.Length)
                         yield break;
                     currentWaypoint = path[targetIndex];
                 }
-                //Vector3 moveDirection = currentWaypoint - transform.position;
-                //moveDirection.y = 0;
-                //moveDirection.Normalize();
-                //Vector3 temp = moveDirection;
-                //temp.y = 0;
-                //if (temp != Vector3.zero) transform.forward = temp;
-                //cc.Move(3f * Time.deltaTime * moveDirection);
-                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, 3f * Time.deltaTime);
+                Vector3 moveDirection = currentWaypoint - transform.position;
+                moveDirection.y = 0;
+                moveDirection.Normalize();
+                Vector3 temp = moveDirection;
+                temp.y = 0;
+                if (temp != Vector3.zero) transform.forward = temp;
+                cc.Move(3f * Time.deltaTime * moveDirection);
+                //transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, 3f * Time.deltaTime);
                 yield return null;
             }
         }

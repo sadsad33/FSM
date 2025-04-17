@@ -5,7 +5,8 @@ using UnityEngine;
 public class Grid3D : MonoBehaviour {
     public bool displayGridGizmos;
     public LayerMask unwalkableMask;
-    public LayerMask ascendableMask;
+    public LayerMask inclinedMask;
+    public LayerMask ladderMask;
     public float nodeRadius;
     float nodeDiameter, correctionX, correctionY, correctionZ;
 
@@ -71,26 +72,45 @@ public class Grid3D : MonoBehaviour {
                         + Vector3.right * (x * nodeDiameter + nodeRadius)
                         + Vector3.up * (y * nodeDiameter + nodeRadius)
                         + Vector3.forward * (z * nodeDiameter + nodeRadius);
+                    
                     bool walkable = false;
-                    bool ascendable = false;
+                    bool inclined = false;
+                    bool underneath = false;
+                    bool isLadder = false;
                     int penalty = 0;
 
                     if (Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask)) {
                         walkable = false;
-                        ascendable = false;
+                        inclined = false;
                     } else {
                         if (Physics.CheckSphere(worldPoint, nodeRadius, walkableMask)) {
-                            if (y > 0 && grid[x, y - 1, z].isWalkable) {
+                            if (y > 0 && grid[x, y - 1, z].isWalkable && !grid[x,y-1,z].isLadder) {
                                 grid[x, y - 1, z].isWalkable = false;
-                                grid[x, y - 1, z].isAscendable = false;
+                                grid[x, y - 1, z].isInclined = false;
                                 grid[x, y - 1, z].movementPenalty = obstacleProximityPenalty;
                             }
                             walkable = true;
                         }
 
-                        if (Physics.CheckSphere(worldPoint, nodeRadius, ascendableMask)) {
-                            ascendable = true;
+                        if (Physics.CheckSphere(worldPoint, nodeRadius, inclinedMask)) {
+                            inclined = true;
+                            Vector3 rayOrigin = worldPoint + Vector3.up * nodeRadius;
+                            Ray downRay = new(rayOrigin, Vector3.down);
+                            if (Physics.Raycast(downRay, out RaycastHit hitInfo, nodeDiameter)) {
+                                if (hitInfo.collider.gameObject != null) {
+                                    float dist = Vector3.Distance(rayOrigin, hitInfo.point);
+                                    if (dist < nodeRadius) {
+                                        walkable = false;
+                                        underneath = true;
+                                    }
+                                }
+                            }
                         }
+
+                        if (Physics.CheckSphere(worldPoint, nodeRadius, ladderMask)) {
+                            isLadder = true;
+                        }
+
                     }
 
                     // 이동 가능한 노드에 패널티 값 부여
@@ -99,14 +119,16 @@ public class Grid3D : MonoBehaviour {
                         walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out penalty);
                     }
 
-                    if (!walkable && !ascendable) {
+                    if (!walkable && !inclined) {
                         penalty += obstacleProximityPenalty;
                         //Debug.Log("이동 불가 노드의 패널티 : " + penalty);
                     } else {
                         if (y > highestY) highestY = y;
                     }
 
-                    grid[x, y, z] = new(ascendable, walkable, worldPoint, x, y, z, penalty);
+                    grid[x, y, z] = new(inclined, walkable, worldPoint, x, y, z, penalty);
+                    grid[x, y, z].isInUnderground = underneath;
+                    grid[x, y, z].isLadder = isLadder;
                 }
             }
         }
@@ -116,12 +138,11 @@ public class Grid3D : MonoBehaviour {
     }
 
     void SetAdditionalNodeOnSlope() {
-        for (int y = 0; y < highestY; y++) {
+        for (int y = 0; y <= highestY; y++) {
             for (int x = 0; x < gridSizeX; x++) {
                 for (int z = 0; z < gridSizeZ; z++) {
-                    if (grid[x, y, z].isAscendable) {
+                    if (grid[x, y, z].isInclined) {
                         grid[x, y + 1, z].isWalkable = true;
-                        //grid[x, y + 1, z].isAscendable = true;
                         grid[x, y + 1, z].movementPenalty = grid[x, y, z].movementPenalty;
                     }
                 }
@@ -195,22 +216,17 @@ public class Grid3D : MonoBehaviour {
 
     public List<Node3D> GetNeighbours(Node3D node) {
         List<Node3D> neighbours = new();
+        
+        Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.up, Vector3.down, Vector3.right, Vector3.left };
+        foreach (Vector3 direction in directions) {
+            int checkX = node.gridX + (int)direction.x;
+            int checkY = node.gridY + (int)direction.y;
+            int checkZ = node.gridZ + (int)direction.z;
 
-        for (int y = -1; y <= 1; y++) {
-            if (y != 0 && !node.isAscendable) continue;
-            for (int x = -1; x <= 1; x++) {
-                for (int z = -1; z <= 1; z++) {
-                    if (x == 0 && y == 0 && z == 0) continue;
-                    int checkX = node.gridX + x;
-                    int checkY = node.gridY + y;
-                    int checkZ = node.gridZ + z;
-
-                    if (checkX >= 0 && checkX < gridSizeX
+            if (checkX >= 0 && checkX < gridSizeX
                         && checkY >= 0 && checkY < gridSizeY
                         && checkZ >= 0 && checkZ < gridSizeZ) {
-                        neighbours.Add(grid[checkX, checkY, checkZ]);
-                    }
-                }
+                neighbours.Add(grid[checkX, checkY, checkZ]);
             }
         }
         return neighbours;
@@ -251,9 +267,12 @@ public class Grid3D : MonoBehaviour {
                 //    if (path.Contains(n))
                 //        Gizmos.color = Color.blue;
                 //}
-                if (n.isWalkable)
+                if (n.isWalkable) {
+                    Gizmos.DrawWireCube(n.worldPos, Vector3.one * nodeDiameter);
+                    Gizmos.DrawWireSphere(n.worldPos, 0.1f);
+                } else if (n.gridY == 0) {
                     Gizmos.DrawCube(n.worldPos, Vector3.one * nodeDiameter);
-                else if (n.gridY == 0) Gizmos.DrawCube(n.worldPos, Vector3.one * nodeDiameter);
+                }
             }
         }
         //Gizmos.color = Color.red;

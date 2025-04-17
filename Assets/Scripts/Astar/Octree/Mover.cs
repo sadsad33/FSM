@@ -18,7 +18,7 @@ public class Mover : MonoBehaviour {
     void Start() {
         graph = octreeGenerator.waypoints;
         currentNode = GetClosestNode(transform.position);
-        GetRandomDestination();
+        //GetRandomDestination();
     }
 
     void Update() {
@@ -32,7 +32,7 @@ public class Mover : MonoBehaviour {
         // 아직 경로를 따라 이동중이라면 현재 웨이포인트에 충분히 가까운지 검사
         if (Vector3.Distance(graph.GetPathNode(currentWaypoint).bounds.center, transform.position) < accuracy) {
             currentWaypoint++;
-            Debug.Log($"Waypoint { currentWaypoint} reached");
+            //Debug.Log($"Waypoint { currentWaypoint} reached");
         }
 
         // 현재 웨이포인트가 경로상에 있다면
@@ -76,25 +76,25 @@ public class Mover : MonoBehaviour {
         currentWaypoint = 0;
     }
 
-    void OnDrawGizmos() {
-        if (graph == null || graph.GetPathLength() == 0) return;
+    //void OnDrawGizmos() {
+    //    if (graph == null || graph.GetPathLength() == 0) return;
 
-        // 시작지점
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(graph.GetPathNode(0).bounds.center, 0.7f);
+    //    // 시작지점
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(graph.GetPathNode(0).bounds.center, 0.7f);
 
-        // 도착지점
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(graph.GetPathNode(graph.GetPathLength() - 1).bounds.center, 0.7f);
+    //    // 도착지점
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawWireSphere(graph.GetPathNode(graph.GetPathLength() - 1).bounds.center, 0.7f);
 
-        Gizmos.color = Color.green;
-        for (int i = 0; i < graph.GetPathLength(); i++) {
-            Gizmos.DrawWireSphere(graph.GetPathNode(i).bounds.center, 0.5f);
-            if (i < graph.GetPathLength() - 1) {
-                Vector3 start = graph.GetPathNode(i).bounds.center;
-                Vector3 end = graph.GetPathNode(i + 1).bounds.center;
-                Gizmos.DrawLine(start, end);
-            }
-        }
-    }
+    //    Gizmos.color = Color.green;
+    //    for (int i = 0; i < graph.GetPathLength(); i++) {
+    //        Gizmos.DrawWireSphere(graph.GetPathNode(i).bounds.center, 0.5f);
+    //        if (i < graph.GetPathLength() - 1) {
+    //            Vector3 start = graph.GetPathNode(i).bounds.center;
+    //            Vector3 end = graph.GetPathNode(i + 1).bounds.center;
+    //            Gizmos.DrawLine(start, end);
+    //        }
+    //    }
+    //}
 }

@@ -7,7 +7,9 @@ public class OctreeObject{
     // 트리의 오브젝트들 또한 고유 경계를 갖는다
     Bounds bounds;
 
+    public GameObject obj;
     public OctreeObject(GameObject obj) {
+        this.obj = obj;
         bounds = obj.GetComponent<Collider>().bounds;
     }
 

@@ -55,7 +55,7 @@ public class Graph {
         if (pathList == null) return null;
 
         if (index < 0 || index >= pathList.Count) {
-            Debug.LogError($"인덱스가 범위를 벗어났습니다. 경로 길이: {pathList.Count}, 인덱스 : {index}");
+            //Debug.LogError($"인덱스가 범위를 벗어났습니다. 경로 길이: {pathList.Count}, 인덱스 : {index}");
             return null;
         }
         return pathList[index].octreeNode;
@@ -68,7 +68,7 @@ public class Graph {
         Node end = FindNode(endNode);
 
         if (start == null || end == null) {
-            Debug.LogError("시작 노드 혹은 끝 노드를 그래프 내에서 찾을 수 없습니다.");
+            //Debug.LogError("시작 노드 혹은 끝 노드를 그래프 내에서 찾을 수 없습니다.");
             return false;
         }
 
@@ -84,7 +84,7 @@ public class Graph {
 
         while (openSet.Count > 0) {
             if (++iterationCount > maxIterations) {
-                Debug.LogError("최고 반복 횟수를 초과했습니다.");
+                //Debug.LogError("최고 반복 횟수를 초과했습니다.");
                 return false;
             }
 
@@ -114,7 +114,7 @@ public class Graph {
             }
         }
 
-        Debug.Log("탐색된 경로 없음.");
+        //Debug.Log("탐색된 경로 없음.");
         return false;
     }
 
@@ -159,15 +159,15 @@ public class Graph {
         }
     }
 
-    public void DrawGraph() {
-        Gizmos.color = Color.red;
-        foreach (Edge edge in edges) {
-            Gizmos.DrawLine(edge.a.octreeNode.bounds.center, edge.b.octreeNode.bounds.center);
-        }
-        foreach (var node in nodes.Values) {
-            Gizmos.DrawWireSphere(node.octreeNode.bounds.center, 0.2f);
-        }
-    }
+    //public void DrawGraph() {
+    //    Gizmos.color = Color.red;
+    //    foreach (Edge edge in edges) {
+    //        Gizmos.DrawLine(edge.a.octreeNode.bounds.center, edge.b.octreeNode.bounds.center);
+    //    }
+    //    foreach (var node in nodes.Values) {
+    //        Gizmos.DrawWireSphere(node.octreeNode.bounds.center, 0.2f);
+    //    }
+    //}
 
     Node FindNode(OctreeNode octreeNode) {
         nodes.TryGetValue(octreeNode, out Node node);

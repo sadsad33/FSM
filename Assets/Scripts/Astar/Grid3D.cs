@@ -72,7 +72,7 @@ public class Grid3D : MonoBehaviour {
                         + Vector3.right * (x * nodeDiameter + nodeRadius)
                         + Vector3.up * (y * nodeDiameter + nodeRadius)
                         + Vector3.forward * (z * nodeDiameter + nodeRadius);
-                    
+
                     bool walkable = false;
                     bool inclined = false;
                     bool underneath = false;
@@ -84,7 +84,7 @@ public class Grid3D : MonoBehaviour {
                         inclined = false;
                     } else {
                         if (Physics.CheckSphere(worldPoint, nodeRadius, walkableMask)) {
-                            if (y > 0 && grid[x, y - 1, z].isWalkable && !grid[x,y-1,z].isLadder) {
+                            if (y > 0 && grid[x, y - 1, z].isWalkable && !grid[x, y - 1, z].isLadder) {
                                 grid[x, y - 1, z].isWalkable = false;
                                 grid[x, y - 1, z].isInclined = false;
                                 grid[x, y - 1, z].movementPenalty = obstacleProximityPenalty;
@@ -109,6 +109,7 @@ public class Grid3D : MonoBehaviour {
 
                         if (Physics.CheckSphere(worldPoint, nodeRadius, ladderMask)) {
                             isLadder = true;
+                            
                         }
 
                     }
@@ -132,6 +133,7 @@ public class Grid3D : MonoBehaviour {
                 }
             }
         }
+        
         SetAdditionalNodeOnSlope();
         //Debug.Log("이동 가능 노드의 수 : " + walkableCount);
         //BlurPenaltyMap(1);
@@ -216,7 +218,7 @@ public class Grid3D : MonoBehaviour {
 
     public List<Node3D> GetNeighbours(Node3D node) {
         List<Node3D> neighbours = new();
-        
+
         Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.up, Vector3.down, Vector3.right, Vector3.left };
         foreach (Vector3 direction in directions) {
             int checkX = node.gridX + (int)direction.x;
@@ -254,6 +256,11 @@ public class Grid3D : MonoBehaviour {
         return grid[x, y, z];
     }
 
+    public Node3D GetNode(int x, int y, int z) {
+        return grid[x, y, z];
+    }
+
+    // 기즈모 확인용
     public List<Node3D> path;
     void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, gridWorldSize.z));
@@ -267,11 +274,17 @@ public class Grid3D : MonoBehaviour {
                 //    if (path.Contains(n))
                 //        Gizmos.color = Color.blue;
                 //}
-                if (n.isWalkable) {
+                //if (n.isWalkable) {
+                //    if (n.isLadder) Gizmos.color = Color.cyan;
+                //    Gizmos.DrawWireCube(n.worldPos, Vector3.one * nodeDiameter);
+                //    Gizmos.DrawWireSphere(n.worldPos, 0.1f);
+                //} else if (n.gridY == 0) {
+                //    Gizmos.DrawCube(n.worldPos, Vector3.one * nodeDiameter);
+                //}
+                if (n.isLadder) {
+                    Gizmos.color = Color.cyan;
                     Gizmos.DrawWireCube(n.worldPos, Vector3.one * nodeDiameter);
                     Gizmos.DrawWireSphere(n.worldPos, 0.1f);
-                } else if (n.gridY == 0) {
-                    Gizmos.DrawCube(n.worldPos, Vector3.one * nodeDiameter);
                 }
             }
         }

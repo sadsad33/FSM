@@ -75,24 +75,108 @@ public class PathFinding3D : MonoBehaviour {
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
 
-    // 이동을 위해 탐색된 경로에 사다리를 통한 경로가 포함되어 있다면
-    // 사다리의 시작지점/끝지점을 반드시 포함하도록 경로를 수정한다.
-    // 경로가 내려가는 방향이라면 사다리의 시작지점은 사다리의 꼭대기
-    // 경로가 올라가는 방향이라면 사다리의 시작지점은 사다리의 바닥
+    // 탐색된 경로에 LadderNode 가 단 하나라도 포함되어 있을 경우 경로를 재구성함
+    // 사다리를 이용하는 경우 사다리의 꼭대기 지점과 사다리의 바닥 지점을 반드시 통과하도록 해야함
+    // 문제는 사다리의 꼭대기 지점과 바닥지점을 어떻게 경로에 추가할 것인가
+    // 경로에 포함된 사다리 노드로부터 위 아래를 검사하여 사다리 노드가 끝나는 지점을 각각 꼭대기, 바닥지점으로 설정한후 경로에 추가해주는 방식은 깔끔하게 실패
     Vector3[] gizmoPoints;
     Vector3[] RetracePath(Node3D startNode, Node3D endNode) {
         List<Node3D> path = new List<Node3D>();
         Node3D currentNode = endNode;
 
+        Node3D ladderStartNode = null;
+        Node3D ladderEndNode = null;
+        int ladderStartNodeIndex = -1;
+        int ladderEndNodeIndex = -1;
+        Vector3 ladderDirection = Vector3.zero;
+        int index = 0;
+
+        // ladderNode 가 시작되는 지점과 끝나는지점 모두 찾아야함
         while (currentNode != startNode) {
+            // 경로를 역추적하므로 경로 상에서 사다리의 이용을 끝내는 지점부터 탐색될 것
+            if (ladderEndNode == null && currentNode.parentNode.isLadder) {
+                ladderEndNode = currentNode.parentNode;
+                ladderEndNodeIndex = index + 1;
+            }
+            if (currentNode.isLadder && !currentNode.parentNode.isLadder) {
+                if (ladderEndNode != null) {
+                    ladderStartNode = currentNode;
+                    ladderStartNodeIndex = index + 1;
+                    ladderDirection = new(ladderEndNode.gridX - currentNode.gridX, ladderEndNode.gridY - currentNode.gridY, ladderEndNode.gridZ - currentNode.gridZ);
+                }
+            }
             path.Add(currentNode);
             currentNode = currentNode.parentNode;
+            index++;
         }
+        Debug.Log("이전 : " + path.Count);
+        AddLadderNode(ladderEndNode, ladderEndNodeIndex, ladderStartNode, ladderStartNodeIndex, ladderDirection, path);
+        Debug.Log("이후 : " + path.Count);
+
+        //기즈모 확인용
         grid.path = path;
+
         Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
         gizmoPoints = waypoints;
         return waypoints;
+    }
+
+    List<Node3D> checkList;
+    public Node3D ladderTop = null;
+    public Node3D ladderBottom = null;
+    void AddLadderNode(Node3D ladderEndNode, int ladderEndIndex, Node3D ladderStartNode, int ladderStartIndex, Vector3 ladderPathDirection, List<Node3D> path) {
+        if (ladderStartNode == null) return;
+        if (ladderPathDirection == Vector3.zero) return;
+
+        checkList = new();
+        Node3D upperNode = ladderStartNode;
+        Node3D lowerNode = ladderStartNode;
+        int upperOffset = 1;
+        int lowerOffset = 1;
+
+        checkList.Add(ladderStartNode);
+        int iterationCnt = 0;
+        while (true) {
+            if (iterationCnt > 1000) {
+                Debug.Log("반복 횟수 초과");
+                break;
+            }
+            upperNode = grid.GetNode(ladderStartNode.gridX, ladderStartNode.gridY + upperOffset, ladderStartNode.gridZ);
+
+            if (!upperNode.isLadder) break;
+            else {
+                ladderTop = upperNode;
+                checkList.Add(upperNode);
+            }
+            upperOffset++;
+            iterationCnt++;
+        }
+
+        iterationCnt = 0;
+        while (true) {
+            if (iterationCnt > 1000) {
+                Debug.Log("반복 횟수 초과");
+                break;
+            }
+            lowerNode = grid.GetNode(ladderStartNode.gridX, ladderStartNode.gridY - lowerOffset, ladderStartNode.gridZ);
+
+            if (!lowerNode.isLadder) break;
+            else {
+                ladderBottom = lowerNode;
+                checkList.Add(lowerNode);
+            }
+            lowerOffset++;
+            iterationCnt++;
+        }
+
+        if (ladderPathDirection.y > 0) {
+            path.Insert(ladderStartIndex, ladderBottom);
+            path.Insert(ladderEndIndex, ladderTop);
+        } else {
+            path.Insert(ladderStartIndex, ladderTop);
+            path.Insert(ladderEndIndex, ladderBottom);
+        }
     }
 
     // 경로를 간략화 함
@@ -114,10 +198,7 @@ public class PathFinding3D : MonoBehaviour {
         return waypoints.ToArray();
     }
 
-    
-    void WaypointsCheck() {
-        
-    }
+
 
     int GetDistanceCost(Node3D nodeA, Node3D nodeB) {
         int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
@@ -147,5 +228,18 @@ public class PathFinding3D : MonoBehaviour {
                 Gizmos.DrawSphere(gizmoPoints[i], 0.5f);
             }
         }
+
+        if (checkList != null) {
+            Gizmos.color = Color.yellow;
+            for (int i = 0; i < checkList.Count; i++) {
+                Gizmos.DrawWireCube(checkList[i].worldPos, Vector3.one);
+            }
+        }
+
+        Gizmos.color = Color.blue;
+        if (ladderTop != null)
+            Gizmos.DrawSphere(ladderTop.worldPos, 0.3f);
+        if (ladderBottom != null)
+            Gizmos.DrawSphere(ladderBottom.worldPos, 0.3f);
     }
 }

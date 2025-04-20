@@ -12,7 +12,7 @@ public class Node3D : IHeapItem<Node3D> {
     public int movementPenalty;
     public int gCost, hCost;
     public Node3D parentNode;
-    int heapIndex;
+    protected int heapIndex;
 
     public Node3D(bool _isInclined, bool _isWalkable, Vector3 _worldPos, int _gridX, int _gridY, int _gridZ, int _penalty) {
         isInclined = _isInclined;

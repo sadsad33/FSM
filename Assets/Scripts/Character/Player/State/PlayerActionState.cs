@@ -17,6 +17,7 @@ namespace KBH {
         public virtual void Stay(CharacterManager character) {
             HandleRotationInput();
             if (player.isPerformingAction) return;
+            if (player.isClimbing) return;
             HandleInput();
         }
 

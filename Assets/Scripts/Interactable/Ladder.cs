@@ -7,14 +7,14 @@ namespace KBH {
         public bool isTop;
         //[SerializeField] Vector3 bottomStartingPosition;
         //[SerializeField] Vector3 topStartingPosition;
-        [SerializeField] Vector3 interactionStartingPosition;
         [SerializeField] Vector3 climbingStartPosition;
+        [SerializeField] Vector3 interactionStartingPosition;
         private void Awake() {
             //if (!isTop)
             //    bottomStartingPosition = transform.parent.GetChild(1).GetComponent<Transform>().position;
             //else topStartingPosition = transform.parent.GetChild(1).GetComponent<Transform>().position;
-            interactionStartingPosition = transform.parent.GetChild(1).GetComponent<Transform>().position;
-            climbingStartPosition = transform.parent.GetChild(2).GetComponent<Transform>().position;
+            climbingStartPosition = transform.parent.GetChild(1).GetComponent<Transform>().position;
+            interactionStartingPosition = transform.parent.GetChild(2).GetComponent<Transform>().position;
         }
 
         public override void Interact() {
@@ -25,14 +25,14 @@ namespace KBH {
                 player.transform.forward = -transform.right;
         }
 
-        public Vector3 GetClimbingStartPosition() {
-            return climbingStartPosition;
+        public Vector3 GetInteractionStartingPosition() {
+            return interactionStartingPosition;
         }
 
-        public Vector3 GetInteractionStartingPosition() {
+        public Vector3 GetClimbingStartPosition() {
             //if (isTop) return topStartingPosition;
             //else return bottomStartingPosition;
-            return interactionStartingPosition;
+            return climbingStartPosition;
         }
     }
 }

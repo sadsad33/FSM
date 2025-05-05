@@ -21,7 +21,7 @@ namespace KBH {
             return currentState;
         }
 
-        public virtual void StopStateMachine() {
+        public virtual void PauseStateMachine() {
             //TODO
             //상태머신 일시중지
             //일시 중지 시점에서의 상태를 기억

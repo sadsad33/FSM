@@ -7,6 +7,7 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             curInteractable = null;
+            player.playerInteractionManager.isInteracting = false;
         }
 
         public override void Stay(CharacterManager character) {

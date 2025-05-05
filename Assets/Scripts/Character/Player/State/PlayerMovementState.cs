@@ -53,65 +53,6 @@ namespace KBH {
         public override void Exit(CharacterManager character) {
 
         }
-
-        //bool front = false, back = false, right = false, left = false;
-        //protected void HandleGroundCheck() {
-        //    if (player.isClimbing) return;
-        //    Vector3 pushingDirection = Vector3.zero;
-        //    isBottomGrounded = Physics.Raycast(player.transform.position + (Vector3.up * player.bottomGroundCheckRayStartingYPosition), -player.transform.up, player.bottomGroundCheckRayMaxDistance, player.groundLayer);
-        //    if (isBottomGrounded) {
-        //        player.isGrounded = true;
-        //        player.InAirTimer = 0f;
-        //    } else {
-        //        pushingDirection = moveDirection;
-        //        HandleEdgeGroundCheck(pushingDirection);
-        //        if (front || back || right || left) {
-        //            player.isGrounded = true;
-        //            player.InAirTimer = 0f;
-        //        } else {
-        //            player.isGrounded = false;
-        //        }
-        //    }
-        //}
-
-        //protected void HandleEdgeGroundCheck(Vector3 pushingDirection) {
-        //    RaycastHit hit;
-        //    front = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        //    back = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.forward, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        //    right = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), player.transform.right, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        //    left = Physics.Raycast(player.transform.position + (Vector3.up * player.groundCheckRaycastStartingPosition.y), -player.transform.right, out hit, player.groundCheckRaycastStartingPosition.x, player.groundLayer);
-        //    HandlePushingPlayerOnEdge(pushingDirection);
-        //}
-
-        //protected void HandlePushingPlayerOnEdge(Vector3 pushingDirection) {
-        //    //Debug.Log("절벽에서 밀기");
-        //    if (player.isJumping) return;
-        //    if (player.cc.enabled)
-        //        player.cc.Move(((pushingDirection * player.pushingForceOnEdge) + Vector3.down) * Time.deltaTime);
-        //}
-
-        //protected void HandleYVelocity() {
-        //    if (player.isJumping || player.isClimbing) return;
-        //    Vector3 tempYVelocity = player.YVelocity;
-        //    if (player.isGrounded) {
-        //        player.FallingVelocitySet = false;
-        //        tempYVelocity.y = player.GroundedYVelocity;
-        //        player.YVelocity = tempYVelocity;
-        //    } else {
-        //        if (!player.FallingVelocitySet) {
-        //            player.FallingVelocitySet = true;
-        //            tempYVelocity.y = player.FallStartYVelocity;
-        //            player.YVelocity = tempYVelocity;
-        //        }
-        //        player.InAirTimer += Time.deltaTime;
-        //        tempYVelocity.y += player.GravityForce * Time.deltaTime;
-        //        player.YVelocity = tempYVelocity;
-        //    }
-        //    player.playerAnimatorManager.animator.SetFloat("inAirTimer", player.InAirTimer);
-        //    if (player.cc.enabled)
-        //        player.cc.Move(player.YVelocity * Time.deltaTime);
-        //}
-
         public virtual void HandleInput() {
             float delta = Time.deltaTime;
             // 달리기, 질주 상태에서 멈췄을 경우

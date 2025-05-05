@@ -13,17 +13,21 @@ namespace KBH {
             curInteractable = playerInteraction.currentInteractable;
             player.isMoving = true;
             player.isPerformingAction = true;
-            targetPosition = curInteractable.GetComponent<Ladder>().GetClimbingStartPosition();
+            targetPosition = curInteractable.GetComponent<Ladder>().GetInteractionStartingPosition();
         }
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0.01f, Time.deltaTime);
-            //player.transform.position = Vector3.Slerp(player.transform.position, targetPosition,  25 * Time.deltaTime);
             player.transform.position = Vector3.MoveTowards(player.transform.position, targetPosition, 2 * Time.deltaTime);
-            //player.transform.forward = Vector3.Lerp(player.transform.forward, -curInteractable.transform.right, Time.deltaTime);
-            Vector3 targetDirection = curInteractable.transform.position - player.transform.position;
-            player.transform.forward = Vector3.Lerp(player.transform.forward, targetDirection, 5 * Time.deltaTime);
+            
+            Vector3 lookDir = -curInteractable.transform.right;
+            lookDir.y = 0;
+            if (lookDir != Vector3.zero) {
+                Quaternion tr = Quaternion.LookRotation(lookDir);
+                Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, 5 * Time.deltaTime);
+                player.transform.rotation = targetRotation;
+            }
         }
 
         public override void Exit(CharacterManager character) {

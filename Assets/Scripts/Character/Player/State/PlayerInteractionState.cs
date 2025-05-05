@@ -19,7 +19,7 @@ namespace KBH {
         }
 
         public virtual void Exit(CharacterManager character) {
-
+            //Debug.Log("Player Exit Interaction State : " + GetType());
         }
 
         public virtual void HandleInput(CharacterManager character) {

@@ -12,20 +12,22 @@ namespace KBH {
             player.isPerformingAction = true;
             //player.playerInteractionManager.isInteracting = true;
             player.playerAnimatorManager.PlayAnimation("Ladder_StartBottom", player.isPerformingAction);
-            targetPosition = curInteractable.GetComponent<Ladder>().GetInteractionStartingPosition();
+            targetPosition = curInteractable.GetComponent<Ladder>().GetClimbingStartPosition();
             curInteractable.Interact();
         }
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            player.transform.position = Vector3.Slerp(player.transform.position, targetPosition, 12 * Time.deltaTime);
+            Quaternion tr = Quaternion.LookRotation(-curInteractable.transform.right);
+            Quaternion targetRotation = Quaternion.Lerp(player.transform.rotation, tr, 5 * Time.deltaTime);
+            player.transform.SetPositionAndRotation(Vector3.Slerp(player.transform.position, targetPosition, 12 * Time.deltaTime), targetRotation);
         }
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
             //player.playerAnimatorManager.disableOnAnimatorMove = false;
             player.playerInteractionManager.isInteracting = false;
-            curInteractable = null;
+            //curInteractable = null;
         }
 
         public override void HandleInput(CharacterManager character) {

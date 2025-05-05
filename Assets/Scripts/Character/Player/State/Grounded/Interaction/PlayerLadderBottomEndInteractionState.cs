@@ -17,7 +17,7 @@ namespace KBH {
             else
                 player.playerAnimatorManager.PlayAnimation("Ladder_End_Bottom_LeftFootUp", player.isPerformingAction);
             // 애니메이션이 종료된후 플레이어가 서 있을 좌표 대입
-            targetPosition = playerInteraction.currentInteractable.GetComponent<Ladder>().GetClimbingStartPosition();
+            targetPosition = playerInteraction.currentInteractable.GetComponent<Ladder>().GetInteractionStartingPosition();
         }
 
         public override void Stay(CharacterManager character) {

@@ -7,7 +7,8 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             aiCharacter.isPerformingAction = true;
-            aiCharacter.characterAnimatorManager.PlayAnimation("Draw Sword", aiCharacter.isPerformingAction);
+            aiCharacter.aiStatsManager.hasDrawnWeapon = true;
+            aiCharacter.aiAnimatorManager.PlayAnimation("Draw Sword", aiCharacter.isPerformingAction);
         }
 
         public override void Stay(CharacterManager character) {
@@ -21,7 +22,6 @@ namespace KBH {
             if (!aiCharacter.isPerformingAction) {
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiIdlingState);
             }
-            
         }
     }
 }

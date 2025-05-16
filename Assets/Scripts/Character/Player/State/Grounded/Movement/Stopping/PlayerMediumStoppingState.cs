@@ -7,7 +7,7 @@ namespace KBH {
 
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            if (!player.isAttacking)
+            if (!player.isAttacking && !player.playerInteractionManager.isInteracting)
                 player.playerAnimatorManager.PlayAnimation("Medium Stop", player.isPerformingAction);
         }
 
@@ -15,8 +15,7 @@ namespace KBH {
             base.Stay(character);
             //player.playerInputManager.SprintInputTimer = 0f;
             if (!player.isAttacking && !player.playerInteractionManager.isInteracting) {
-                //if (moveAmount > 0 || player.isMoving) player.isPerformingAction = false;
-                if (Input.anyKeyDown) player.isPerformingAction = false;
+                if (moveAmount > 0) player.isPerformingAction = false;
             }
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }

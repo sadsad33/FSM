@@ -13,6 +13,7 @@ namespace KBH {
             curInteractable = playerInteraction.currentInteractable;
             player.isMoving = true;
             player.isPerformingAction = true;
+            player.playerInteractionManager.isInteracting = true;
             targetPosition = curInteractable.GetComponent<Ladder>().GetInteractionStartingPosition();
         }
 
@@ -36,7 +37,8 @@ namespace KBH {
             player.cc.enabled = true;
             player.playerAnimatorManager.disableOnAnimatorMove = false;
             player.isMoving = false;
-            player.isPerformingAction = false;
+            //player.isPerformingAction = false;
+            player.playerInteractionManager.isInteracting = false;
         }
 
         public override void HandleInput(CharacterManager character) {

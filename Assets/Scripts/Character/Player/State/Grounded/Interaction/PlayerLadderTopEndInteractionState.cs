@@ -10,7 +10,7 @@ namespace KBH {
             player.cc.enabled = false;
             player.isMoving = true;
             player.isPerformingAction = true;
-            //player.playerInteractionManager.isInteracting = true;
+            player.playerInteractionManager.isInteracting = true;
 
             if (player.rightFootUp)
                 player.playerAnimatorManager.PlayAnimation("Ladder_End_Top_RightFootUp", player.isPerformingAction);
@@ -28,7 +28,7 @@ namespace KBH {
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
-            //player.playerInteractionManager.isInteracting = false;
+            player.playerInteractionManager.isInteracting = false;
             player.cc.enabled = true;
             player.isMoving = false;
             player.isClimbing = false;

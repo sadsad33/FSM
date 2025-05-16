@@ -5,26 +5,26 @@ using UnityEngine;
 namespace KBH {
     // 플레이어가 사다리를 타는 동안에만 이 스크립트가 Enable 되어야 할듯
     public class LadderClimbingDetector : MonoBehaviour {
-        PlayerManager player;
+        CharacterManager character;
 
         private void Awake() {
-            player = GetComponentInParent<PlayerManager>();
+            character = GetComponentInParent<CharacterManager>();
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (player.isClimbing && other.CompareTag("LadderInteractionEndingPosition")) {
+            if (character.isClimbing && other.CompareTag("LadderInteractionEndingPosition")) {
                 Ladder ladder = other.transform.parent.GetComponentInChildren<Ladder>();
                 if (ladder != null) {
-                    if (ladder.isTop) player.isOnLadderTopEdge = true;
-                    else player.isOnLadderBottomEdge = true;
+                    if (ladder.isTop) character.isOnLadderTopEdge = true;
+                    else character.isOnLadderBottomEdge = true;
                 }
             }
         }
 
         private void OnTriggerExit(Collider other) {
             if (other.CompareTag("LadderInteractionEndingPosition")) {
-                if (player.isOnLadderTopEdge) player.isOnLadderTopEdge = false;
-                if (player.isOnLadderBottomEdge) player.isOnLadderBottomEdge = false;
+                if (character.isOnLadderTopEdge) character.isOnLadderTopEdge = false;
+                if (character.isOnLadderBottomEdge) character.isOnLadderBottomEdge = false;
             }
         }
     }

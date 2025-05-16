@@ -8,9 +8,9 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             //player.pmsm.ChangeState(player.pmsm.idlingState);
+            player.cc.enabled = false;
             player.isClimbing = false;
             player.isPerformingAction = true;
-            player.cc.enabled = false;
             //player.playerInteractionManager.isInteracting = true;
             if (player.rightFootUp)
                 player.playerAnimatorManager.PlayAnimation("Ladder_End_Bottom_RightFootUp", player.isPerformingAction);

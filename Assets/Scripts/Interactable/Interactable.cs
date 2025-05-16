@@ -5,7 +5,7 @@ using UnityEngine;
 namespace KBH {
     public class Interactable : MonoBehaviour {
         public string interactionMessage;
-        public virtual void Interact() {
+        public virtual void Interact(CharacterManager character) {
 
         }
     }

@@ -23,7 +23,6 @@ namespace KBH {
         }
 
         public virtual void HandleInput(CharacterManager character) {
-            
         }
 
     }

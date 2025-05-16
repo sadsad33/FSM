@@ -12,7 +12,7 @@ namespace KBH {
             player.isPerformingAction = true;
             player.playerInteractionManager.isInteracting = true;
             player.playerAnimatorManager.PlayAnimation("LootItem", player.isPerformingAction);
-            curInteractable.Interact();
+            curInteractable.Interact(player);
         }
 
         public override void Stay(CharacterManager character) {

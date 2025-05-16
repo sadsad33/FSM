@@ -6,7 +6,6 @@ namespace KBH {
     public class PlayerManager : CharacterManager {
         public PlayerAnimatorManager playerAnimatorManager;
         public PlayerInputManager playerInputManager;
-        
         public PlayerMovementStateMachine pmsm;
         public PlayerActionStateMachine pasm;
         
@@ -18,6 +17,8 @@ namespace KBH {
         protected override void Awake() {
             base.Awake();
             CharacterInit();
+            cc = GetComponent<CharacterController>();
+            //Debug.Log("플레이어의 컨트롤러 : " + cc.GetInstanceID());
             prevYPosition = transform.position.y;
             playerStatsManager = GetComponent<PlayerStatsManager>();
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();

@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 namespace KBH {
     public class AICharacterManager : CharacterManager {
         public AICharacterStatsManager aiStatsManager;
         public AICharacterEquipmentManager aiEquipmentManager;
         public AICharacterEyesManager aiEyesManager;
         public AICharacterStateMachine acsm;
-
-        Vector3[] path;
-        int targetIndex;
-        public Vector3 currentWaypoint;
+        public AICharacterAnimatorManager aiAnimatorManager;
+        public AICharacterInteractionManager aiInteractionManager;
+        public NavMeshAgent agent;
 
         protected override void Awake() {
             base.Awake();
-            currentWaypoint = transform.position;
+            cc = GetComponent<CharacterController>();
+            //Debug.Log("AI의 컨트롤러 : " + cc.GetInstanceID());
+            agent = GetComponent<NavMeshAgent>();
             aiStatsManager = GetComponent<AICharacterStatsManager>();
             aiEquipmentManager = GetComponent<AICharacterEquipmentManager>();
             aiEyesManager = GetComponent<AICharacterEyesManager>();
+            aiAnimatorManager = GetComponent<AICharacterAnimatorManager>();
+            aiInteractionManager = GetComponentInChildren<AICharacterInteractionManager>();
             acsm = new AICharacterStateMachine(this);
         }
 
@@ -30,13 +33,16 @@ namespace KBH {
         protected override void Update() {
             base.Update();
             CharacterInit();
-            //StartMoving();
-            //if (currentWaypoint != null) Debug.Log("현재 웨이포인트 : " + currentWaypoint);
             acsm.GetCurrentState().Stay(this);
         }
 
         protected void LateUpdate() {
-            characterAnimatorManager.animator.SetBool("isGrounded", isGrounded);
+            aiAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
+            aiAnimatorManager.animator.SetBool("isAttacking", isAttacking);
+            aiAnimatorManager.animator.SetBool("isGrounded", isGrounded);
+            aiAnimatorManager.animator.SetBool("isCrouched", isCrouched);
+            aiAnimatorManager.animator.SetBool("isClimbing", isClimbing);
+            aiAnimatorManager.animator.SetBool("rightFootUp", rightFootUp);
         }
 
         protected override void CharacterInit() {
@@ -55,54 +61,6 @@ namespace KBH {
             Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), transform.right * groundCheckRaycastStartingPosition.x);
             Gizmos.color = Color.cyan;
             Gizmos.DrawRay(transform.position + (Vector3.up * groundCheckRaycastStartingPosition.y), -transform.right * groundCheckRaycastStartingPosition.x);
-        }
-
-        public void StartMoving() {
-            if (aiEyesManager.currentTarget == null) return;
-            float distance = Vector3.Distance(transform.position, aiEyesManager.currentTarget.transform.position);
-            if (distance > aiStatsManager.attackDistance) {
-                //if (WaypointProgressingStatus()) {
-                Debug.Log("경로 요청");
-                PathRequestManager3D.RequestPath(transform.position, aiEyesManager.currentTarget.transform.position, OnPathFound);
-                //}
-            } else
-                Debug.Log("공격!!!");
-        }
-
-        bool WaypointProgressingStatus() {
-            return currentWaypoint == transform.position;
-        }
-
-        public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
-            if (pathSuccessful) {
-                path = newPath;
-                //Debug.Log("경로 길이 : " + path.Length);
-                StopCoroutine(nameof(FollowPath));
-                StartCoroutine(nameof(FollowPath));
-            }
-        }
-
-        IEnumerator FollowPath() {
-            currentWaypoint = path[0];
-            Debug.Log("경로 따라가기");
-            while (true) {
-                //if (transform.position == currentWaypoint) {
-                if(Vector3.Distance(transform.position, currentWaypoint) < 0.5f){
-                    targetIndex++;
-                    if (targetIndex >= path.Length)
-                        yield break;
-                    currentWaypoint = path[targetIndex];
-                }
-                Vector3 moveDirection = currentWaypoint - transform.position;
-                moveDirection.y = 0;
-                moveDirection.Normalize();
-                Vector3 temp = moveDirection;
-                temp.y = 0;
-                if (temp != Vector3.zero) transform.forward = temp;
-                cc.Move(3f * Time.deltaTime * moveDirection);
-                //transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, 3f * Time.deltaTime);
-                yield return null;
-            }
         }
     }
 }

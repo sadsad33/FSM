@@ -5,6 +5,7 @@ using UnityEngine;
 namespace KBH {
     public class CharacterManager : MonoBehaviour {
         public CharacterAnimatorManager characterAnimatorManager;
+        public CharacterStatsManager characterStatsManager;
         public CharacterController cc;
         public Rigidbody rigidbody;
 
@@ -71,6 +72,7 @@ namespace KBH {
         protected virtual void Awake() {
             cc = GetComponent<CharacterController>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            characterStatsManager = GetComponent<CharacterStatsManager>();
             rigidbody = GetComponent<Rigidbody>();
         }
 

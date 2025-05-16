@@ -99,7 +99,7 @@ namespace KBH {
 
             bool ladderStart = false;
             if (startNode.isLadder) {
-                Debug.Log("사다리에서 시작");
+                //Debug.Log("사다리에서 시작");
                 ladderStart = true;
             }
             int index = 0;
@@ -182,41 +182,44 @@ namespace KBH {
                     }
                 }
                 List<Node3D> newPath = new();
-                Debug.Log("기존 Path 길이 : " + path.Count);
+                //Debug.Log("기존 Path 길이 : " + path.Count);
                 for (int i = 0; i < indexCurrentLadderLast; i++) {
                     newPath.Add(path[i]);
                 }
-                if (!ladderStart) {
-                    newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
-                    newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
-                    newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
-                    newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
-                } else {
-                    if (descending) {
-                        if (!otherSideLadder.isTop) {
-                            newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
-                            newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
-                        }
-                        if (currentLadderFirst.worldPos.y >= startingLadder.GetClimbingStartPosition().y) {
-                            newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
-                        }
-                        if (currentLadderFirst.worldPos.y >= startingLadder.GetInteractionStartingPosition().y) {
-                            newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
-                        }
-                    } else {
-                        if (otherSideLadder.isTop) {
-                            newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
-                            newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
-                        }
-                        if (currentLadderFirst.worldPos.y <= startingLadder.GetClimbingStartPosition().y) {
-                            newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
-                        }
-                        if (currentLadderFirst.worldPos.y <= startingLadder.GetInteractionStartingPosition().y) {
-                            newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
-                        }
-                    }
-                }
-
+                //if (!ladderStart) {
+                //    newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
+                //    newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
+                //    newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
+                //    newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
+                //} else {
+                //    if (descending) {
+                //        if (!otherSideLadder.isTop) {
+                //            newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
+                //            newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
+                //        }
+                //        if (currentLadderFirst.worldPos.y >= startingLadder.GetClimbingStartPosition().y) {
+                //            newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
+                //        }
+                //        if (currentLadderFirst.worldPos.y >= startingLadder.GetInteractionStartingPosition().y) {
+                //            newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
+                //        }
+                //    } else {
+                //        if (otherSideLadder.isTop) {
+                //            newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
+                //            newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
+                //        }
+                //        if (currentLadderFirst.worldPos.y <= startingLadder.GetClimbingStartPosition().y) {
+                //            newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
+                //        }
+                //        if (currentLadderFirst.worldPos.y <= startingLadder.GetInteractionStartingPosition().y) {
+                //            newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
+                //        }
+                //    }
+                //}
+                newPath.Add(new Node3D(true, true, otherSideLadder.GetClimbingStartPosition()));
+                newPath.Add(new Node3D(true, true, otherSideLadder.GetInteractionStartingPosition()));
+                newPath.Add(new Node3D(true, true, startingLadder.GetClimbingStartPosition()));
+                newPath.Add(new Node3D(true, true, startingLadder.GetInteractionStartingPosition()));
                 return newPath;
             }
         }

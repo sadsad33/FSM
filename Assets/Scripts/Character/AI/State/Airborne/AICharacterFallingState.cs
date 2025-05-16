@@ -6,14 +6,14 @@ namespace KBH {
     public class AICharacterFallingState : AICharacterAirborneState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            character.characterAnimatorManager.PlayAnimation("Falling", false);
+            aiCharacter.aiAnimatorManager.PlayAnimation("Falling", false);
         }
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
             if (character.InAirTimer != 0)
                 inAirTimer = aiCharacter.InAirTimer;
-            aiCharacter.characterAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+            aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
         public override void Exit(CharacterManager character) {

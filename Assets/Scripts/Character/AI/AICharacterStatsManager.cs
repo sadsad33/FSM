@@ -7,5 +7,7 @@ namespace KBH {
         public float detectionRadius;
         public float attackDistance;
         public LayerMask detectionLayer;
+
+        public bool hasDrawnWeapon = false;
     }
 }

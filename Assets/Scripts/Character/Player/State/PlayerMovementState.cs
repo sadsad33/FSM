@@ -70,7 +70,9 @@ namespace KBH {
 
         private void GetWASDInput() {
             verticalInput = player.playerInputManager.MovementInput.y;
+            if (player.playerInteractionManager.isInteracting) verticalInput = 0;
             horizontalInput = player.playerInputManager.MovementInput.x;
+            if (player.playerInteractionManager.isInteracting) horizontalInput = 0;
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
         }
 
@@ -107,10 +109,11 @@ namespace KBH {
             if (player.isJumping) return;
             moveDirection = CameraManager.instance.myTransform.forward * verticalInput;
             moveDirection += CameraManager.instance.myTransform.right * horizontalInput;
+            moveDirection.y = 0;
             moveDirection.Normalize();
-            Vector3 tempDirection = moveDirection;
-            tempDirection.y = 0;
-            moveDirection = tempDirection;
+            //Vector3 tempDirection = moveDirection;
+            //tempDirection.y = 0;
+            //moveDirection = tempDirection;
         }
     }
 }

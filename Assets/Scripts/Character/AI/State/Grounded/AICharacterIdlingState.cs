@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KBH {
     public class AICharacterIdlingState : AICharacterGroundedState {
-        
+
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             aiCharacterEyes = aiCharacter.aiEyesManager;
@@ -12,13 +12,12 @@ namespace KBH {
         }
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            
-            //character.cc.Move(Vector3.zero);
-            character.characterAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+
+            aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
         public override void Exit(CharacterManager character) {
-            
+
         }
 
         public override void Thinking() {
@@ -29,13 +28,15 @@ namespace KBH {
             //if (aiCharacterEyes.targetAround == null && aiCharacterEyes.targetPossible == null) return;
             //else if (aiCharacterEyes.targetAround != null) {
             //    aiCharacterEyes.currentTarget = aiCharacterEyes.targetAround;
-            //    aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiPursuingState);
+            //    if (aiCharacter.aiStatsManager.hasDrawnWeapon)
+            //        aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiPursuingState);
+            //    else
+            //        aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiDrawingWeaponState);
             //} else {
             //    aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiBewaringState);
             //}
-            if (aiCharacterEyes.currentTarget != null) {
+            if (aiCharacterEyes.currentTarget != null)
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiPursuingState);
-            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 namespace KBH {
     public class Unit : MonoBehaviour {
         public Transform target;
-        float speed = 1.5f;
+        float speed = 2f;
         Vector3[] path;
         Vector3 currentWaypoint;
         int targetIndex;

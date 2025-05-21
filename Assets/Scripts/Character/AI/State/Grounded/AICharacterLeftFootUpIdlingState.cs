@@ -25,7 +25,6 @@ namespace KBH {
             Vector3 nextCorner;
             if (index >= 0 && index + 1 < aiCharacter.agent.path.corners.Length) {
                 nextCorner = aiCharacter.agent.path.corners[index + 1];
-                Debug.Log("Next Corner : " + nextCorner);
                 //Debug.Log("현재 AI의 위치 : " + aiCharacter.transform.position);
                 //Debug.Log("다음 코너의 위치 ; " + nextCorner);
                 if (nextCorner.y - aiCharacter.transform.position.y >= 0.1f) {

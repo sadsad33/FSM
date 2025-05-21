@@ -8,6 +8,7 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             curInteractable = aiInteraction.currentInteractable;
+            aiCharacter.agent.updateRotation = false;
             aiCharacter.isClimbing = true;
             aiCharacter.isPerformingAction = true;
             aiCharacter.aiAnimatorManager.PlayAnimation("Ladder_StartBottom", aiCharacter.isPerformingAction);

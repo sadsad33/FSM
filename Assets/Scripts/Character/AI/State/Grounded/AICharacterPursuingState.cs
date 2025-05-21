@@ -24,21 +24,16 @@ namespace KBH {
 
         public override void Thinking() {
             HandleMovement();
-            if (Vector3.Distance(aiCharacter.aiEyesManager.currentTarget.transform.position, aiCharacter.transform.position) < 1.5f) {
-                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiCombatStanceState);
-            } else if (aiCharacter.agent.isOnOffMeshLink) {
-                Debug.Log("Link 도달");
+            if (aiCharacter.agent.isOnOffMeshLink) {
                 aiCharacter.agent.autoTraverseOffMeshLink = false;
-                //aiCharacter.agent.updatePosition = false;
-                //aiCharacter.agent.updateRotation = false;
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiMoveToInteractingPositionState);
+            } else if (Vector3.Distance(aiCharacter.aiEyesManager.currentTarget.transform.position, aiCharacter.transform.position) < 4f) {
+                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiCombatStanceState);
             }
         }
 
         private void HandleMovement() {
             //Debug.Log("움직이기");
-            
-            aiCharacter.agent.enabled = true;
             aiCharacter.agent.SetDestination(aiCharacterEyes.currentTarget.transform.position);
             moveDirection = aiCharacter.agent.desiredVelocity;
             if (aiCharacter.cc.enabled)

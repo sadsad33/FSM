@@ -13,7 +13,7 @@ namespace KBH {
 
         public override void PlayAnimation(string animation, bool isInteracting) {
             base.PlayAnimation(animation, isInteracting);
-            Debug.Log("플레이어의 현재 애니메이션 : " + animation);
+            //Debug.Log("플레이어의 현재 애니메이션 : " + animation);
         }
     }
 }

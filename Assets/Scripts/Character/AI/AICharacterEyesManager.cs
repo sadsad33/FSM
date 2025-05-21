@@ -21,7 +21,7 @@ namespace KBH {
 
         Collider[] colliders;
         private void DetectingAround() {
-            colliders = Physics.OverlapSphere(transform.position, aiCharacterManager.aiStatsManager.detectionRadius, aiCharacterManager.aiStatsManager.detectionLayer);
+            colliders = Physics.OverlapSphere(transform.position, aiCharacterManager.aiStatsManager.DetectionRadius, aiCharacterManager.aiStatsManager.detectionLayer);
             for (int i = 0; i < colliders.Length; i++) {
                 CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
 
@@ -38,7 +38,7 @@ namespace KBH {
 
         private void LookingAhead() {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, aiCharacterManager.aiStatsManager.detectionRadius * 2)) {
+            if (Physics.Raycast(transform.position, transform.forward, out hit, aiCharacterManager.aiStatsManager.DetectionRadius * 2)) {
                 CharacterManager character = hit.transform.GetComponent<CharacterManager>();
                 if (character != null) {
                     targetPossible = character;

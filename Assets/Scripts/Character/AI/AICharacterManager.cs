@@ -12,6 +12,8 @@ namespace KBH {
         public AICharacterInteractionManager aiInteractionManager;
         public NavMeshAgent agent;
 
+        public bool isCombatStance;
+
         protected override void Awake() {
             base.Awake();
             cc = GetComponent<CharacterController>();
@@ -43,10 +45,13 @@ namespace KBH {
             aiAnimatorManager.animator.SetBool("isCrouched", isCrouched);
             aiAnimatorManager.animator.SetBool("isClimbing", isClimbing);
             aiAnimatorManager.animator.SetBool("rightFootUp", rightFootUp);
+            aiAnimatorManager.animator.SetBool("isCombatStance", isCombatStance);
         }
 
         protected override void CharacterInit() {
             base.CharacterInit();
+            aiStatsManager.AttackDistance = 1.5f;
+            aiStatsManager.DetectionRadius = 5f;
         }
 
         private void OnDrawGizmosSelected() {

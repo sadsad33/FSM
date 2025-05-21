@@ -27,7 +27,7 @@ namespace KBH {
         }
 
         public void FinishAction() {
-            Debug.Log("호출");
+            //Debug.Log("호출");
             character.isPerformingAction = false;
         }
 

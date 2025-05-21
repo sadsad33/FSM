@@ -4,10 +4,13 @@ using UnityEngine;
 
 namespace KBH {
     public class AICharacterStatsManager : CharacterStatsManager {
-        public float detectionRadius;
-        public float attackDistance;
+        public float DetectionRadius {
+            get; set;
+        }
+        public float AttackDistance {
+            get; set;
+        }
         public LayerMask detectionLayer;
-
         public bool hasDrawnWeapon = false;
     }
 }

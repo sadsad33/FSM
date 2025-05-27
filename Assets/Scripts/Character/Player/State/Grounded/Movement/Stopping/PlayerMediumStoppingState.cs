@@ -16,6 +16,7 @@ namespace KBH {
             //player.playerInputManager.SprintInputTimer = 0f;
             if (!player.isAttacking && !player.playerInteractionManager.isInteracting) {
                 if (moveAmount > 0) player.isPerformingAction = false;
+                
             }
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }

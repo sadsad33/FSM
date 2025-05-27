@@ -13,6 +13,9 @@ namespace KBH {
         public NavMeshAgent agent;
 
         public bool isCombatStance;
+        public Vector3 TargetPosition {
+            get; set;
+        }
 
         protected override void Awake() {
             base.Awake();
@@ -52,6 +55,7 @@ namespace KBH {
             base.CharacterInit();
             aiStatsManager.AttackDistance = 1.5f;
             aiStatsManager.DetectionRadius = 5f;
+            aiStatsManager.CombatStanceDistance = 3f;
         }
 
         private void OnDrawGizmosSelected() {

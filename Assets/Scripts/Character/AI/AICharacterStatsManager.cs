@@ -7,9 +7,15 @@ namespace KBH {
         public float DetectionRadius {
             get; set;
         }
+        
         public float AttackDistance {
             get; set;
         }
+
+        public float CombatStanceDistance {
+            get; set;
+        }
+
         public LayerMask detectionLayer;
         public bool hasDrawnWeapon = false;
     }

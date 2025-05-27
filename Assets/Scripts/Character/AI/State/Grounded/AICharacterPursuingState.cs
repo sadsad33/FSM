@@ -20,6 +20,7 @@ namespace KBH {
 
         public override void Exit(CharacterManager character) {
             //aiCharacter.agent.enabled = false;
+            aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0f);
         }
 
         public override void Thinking() {
@@ -27,7 +28,7 @@ namespace KBH {
             if (aiCharacter.agent.isOnOffMeshLink) {
                 aiCharacter.agent.autoTraverseOffMeshLink = false;
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiMoveToInteractingPositionState);
-            } else if (Vector3.Distance(aiCharacter.aiEyesManager.currentTarget.transform.position, aiCharacter.transform.position) < 4f) {
+            } else if (Vector3.Distance(aiCharacter.aiEyesManager.currentTarget.transform.position, aiCharacter.transform.position) <= aiCharacter.aiStatsManager.CombatStanceDistance) {
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiCombatStanceState);
             }
         }

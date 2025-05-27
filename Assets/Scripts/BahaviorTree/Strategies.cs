@@ -39,55 +39,70 @@ namespace KBH {
         }
 
         public BTNode.Status Process() => predicate() ? BTNode.Status.Success : BTNode.Status.Failure;
+
     }
 
     public class StrafeStrategy : IStrategy {
         readonly Transform entity;
-        readonly NavMeshAgent agent;
         readonly Transform target;
-        readonly float strafeDuration = 1.5f; // 1.5초 정도 간보기
-
         readonly AICharacterManager ai;
 
         Vector3 currentStrafeTarget;
-        float strafeTimer;
+        readonly AICharacterCombatStanceState aiCombatStanceState;
 
-        public StrafeStrategy(Transform entity, NavMeshAgent agent, Transform target) {
+        public StrafeStrategy(Transform entity, Transform target) {
             this.entity = entity;
-            this.agent = agent;
             this.target = target;
-
             ai = entity.GetComponent<AICharacterManager>();
-            ai.agent.enabled = true;
-
+            aiCombatStanceState = ai.acsm.aiCombatStanceState;
+            ai.cc.enabled = false;
             PickNewStrafeTarget();
         }
 
         public BTNode.Status Process() {
-            strafeTimer -= Time.deltaTime;
-
-            if (Vector3.Distance(ai.transform.position, currentStrafeTarget) < 0.1f || strafeTimer <= 0f) {
-                PickNewStrafeTarget(); // 일정 시간 or 도착 시 새 목표 생성
+            //Debug.Log("간보기");
+            aiCombatStanceState.StrafeBehaviourTimer -= Time.deltaTime;
+            
+            if (aiCombatStanceState.StrafeBehaviourTimer <= 0f) {
+                //Debug.Log("시간 초과");
+                aiCombatStanceState.StrafeBehaviourTimer = 2f; 
+                return BTNode.Status.Failure;
             }
 
+            if (Vector3.Distance(ai.transform.position, currentStrafeTarget) < 0.1f) {
+                //Debug.Log("이동 완료");
+                PickNewStrafeTarget();
+                //ai.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
+                //ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0f, 0.1f, Time.deltaTime);
+                return BTNode.Status.Success; 
+            }
+
+            //Debug.Log("현재 " + ai.transform.position + " 에서");
+            //Debug.Log(currentStrafeTarget + "로 이동 중");
+            //Debug.Log("거리 : " + Vector3.Distance(ai.transform.position, currentStrafeTarget));
+            // 이동 실행
             Vector3 moveDirection = currentStrafeTarget - ai.transform.position;
-            ai.agent.SetDestination(currentStrafeTarget);
-            entity.LookAt(target);
-            if (ai.cc.enabled) ai.cc.Move(0.5f * Time.deltaTime * moveDirection);
-
             UpdateStrafeAnimation(moveDirection);
-
+            entity.LookAt(target);
+            entity.position = Vector3.Lerp(entity.position, currentStrafeTarget, 0.5f * Time.deltaTime);
             return BTNode.Status.Running;
         }
 
         void PickNewStrafeTarget() {
-            strafeTimer = strafeDuration;
-            float vertical = ai.aiAnimatorManager.animator.GetFloat("Vertical");
-            float horizontal = ai.aiAnimatorManager.animator.GetFloat("Horizontal");
-            ai.aiAnimatorManager.animator.SetFloat("Vertical", vertical * 0.5f, 0.1f, Time.deltaTime);
-            ai.aiAnimatorManager.animator.SetFloat("Horizontal", horizontal * 0.5f, 0.1f, Time.deltaTime);
+            //Debug.Log("포지션 수정");
+            //strafeTimer = strafeDuration;
+
             float radius = ai.aiStatsManager.AttackDistance * 0.9f;
-            float angle = UnityEngine.Random.Range(-90f, 90f);
+            float minAngle = -180f;
+            float maxAngle = 180f;
+
+            // AI와 목표물의 거리가 멀어질 수록 앞 방향 위주로 이동함
+            if (Vector3.Distance(entity.position, target.position) >= ai.aiStatsManager.CombatStanceDistance) {
+                minAngle = -90f;
+                maxAngle = 90f;
+            }
+
+            float angle = UnityEngine.Random.Range(minAngle, maxAngle);
             Vector3 direction = Quaternion.Euler(0, angle, 0) * ai.transform.forward;
             Vector3 candidatePos = ai.transform.position + direction.normalized * radius;
 
@@ -104,44 +119,63 @@ namespace KBH {
             float angleWithBackward = Vector3.Angle(-ai.transform.forward, moveDirection);
             float angleWithLeft = Vector3.Angle(-ai.transform.right, moveDirection);
 
+            float remainingDistance = Vector3.Distance(entity.position, currentStrafeTarget);
+            float motionSpeed = Mathf.Clamp01(remainingDistance);
+            motionSpeed *= 0.35f;
             float minAngle = Mathf.Min(angleWithForward, angleWithRight, angleWithBackward, angleWithLeft);
-
             if (minAngle == angleWithForward) {
-                ai.aiAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0.1f, Time.deltaTime);
-                ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0f, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Vertical", motionSpeed, 0.1f, Time.deltaTime);
             } else if (minAngle == angleWithRight) {
-                ai.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
-                ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0.5f, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Horizontal", motionSpeed, 0.1f, Time.deltaTime);
             } else if (minAngle == angleWithBackward) {
-                ai.aiAnimatorManager.animator.SetFloat("Vertical", -0.5f, 0.1f, Time.deltaTime);
-                ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0f, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Vertical", -1f * motionSpeed , 0.1f, Time.deltaTime);
             } else {
-                ai.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
-                ai.aiAnimatorManager.animator.SetFloat("Horizontal", -0.5f, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Horizontal",-1f *  motionSpeed , 0.1f, Time.deltaTime);
             }
         }
 
         public void Reset() {
-            ai.agent.enabled = false;
+            //ai.acsm.aiCombatStanceState.StrafeBehaviourTimer = 2f;
         }
     }
-
     public class AttackStrategy : IStrategy {
         readonly Transform entity;
-        readonly NavMeshAgent agent;
         readonly Transform target;
-        readonly float attackDistance;
+        readonly AICharacterManager ai;
+        readonly string attackAnimation;
 
-        public AttackStrategy(Transform entity, NavMeshAgent agent, Transform target, float attackDistance) {
+        bool isComboAttack;
+        public AttackStrategy(Transform entity, Transform target, string attackAnimation, bool isComboAttack = false) {
             this.entity = entity;
-            this.agent = agent;
             this.target = target;
-            this.attackDistance = attackDistance;
+            this.attackAnimation = attackAnimation;
+            this.isComboAttack = isComboAttack;
+            ai = entity.GetComponent<AICharacterManager>();
         }
 
         public BTNode.Status Process() {
-            float distance = Vector3.Distance(entity.position, target.position);
-            return BTNode.Status.Running;
+            entity.LookAt(target);
+            //Debug.Log("공격");
+            if (Vector3.Distance(entity.position, target.position) <= ai.aiStatsManager.AttackDistance) {
+                if (!isComboAttack) {
+                    if (!ai.isPerformingAction) {
+                        ai.isPerformingAction = true;
+                        ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
+                        return BTNode.Status.Success;
+                    }
+                } else if (ai.canDoComboAttack) {
+                    if (!ai.acsm.aiCombatStanceState.IsDoingComboAttack) {
+                        ai.acsm.aiCombatStanceState.IsDoingComboAttack = true;
+                        ai.isPerformingAction = true;
+                        ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
+                        return BTNode.Status.Success;
+                    }
+                }
+                Debug.Log(attackAnimation + "공격 중");
+                return BTNode.Status.Running;
+            }
+            Debug.Log(attackAnimation + "공격 실패");
+            return BTNode.Status.Failure;
         }
 
         // 리셋

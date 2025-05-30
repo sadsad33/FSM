@@ -7,6 +7,17 @@ using System.Linq;
 namespace KBH {
 
     #region Decorator
+    public class CheckConditionNode : BTNode {
+        readonly Func<bool> condition;
+        public CheckConditionNode(string name, Func<bool> condition) : base(name) {
+            this.condition = condition;
+        }
+
+        public override Status Process() {
+            if (condition()) return children[0].Process();
+            return Status.Failure;
+        }
+    }
 
     public class WaitUntilNode : BTNode {
         readonly Func<bool> condition;
@@ -102,8 +113,23 @@ namespace KBH {
     }
 
     public class RandomSelectorNode : PrioritySelectorNode {
-        protected override List<BTNode> SortChildren() => children.Shuffle().ToList();
+        private List<BTNode> shuffledChildren;
+
         public RandomSelectorNode(string name) : base(name) { }
+
+        // 실행할때마다 무조건 랜덤한 자식을 선택
+        public override Status Process() {
+            shuffledChildren = children.Shuffle().ToList();
+            //Debug.Log(shuffledChildren[0].name);
+            Status ret = shuffledChildren[0].Process();
+            Reset();
+            return ret;
+        }
+
+        public override void Reset() {
+            base.Reset();
+            shuffledChildren = null;
+        }
     }
 
     public class PrioritySelectorNode : SelectorNode {

@@ -9,7 +9,9 @@ namespace KBH {
         Equipment_Armor_Helmet, Equipment_Armor_ChestArmor, Equipment_Armor_Guntlets, Equipment_Armor_Greaves,
         Equipment_Accessory_Ring, Equipment_Accessory_Cape
     };
-    
+
+    public enum CharacterBehaviourCode { Strafe, LightAttack, HeavyAttack, ComboAttack, RunningAttack, Defend, Dodge, Parry, Interaction };
     public class Enums {
     }
 }
+  

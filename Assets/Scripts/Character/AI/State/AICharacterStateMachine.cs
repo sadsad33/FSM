@@ -15,6 +15,8 @@ namespace KBH {
         public AICharacterLadderTopStartInteractionState aiLadderTopStartInteractionState;
         public AICharacterLadderTopEndInteractionState aiLadderTopEndInteractionState;
 
+        public AICharacterLightAttackState aiLightAttackState;
+
         public AICharacterRightFootUpIdlingState aiRightFootUpIdlingState;
         public AICharacterLeftFootUpIdlingState aiLeftFootUpIdlingState;
 
@@ -34,6 +36,8 @@ namespace KBH {
             aiLadderBottomEndInteractionState = new();
             aiLadderTopStartInteractionState = new();
             aiLadderTopEndInteractionState = new();
+
+            aiLightAttackState = new();
 
             aiRightFootUpIdlingState = new();
             aiLeftFootUpIdlingState = new();

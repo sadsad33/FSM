@@ -50,11 +50,12 @@ namespace KBH {
         Vector3 currentStrafeTarget;
         readonly AICharacterCombatStanceState aiCombatStanceState;
 
-        public StrafeStrategy(Transform entity, Transform target) {
+        public StrafeStrategy(Transform entity, Transform target, CharacterBehaviourCode strafeCode) {
             this.entity = entity;
             this.target = target;
             ai = entity.GetComponent<AICharacterManager>();
             aiCombatStanceState = ai.acsm.aiCombatStanceState;
+            aiCombatStanceState.AIBehaviourStatus = strafeCode;
             ai.cc.enabled = false;
             PickNewStrafeTarget();
         }
@@ -62,11 +63,16 @@ namespace KBH {
         public BTNode.Status Process() {
             //Debug.Log("간보기");
             aiCombatStanceState.StrafeBehaviourTimer -= Time.deltaTime;
-            
+
             if (aiCombatStanceState.StrafeBehaviourTimer <= 0f) {
                 //Debug.Log("시간 초과");
-                aiCombatStanceState.StrafeBehaviourTimer = 2f; 
+                aiCombatStanceState.StrafeBehaviourTimer = 2f;
                 return BTNode.Status.Failure;
+            }
+
+            if (Vector3.Distance(ai.transform.position, target.position) <= ai.aiStatsManager.AttackDistance) {
+                //Debug.Log(Vector3.Distance(ai.transform.position, target.position));
+                return BTNode.Status.Success;
             }
 
             if (Vector3.Distance(ai.transform.position, currentStrafeTarget) < 0.1f) {
@@ -74,7 +80,7 @@ namespace KBH {
                 PickNewStrafeTarget();
                 //ai.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
                 //ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0f, 0.1f, Time.deltaTime);
-                return BTNode.Status.Success; 
+                return BTNode.Status.Success;
             }
 
             //Debug.Log("현재 " + ai.transform.position + " 에서");
@@ -125,12 +131,17 @@ namespace KBH {
             float minAngle = Mathf.Min(angleWithForward, angleWithRight, angleWithBackward, angleWithLeft);
             if (minAngle == angleWithForward) {
                 ai.aiAnimatorManager.animator.SetFloat("Vertical", motionSpeed, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
+
             } else if (minAngle == angleWithRight) {
+                ai.aiAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                 ai.aiAnimatorManager.animator.SetFloat("Horizontal", motionSpeed, 0.1f, Time.deltaTime);
             } else if (minAngle == angleWithBackward) {
-                ai.aiAnimatorManager.animator.SetFloat("Vertical", -1f * motionSpeed , 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Vertical", -1f * motionSpeed, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
             } else {
-                ai.aiAnimatorManager.animator.SetFloat("Horizontal",-1f *  motionSpeed , 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+                ai.aiAnimatorManager.animator.SetFloat("Horizontal", -1f * motionSpeed, 0.1f, Time.deltaTime);
             }
         }
 
@@ -138,47 +149,84 @@ namespace KBH {
             //ai.acsm.aiCombatStanceState.StrafeBehaviourTimer = 2f;
         }
     }
+
+    public class ComboAttackStrategy : IStrategy {
+        readonly Transform entity;
+        readonly Transform target;
+        readonly AICharacterManager ai;
+        readonly string attackAnimation;
+        readonly CharacterBehaviourCode currentAttackCode;
+        readonly AICharacterLightAttackState aiLightAttackState;
+
+        public ComboAttackStrategy(Transform entity, Transform target, string attackAnimation, CharacterBehaviourCode attackCode) {
+            this.entity = entity;
+            this.target = target;
+            this.attackAnimation = attackAnimation;
+            currentAttackCode = attackCode;
+
+            ai = entity.GetComponent<AICharacterManager>();
+            aiLightAttackState = ai.acsm.aiLightAttackState;
+        }
+
+        public BTNode.Status Process() {
+            entity.LookAt(target);
+            if (Vector3.Distance(ai.transform.position, target.position) <= ai.aiStatsManager.AttackDistance) {
+                if (ai.isPerformingAction) {
+                    if (ai.canDoComboAttack && !aiLightAttackState.IsDoingComboAttack) {
+                        Debug.Log("콤보");
+                        ai.isPerformingAction = true;
+                        aiLightAttackState.IsDoingComboAttack = true;
+                        ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
+                        return BTNode.Status.Running;
+                    }
+                }
+            }
+
+            if (!ai.isPerformingAction) {
+                aiLightAttackState.IsDoingComboAttack = false;
+                aiLightAttackState.HasDone = true;
+                return BTNode.Status.Success;
+            }
+            return BTNode.Status.Failure;
+        }
+
+       
+    }
+
     public class AttackStrategy : IStrategy {
         readonly Transform entity;
         readonly Transform target;
         readonly AICharacterManager ai;
         readonly string attackAnimation;
-
-        bool isComboAttack;
-        public AttackStrategy(Transform entity, Transform target, string attackAnimation, bool isComboAttack = false) {
+        readonly CharacterBehaviourCode currentAttackCode;
+        readonly AICharacterCombatStanceState aiCombatStanceState;
+        public AttackStrategy(Transform entity, Transform target, string attackAnimation, CharacterBehaviourCode attackCode) {
             this.entity = entity;
             this.target = target;
             this.attackAnimation = attackAnimation;
-            this.isComboAttack = isComboAttack;
+            currentAttackCode = attackCode;
+
             ai = entity.GetComponent<AICharacterManager>();
+            aiCombatStanceState = ai.acsm.aiCombatStanceState;
         }
 
         public BTNode.Status Process() {
             entity.LookAt(target);
-            //Debug.Log("공격");
-            if (Vector3.Distance(entity.position, target.position) <= ai.aiStatsManager.AttackDistance) {
-                if (!isComboAttack) {
-                    if (!ai.isPerformingAction) {
-                        ai.isPerformingAction = true;
-                        ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
-                        return BTNode.Status.Success;
-                    }
-                } else if (ai.canDoComboAttack) {
-                    if (!ai.acsm.aiCombatStanceState.IsDoingComboAttack) {
-                        ai.acsm.aiCombatStanceState.IsDoingComboAttack = true;
-                        ai.isPerformingAction = true;
-                        ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
-                        return BTNode.Status.Success;
-                    }
+            if (Vector3.Distance(ai.transform.position, target.position) <= ai.aiStatsManager.AttackDistance) {
+                if (!ai.isPerformingAction) {
+                    Debug.Log("일반 공격");
+                    ai.isPerformingAction = true;
+                    aiCombatStanceState.AIBehaviourStatus = currentAttackCode;
+                    ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
+                    return BTNode.Status.Success;
                 }
-                Debug.Log(attackAnimation + "공격 중");
                 return BTNode.Status.Running;
             }
-            Debug.Log(attackAnimation + "공격 실패");
+
             return BTNode.Status.Failure;
         }
-
         // 리셋
+
     }
 
     // 예시

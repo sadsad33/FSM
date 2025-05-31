@@ -176,6 +176,7 @@ namespace KBH {
                         Debug.Log("ÄÞº¸");
                         ai.isPerformingAction = true;
                         aiLightAttackState.IsDoingComboAttack = true;
+                        ai.canDoComboAttack = false;
                         ai.aiAnimatorManager.PlayAnimation(attackAnimation, ai.isPerformingAction);
                         return BTNode.Status.Running;
                     }

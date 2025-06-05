@@ -9,6 +9,7 @@ namespace KBH {
             base.Enter(character);
             curInteractable = aiInteraction.currentInteractable;
             aiCharacter.isClimbing = true;
+            aiCharacter.isMoving = true;
             aiCharacter.isPerformingAction = true;
             aiCharacter.agent.updateRotation = false;
             aiCharacter.aiInteractionManager.isInteracting = true;
@@ -24,21 +25,24 @@ namespace KBH {
         public override void Stay(CharacterManager character) {
             base.Stay(character);
             if (curInteractable != null) {
-                //Debug.Log(curInteractable.GetComponent<Ladder>().isTop);
                 Quaternion tr = Quaternion.LookRotation(-curInteractable.transform.right);
-                Quaternion targetRotation = Quaternion.Lerp(aiCharacter.transform.rotation, tr, 5 * Time.deltaTime);
-                aiCharacter.transform.SetPositionAndRotation(Vector3.Slerp(aiCharacter.transform.position, targetPosition, 12 * Time.deltaTime), targetRotation);
+                Quaternion targetRotation = Quaternion.Lerp(aiCharacter.transform.rotation, tr, 3 * Time.deltaTime);
+                aiCharacter.transform.SetPositionAndRotation(Vector3.Slerp(aiCharacter.transform.position, targetPosition, 1.5f * Time.deltaTime), targetRotation);
+                //aiCharacter.transform.rotation *= aiCharacter.aiAnimatorManager.animator.deltaRotation;
+                //aiCharacter.transform.position += aiCharacter.aiAnimatorManager.animator.deltaPosition;
             }
         }
 
         public override void Exit(CharacterManager character) {
+            aiCharacter.isMoving = false;
             aiCharacter.aiInteractionManager.isInteracting = false;
             aiCharacter.aiAnimatorManager.disableOnAnimatorMove = false;
         }
 
         public override void Thinking() {
             base.Thinking();
-            if (!aiCharacter.isPerformingAction && aiCharacter.transform.position == targetPosition) {
+            //float dist = Vector3.Distance(aiCharacter.transform.position, targetPosition);
+            if (!aiCharacter.isPerformingAction) {
                 aiCharacter.cc.enabled = true;
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiRightFootUpIdlingState);
             }

@@ -12,7 +12,7 @@ namespace KBH {
             aiCharacter.isMoving = true;
             aiCharacter.isPerformingAction = true;
             if (aiCharacter.rightFootUp) aiCharacter.aiAnimatorManager.PlayAnimation("Ladder_End_Bottom_RightFootUp", aiCharacter.isPerformingAction);
-            else aiCharacter.aiAnimatorManager.PlayAnimation("Laader_End_Bottom_LeftFootUp", aiCharacter.isPerformingAction);
+            else aiCharacter.aiAnimatorManager.PlayAnimation("Ladder_End_Bottom_LeftFootUp", aiCharacter.isPerformingAction);
             targetPosition = aiInteraction.currentInteractable.GetComponent<Ladder>().GetInteractionStartingPosition();
         }
 

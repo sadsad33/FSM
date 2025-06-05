@@ -7,12 +7,12 @@ using System.Linq;
 namespace KBH {
 
     #region Decorator
-    public class CheckConditionNode : BTNode {
+    public class ConditionNode : BTNode {
         readonly Func<bool> condition;
-        public CheckConditionNode(string name, Func<bool> condition) : base(name) {
+        public ConditionNode(string name, Func<bool> condition) : base(name) {
             this.condition = condition;
         }
-
+        
         public override Status Process() {
             if (condition()) return children[0].Process();
             return Status.Failure;
@@ -82,53 +82,30 @@ namespace KBH {
 
     #region Composite
 
-    public class RandomOnceSelectorNode : BTNode {
+    public class RandomSelectorNode : PrioritySelectorNode {
         private List<BTNode> shuffledChildren;
         private bool hasShuffled;
+        public RandomSelectorNode(string name) : base(name) { }
 
-        public RandomOnceSelectorNode(string name, int priority = 0) : base(name, priority) { }
-
+        // 실패, 성공하면 리셋
+        // 실행중을 반환받으면 계속해서 실행
         public override Status Process() {
             if (!hasShuffled) {
                 shuffledChildren = children.Shuffle().ToList();
                 hasShuffled = true;
             }
 
-            //Debug.Log("실행되는 노드 이름 : " + shuffledChildren[0].name);
-            foreach (var child in shuffledChildren) {
-                var status = child.Process();
-                if (status == Status.Running || status == Status.Success)
-                    return status;
-            }
-
-            Reset();
-            return Status.Failure;
-        }
-
-        public override void Reset() {
-            base.Reset();
-            hasShuffled = false;
-            shuffledChildren = null;
-        }
-    }
-
-    public class RandomSelectorNode : PrioritySelectorNode {
-        private List<BTNode> shuffledChildren;
-
-        public RandomSelectorNode(string name) : base(name) { }
-
-        // 실행할때마다 무조건 랜덤한 자식을 선택
-        public override Status Process() {
-            shuffledChildren = children.Shuffle().ToList();
-            //Debug.Log(shuffledChildren[0].name);
             Status ret = shuffledChildren[0].Process();
-            Reset();
+            if (ret == Status.Success || ret == Status.Failure) {
+                Reset();
+            }
             return ret;
         }
 
         public override void Reset() {
             base.Reset();
             shuffledChildren = null;
+            hasShuffled = false;
         }
     }
 

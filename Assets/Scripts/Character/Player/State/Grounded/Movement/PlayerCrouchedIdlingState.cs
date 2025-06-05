@@ -11,12 +11,7 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            //if (player.cc.enabled)
-            //    player.cc.Move(Vector3.zero);
-            if (tr != null) {
-                //Debug.Log("Crouched Idling : " + tr);
-                player.transform.position = tr;
-            }
+            
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
@@ -26,7 +21,6 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.playerInputManager.CrouchInput) {
-                player.pmsm.crouchToStandState.tr = tr;
                 player.pmsm.ChangeState(player.pmsm.crouchToStandState);
             } else if (moveAmount > 0f)
                 player.pmsm.ChangeState(player.pmsm.crouchedWalkingState);

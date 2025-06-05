@@ -13,11 +13,18 @@ namespace KBH {
             animator = GetComponent<Animator>();
         }
 
-        public void OnAnimatorMove() {
+        public virtual void OnAnimatorMove() {
             if (!character.isMoving && !character.isPerformingAction) return;
             if (disableOnAnimatorMove) return;
-            Vector3 velocity = animator.deltaPosition;
-            if (character.cc.enabled) character.cc.Move(velocity);
+            //Debug.Log("루트모션으로 제어");
+
+            //Vector3 velocity = animator.deltaPosition / Time.deltaTime;
+            Vector3 deltaPosition = animator.deltaPosition;
+            Vector3 velocity = deltaPosition / Time.deltaTime;
+            if (character.cc.enabled) {
+                character.cc.Move(velocity * Time.deltaTime);
+                //character.transform.rotation *= animator.deltaRotation;
+            }
         }
 
         public virtual void PlayAnimation(string animation, bool isInteracting) {
@@ -26,6 +33,7 @@ namespace KBH {
             animator.CrossFade(animation, 0.2f);
         }
 
+        #region 애니메이션 이벤트
         public void FinishAction() {
             //Debug.Log("호출");
             character.isPerformingAction = false;
@@ -62,5 +70,10 @@ namespace KBH {
         public void DisableRotateDuringAction() {
             character.canRotateDuringAction = false;
         }
+
+        public void BeVulnerable() {
+            character.isInvulnerable = false;
+        }
+        #endregion
     }
 }

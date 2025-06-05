@@ -18,10 +18,10 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0.01f, Time.deltaTime);
+            aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0.5f, 0.1f, Time.deltaTime);
             if (curInteractable != null) {
                 aiCharacter.transform.position = Vector3.MoveTowards(aiCharacter.transform.position, targetPosition, 2 * Time.deltaTime);
-                Vector3 lookDir = -curInteractable.transform.right;
+                Vector3 lookDir = curInteractable.transform.right;
                 lookDir.y = 0;
                 if (lookDir != Vector3.zero) {
                     Quaternion tr = Quaternion.LookRotation(lookDir);
@@ -32,7 +32,6 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
-            aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0f, Time.deltaTime);
             aiCharacter.cc.enabled = true;
             aiCharacter.aiAnimatorManager.disableOnAnimatorMove = false;
             aiCharacter.isMoving = false;
@@ -42,6 +41,7 @@ namespace KBH {
         public override void Thinking() {
             base.Thinking();
             if (aiCharacter.transform.position == targetPosition) {
+                aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0f);
                 Ladder currentLadder = curInteractable.GetComponent<Ladder>();
                 if (currentLadder != null) {
                     if (currentLadder.isTop) {

@@ -9,7 +9,9 @@ namespace KBH {
             base.Enter(character);
             aiCharacterEyes = aiCharacter.aiEyesManager;
             moveSpeedModifier = 0f;
+            
         }
+
         public override void Stay(CharacterManager character) {
             base.Stay(character);
 

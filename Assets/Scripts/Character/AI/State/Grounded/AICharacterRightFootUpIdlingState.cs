@@ -6,7 +6,6 @@ using UnityEngine.AI;
 namespace KBH {
     public class AICharacterRightFootUpIdlingState : AICharacterGroundedState {
 
-        // 현재 링크 의 Start와 End 사이에서 Start -> End 방향으로 움직일건지 End -> Start 방향으로 움직일건지, 즉 윗방향으로 사다리를 올라갈건지 아래방향으로 사다리를 내려갈건지를 구해야 할듯
         public override void Enter(CharacterManager character) {
             base.Enter(character);
         }

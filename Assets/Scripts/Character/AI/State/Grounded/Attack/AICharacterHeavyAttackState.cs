@@ -3,33 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class AICharacterLightAttackState : AICharacterGroundedState {
-        BehaviourTree lightAttackBT;
-        BTNode.Status result;
-        public bool IsDoingComboAttack { get; set; }
-        public bool HasDone { get; set; }
-        public CharacterBehaviourCode AIBehaviourStatus { get; set; }
-
+    public class AICharacterHeavyAttackState : AICharacterAttackState {
+        BehaviourTree heavyAttackBT;
+        
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             HasDone = false;
             IsDoingComboAttack = false;
 
-            lightAttackBT = new("AILightAttack");
+            heavyAttackBT = new("AILightAttack");
 
             RandomSelectorNode comboAttackBehaviourSelector = new("AIComboAttackBehaviourSelector");
-            lightAttackBT.AddChild(comboAttackBehaviourSelector);
+            heavyAttackBT.AddChild(comboAttackBehaviourSelector);
 
             comboAttackBehaviourSelector.AddChild(new BTLeaf("LightAttackCombo",
                 new ComboAttackStrategy(aiCharacter.transform,
                 aiCharacter.aiEyesManager.currentTarget.transform,
                 "OH_Sword_Attack2",
-                CharacterBehaviourCode.ComboAttack)));
+                this)));
             comboAttackBehaviourSelector.AddChild(new BTLeaf("HeavyAttackCombo",
                 new ComboAttackStrategy(aiCharacter.transform,
                 aiCharacter.aiEyesManager.currentTarget.transform,
                 "OH_Sword_HeavyAttack2",
-                CharacterBehaviourCode.ComboAttack)));
+                this)));
         }
 
         public override void Stay(CharacterManager character) {
@@ -37,11 +33,14 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
+            base.Exit(character);
         }
 
         public override void Thinking() {
             base.Thinking();
-            result = lightAttackBT.Process();
+            result = heavyAttackBT.Process();
+
+            // CombatStanceState로의 전이는 행동을 완전히 끝마친 후에 전이되도록 함
             if (HasDone) {
                 Debug.Log("Transition To CombatStanceState");
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiCombatStanceState);

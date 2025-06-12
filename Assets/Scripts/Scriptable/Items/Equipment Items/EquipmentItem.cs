@@ -4,5 +4,6 @@ using UnityEngine;
 
 namespace KBH {
     public class EquipmentItem : Item {
+        public float weight;
     }
 }

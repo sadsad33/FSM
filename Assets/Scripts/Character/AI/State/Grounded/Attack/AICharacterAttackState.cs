@@ -6,7 +6,6 @@ namespace KBH {
     public class AICharacterAttackState : AICharacterGroundedState {
         protected BTNode.Status result;
         public bool IsDoingComboAttack { get; set; }
-        public bool HasDone { get; set; }
-        public CharacterBehaviourCode AIBehaviourStatus { get; set; }
+        public Enums.CharacterBehaviourCode AIBehaviourStatus { get; set; }
     }
 }

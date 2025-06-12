@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace KBH {
     public class PlayerManager : CharacterManager {
+        public PlayerInteractionManager playerInteractionManager;
+        public PlayerInventoryManager playerInventoryManager;
+        public PlayerEquipmentManager playerEquipmentManager;
         public PlayerAnimatorManager playerAnimatorManager;
+        public PlayerStatsManager playerStatsManager;
         public PlayerInputManager playerInputManager;
         public PlayerMovementStateMachine pmsm;
         public PlayerActionStateMachine pasm;
         
-        public PlayerStatsManager playerStatsManager;
-        public PlayerInventoryManager playerInventoryManager;
-        public PlayerEquipmentManager playerEquipmentManager;
-        public PlayerInteractionManager playerInteractionManager;
 
         protected override void Awake() {
             base.Awake();

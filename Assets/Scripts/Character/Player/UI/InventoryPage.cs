@@ -6,7 +6,7 @@ using UnityEngine;
 namespace KBH {
     public class InventoryPage : MonoBehaviour {
 
-        public ItemCategory itemCategory;
+        public Enums.ItemCategoryCode itemCategory;
         public GameObject itemSlotModel;
         public List<GameObject> itemSlots = new();
 

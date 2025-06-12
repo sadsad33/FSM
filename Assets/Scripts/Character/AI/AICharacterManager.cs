@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace KBH {
     public class AICharacterManager : CharacterManager {
-        public AICharacterStatsManager aiStatsManager;
+        public AICharacterInteractionManager aiInteractionManager;
         public AICharacterEquipmentManager aiEquipmentManager;
+        public AICharacterAnimatorManager aiAnimatorManager;
+        public AICharacterStatsManager aiStatsManager;
         public AICharacterEyesManager aiEyesManager;
         public AICharacterStateMachine acsm;
-        public AICharacterAnimatorManager aiAnimatorManager;
-        public AICharacterInteractionManager aiInteractionManager;
         public NavMeshAgent agent;
 
         public bool isCombatStance;

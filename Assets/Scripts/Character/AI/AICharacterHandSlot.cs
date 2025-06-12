@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerHandSlot : CharacterHandSlot {
+    public class AICharacterHandSlot : CharacterHandSlot {
         public override void EquipItemOnSlot(Item item) {
             base.EquipItemOnSlot(item);
         }

@@ -4,7 +4,11 @@ using UnityEngine;
 
 namespace KBH {
     public class CharacterEffectsManager : MonoBehaviour {
-        CharacterManager character;
+        public CharacterManager character;
+
+        protected virtual void Awake() {
+            character = GetComponent<CharacterManager>();
+        }
 
         public virtual void ProcessEffectInstantly(CharacterEffect effect) {
             effect.ProcessEffect(character);

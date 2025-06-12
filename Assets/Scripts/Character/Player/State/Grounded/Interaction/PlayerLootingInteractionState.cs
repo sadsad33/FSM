@@ -8,7 +8,7 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             curInteractable = playerInteraction.currentInteractable;
-            Debug.Log("CurrentInteractable : " + curInteractable);
+            //Debug.Log("CurrentInteractable : " + curInteractable);
             player.isPerformingAction = true;
             player.playerInteractionManager.isInteracting = true;
             player.playerAnimatorManager.PlayAnimation("LootItem", player.isPerformingAction);

@@ -64,7 +64,7 @@ namespace KBH {
                     invWin.inventoryPages[0].InstantiateItemSlot();
                     invWin.inventoryPages[0].SetItemOnItemSlots();
                     consumableSlots[index].ClearItem();
-                    playerEquipment.playerConsumableEquipments[index] = null;
+                    playerEquipment.consumableEquipments[index] = null;
                     LoadItemsOnEquipmentWindow();
                 };
             }
@@ -88,9 +88,9 @@ namespace KBH {
                     invWin.inventoryPages[1].InstantiateItemSlot(); // 현재 인벤토리 페이지의 슬롯수를 확인, 부족하다면 풀링
                     invWin.inventoryPages[1].SetItemOnItemSlots();
                     rightHandSlots[index].ClearItem(); // 아이템 이미지 제거
-                    playerEquipment.playerRightHandEquipments[index] = null; // 장비매니저에 해당 정보를 비움
-                    if (index == playerEquipment.playerCurrentRightHandSlotIndex) { // 현재 손에 들고있는 장비라면 바로 적용
-                        playerEquipment.playerRightHandSlot.UnEquipItemOnSlot();
+                    playerEquipment.rightHandEquipments[index] = null; // 장비매니저에 해당 정보를 비움
+                    if (index == playerEquipment.currentRightHandSlotIndex) { // 현재 손에 들고있는 장비라면 바로 적용
+                        playerEquipment.rightHandSlot.UnEquipItemOnSlot();
                     }
                     LoadItemsOnEquipmentWindow(); // 장비창에 반영
                 };
@@ -108,9 +108,9 @@ namespace KBH {
                     invWin.inventoryPages[1].InstantiateItemSlot();
                     invWin.inventoryPages[1].SetItemOnItemSlots();
                     leftHandSlots[index].ClearItem();
-                    playerEquipment.playerLeftHandEquipments[index] = null;
-                    if (index == playerEquipment.playerCurrentLeftHandSlotIndex) {
-                        playerEquipment.playerLeftHandSlot.UnEquipItemOnSlot();
+                    playerEquipment.leftHandEquipments[index] = null;
+                    if (index == playerEquipment.currentLeftHandSlotIndex) {
+                        playerEquipment.leftHandSlot.UnEquipItemOnSlot();
                     }
                     LoadItemsOnEquipmentWindow();
                 };
@@ -150,7 +150,7 @@ namespace KBH {
                     invWin.inventoryPages[index + 2].InstantiateItemSlot();
                     invWin.inventoryPages[index + 2].SetItemOnItemSlots();
                     armorSlots[index].ClearItem();
-                    playerEquipment.playerArmorEquipments[index] = null;
+                    playerEquipment.characterArmorEquipments[index] = null;
                     switch (index + 2) {
                         case 2:
                             playerEquipment.SetHelmet();
@@ -185,7 +185,7 @@ namespace KBH {
                     invWin.inventoryPages[6].InstantiateItemSlot();
                     invWin.inventoryPages[6].SetItemOnItemSlots();
                     accessorySlots[index].ClearItem();
-                    playerEquipment.playerAccessoryEquipments[index] = null;
+                    playerEquipment.accessoryEquipments[index] = null;
                     // TODO
                     // 현재 장착하고 있는 악세서리 모델을 온/오프 시켜주는 메서드 추가해줘야함
                     LoadItemsOnEquipmentWindow();
@@ -195,21 +195,21 @@ namespace KBH {
 
         // 플레이어의 EquipmentManager로 부터 장착하고 있는 장비 목록을 가져와 UI에 반영
         public void LoadItemsOnEquipmentWindow() {
-            for (int i = 0; i < playerEquipment.playerRightHandEquipments.Count; i++) {
-                rightHandSlots[i].AddItem(playerEquipment.playerRightHandEquipments[i]);
-                leftHandSlots[i].AddItem(playerEquipment.playerLeftHandEquipments[i]);
+            for (int i = 0; i < playerEquipment.rightHandEquipments.Count; i++) {
+                rightHandSlots[i].AddItem(playerEquipment.rightHandEquipments[i]);
+                leftHandSlots[i].AddItem(playerEquipment.leftHandEquipments[i]);
             }
 
-            for (int i = 0; i < playerEquipment.playerArmorEquipments.Count; i++) {
-                armorSlots[i].AddItem(playerEquipment.playerArmorEquipments[i]);
+            for (int i = 0; i < playerEquipment.characterArmorEquipments.Count; i++) {
+                armorSlots[i].AddItem(playerEquipment.characterArmorEquipments[i]);
             }
 
-            for (int i = 0; i < playerEquipment.playerConsumableEquipments.Count; i++) {
-                consumableSlots[i].AddItem(playerEquipment.playerConsumableEquipments[i]);
+            for (int i = 0; i < playerEquipment.consumableEquipments.Count; i++) {
+                consumableSlots[i].AddItem(playerEquipment.consumableEquipments[i]);
             }
 
-            for (int i = 0; i < playerEquipment.playerAccessoryEquipments.Count; i++) {
-                accessorySlots[i].AddItem(playerEquipment.playerAccessoryEquipments[i]);
+            for (int i = 0; i < playerEquipment.accessoryEquipments.Count; i++) {
+                accessorySlots[i].AddItem(playerEquipment.accessoryEquipments[i]);
             }
         }
 

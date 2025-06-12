@@ -6,6 +6,7 @@ namespace KBH {
     public class CharacterManager : MonoBehaviour {
         public CharacterInteractionManager characterInteractionManager;
         public CharacterAnimatorManager characterAnimatorManager;
+        public CharacterEffectsManager characterEffectsManager;
         public CharacterStatsManager characterStatsManager;
         public CharacterController cc;
         public Rigidbody rigidbody;
@@ -14,6 +15,8 @@ namespace KBH {
         public bool isGrounded;
         public bool isJumping;
         public bool isCrouched;
+        public bool isParrying;
+        public bool canBeRiposted;
 
         public bool isClimbing;
         public bool isOnLadderTopEdge;
@@ -74,6 +77,7 @@ namespace KBH {
             cc = GetComponent<CharacterController>();
             characterInteractionManager = GetComponentInChildren<CharacterInteractionManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterStatsManager = GetComponent<CharacterStatsManager>();
             rigidbody = GetComponent<Rigidbody>();
         }

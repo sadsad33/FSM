@@ -17,6 +17,7 @@ namespace KBH {
         }
 
         public override void Thinking() {
+            base.Thinking();
             if (!aiCharacter.isGrounded) {
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiFallingState);
             }

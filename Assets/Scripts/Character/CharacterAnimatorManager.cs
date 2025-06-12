@@ -20,7 +20,7 @@ namespace KBH {
 
             //Vector3 velocity = animator.deltaPosition / Time.deltaTime;
             Vector3 deltaPosition = animator.deltaPosition;
-            Vector3 velocity = deltaPosition / Time.deltaTime;
+            Vector3 velocity = deltaPosition / Time.deltaTime; 
             if (character.cc.enabled) {
                 character.cc.Move(velocity * Time.deltaTime);
                 //character.transform.rotation *= animator.deltaRotation;
@@ -74,6 +74,23 @@ namespace KBH {
         public void BeVulnerable() {
             character.isInvulnerable = false;
         }
+
+        public void EnableParrying() {
+            character.isParrying = true;
+        }
+
+        public void DisableParrying() {
+            character.isParrying = false;
+        }
+
+        public void EnableRiposte() {
+            character.canBeRiposted = true;
+        }
+
+        public void DisableRiposte() {
+            character.canBeRiposted = false;
+        }
+
         #endregion
     }
 }

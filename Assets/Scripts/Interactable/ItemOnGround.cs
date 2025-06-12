@@ -19,35 +19,35 @@ namespace KBH {
                 PlayerUIManager.instance.itemPopUp.SetActive(true);
                 InventoryWindow invWin = PlayerUIManager.instance.inventoryUI.GetComponent<InventoryWindow>();
                 switch (item.itemCategory) {
-                    case ItemCategory.Consumable_Countless:
-                    case ItemCategory.Consumable_Countable:
+                    case Enums.ItemCategoryCode.Consumable_Countless:
+                    case Enums.ItemCategoryCode.Consumable_Countable:
                         invWin.inventoryPages[0].InstantiateItemSlot();
                         invWin.inventoryPages[0].SetItemOnItemSlots();
                         break;
-                    case ItemCategory.Equipment_Weapon_Melee:
-                    case ItemCategory.Equipment_Weapon_Range:
-                    case ItemCategory.Equipment_Weapon_Catalyst:
+                    case Enums.ItemCategoryCode.Equipment_Weapon_Melee:
+                    case Enums.ItemCategoryCode.Equipment_Weapon_Range:
+                    case Enums.ItemCategoryCode.Equipment_Weapon_Catalyst:
                         invWin.inventoryPages[1].InstantiateItemSlot();
                         invWin.inventoryPages[1].SetItemOnItemSlots();
                         break;
-                    case ItemCategory.Equipment_Armor_Helmet:
+                    case Enums.ItemCategoryCode.Equipment_Armor_Helmet:
                         invWin.inventoryPages[2].InstantiateItemSlot();
                         invWin.inventoryPages[2].SetItemOnItemSlots();
                         break;
-                    case ItemCategory.Equipment_Armor_ChestArmor:
+                    case Enums.ItemCategoryCode.Equipment_Armor_ChestArmor:
                         invWin.inventoryPages[3].InstantiateItemSlot();
                         invWin.inventoryPages[3].SetItemOnItemSlots();
                         break;
-                    case ItemCategory.Equipment_Armor_Guntlets:
+                    case Enums.ItemCategoryCode.Equipment_Armor_Gauntlets:
                         invWin.inventoryPages[4].InstantiateItemSlot();
                         invWin.inventoryPages[4].SetItemOnItemSlots();
                         break;
-                    case ItemCategory.Equipment_Armor_Greaves:
+                    case Enums.ItemCategoryCode.Equipment_Armor_Greaves:
                         invWin.inventoryPages[5].InstantiateItemSlot();
                         invWin.inventoryPages[5].SetItemOnItemSlots();
                         break;
-                    case ItemCategory.Equipment_Accessory_Ring:
-                    case ItemCategory.Equipment_Accessory_Cape:
+                    case Enums.ItemCategoryCode.Equipment_Accessory_Ring:
+                    case Enums.ItemCategoryCode.Equipment_Accessory_Cape:
                         invWin.inventoryPages[6].InstantiateItemSlot();
                         invWin.inventoryPages[6].SetItemOnItemSlots();
                         break;

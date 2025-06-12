@@ -17,4 +17,7 @@ MonoBehaviour:
   itemModel: {fileID: 3126966637286013739, guid: 908e6b8e45f276c4c98ccec564d3455c, type: 3}
   itemName: "\uB871\uC18C\uB4DC"
   flavorText: 
-  damage: 0
+  weight: 0
+  physicalDamage: 1
+  poiseDamage: 100
+  offensivePoiseBonus: 0

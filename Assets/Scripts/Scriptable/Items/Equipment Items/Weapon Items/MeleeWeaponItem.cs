@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace KBH {
 [CreateAssetMenu(menuName = "Items/EquipmentItems/MeleeWeaponItems")]
-    public class MeleeWeaponItem : EquipmentItem {
-        // Stats
-        public float damage;
+    public class MeleeWeaponItem : WeaponItem {
+        //아이템의 스탯
     }
 }

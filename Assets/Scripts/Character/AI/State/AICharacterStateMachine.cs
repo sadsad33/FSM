@@ -38,9 +38,6 @@ namespace KBH {
             aiLadderTopStartInteractionState = new();
             aiLadderTopEndInteractionState = new();
 
-            aiLightAttackState = new();
-            aiHeavyAttackState = new();
-
             aiRightFootUpIdlingState = new();
             aiLeftFootUpIdlingState = new();
 
@@ -50,6 +47,9 @@ namespace KBH {
             aiDrawingWeaponState = new();
             aiBewaringState = new();
             aiCombatStanceState = new();
+
+            aiLightAttackState = new();
+            aiHeavyAttackState = new();
         }
 
         public override void ChangeState(IState newState) {

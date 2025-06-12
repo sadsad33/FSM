@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterStatsManager : MonoBehaviour
 {
+
+    public int teamID;
+
     public int healthLevel;
     public int staminaLevel;
 
@@ -24,6 +27,7 @@ public class CharacterStatsManager : MonoBehaviour
     public float poiseResetTimer = 0; // 강인도 초기화 타이머
     public bool isStuned; // 그로기 상태
 
+    // 1보다 작아야함
     [Header("Armor Absorptions")]
     public float physicalDamageAbsorptionHead;
     public float physicalDamageAbsorptionBody;
@@ -42,8 +46,8 @@ public class CharacterStatsManager : MonoBehaviour
 
     // 캐릭터가 가하는 데미지의 배율
     [Header("Damage Type Modifiers")]
-    public float physicalDamagePercentageModifier = 100;
-    public float fireDamagePercentageModifier = 100;
+    public float physicalDamagePercentageModifier = 1;
+    public float fireDamagePercentageModifier = 1;
 
     // 캐릭터가 받는 데미지의 배율
     [Header("Damage Absorption Modifiers")]

@@ -3,31 +3,101 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    [CreateAssetMenu(menuName = "Character Effects/Take Damage Effect")]
     public class TakeDamageEffect : CharacterEffect {
 
         // TODO
-        // Sound Effects
-        // Elemental Damage
-        public CharacterManager characterDamageFrom;
+        // SFX
+        // 속성뎀
+        readonly CharacterManager characterDamageFrom;
+        readonly TakeDamageEffectData takeDamageEffectData;
 
-        public float physicalDamage = 0;
+        // 공격자로부터 넘겨받는 정보
+        readonly float angleHitFrom;
+        readonly Vector3 contactPoint;
+        bool poiseIsBroken;
+        string damageAnimation;
 
-        public float poiseDamage = 0;
-        public bool poiseIsBroken = false;
+        public TakeDamageEffect(CharacterManager characterDamageFrom, TakeDamageEffectData takeDamageEffectData, float angleHitFrom, Vector3 contactPoint) : base(takeDamageEffectData) {
+            this.characterDamageFrom = characterDamageFrom;
+            this.takeDamageEffectData = takeDamageEffectData;
+            this.angleHitFrom = angleHitFrom;
+            this.contactPoint = contactPoint;
 
-        public bool playDamageAnimation = true;
-        public bool manuallySelectDamageAnimation = false;
-        public string damageAnimation;
-
-        public float angleHitFrom;
-        public Vector3 contactPoint;
+            poiseIsBroken = false;
+        }
 
         public override void ProcessEffect(CharacterManager character) {
             if (character.characterStatsManager.isDead) return;
             if (character.isInvulnerable) return;
 
-            //CalculateDamage(character);
+            CalculateDamage(character);
+            // 강인도에 의해 자세가 무너졌는지에 따른 애니메이션 재생
+
+            //if (poiseIsBroken)
+            CheckWhichDirectionDamageCameFrom(character);
+            PlayDamageAnimation(character);
+        }
+
+        void CalculateDamage(CharacterManager character) {
+            if (characterDamageFrom != null) {
+                takeDamageEffectData.physicalDamage *= characterDamageFrom.characterStatsManager.physicalDamagePercentageModifier;
+                // 속성 데미지?
+            }
+
+            float totalPhysicalDamageAbsorption = 1 -
+                (1 - character.characterStatsManager.physicalDamageAbsorptionHead) *
+                (1 - character.characterStatsManager.physicalDamageAbsorptionBody) *
+                (1 - character.characterStatsManager.physicalDamageAbsorptionLegs) *
+                (1 - character.characterStatsManager.physicalDamageAbsorptionHands);
+            takeDamageEffectData.physicalDamage -= (takeDamageEffectData.physicalDamage * totalPhysicalDamageAbsorption);
+
+            takeDamageEffectData.physicalDamage -= takeDamageEffectData.physicalDamage * (character.characterStatsManager.physicalAbsorptionPercentageModifier / 100);
+
+            // 속성 데미지?
+
+            float finalDamage = takeDamageEffectData.physicalDamage; // + 속성 데미지
+            character.characterStatsManager.currentHealth -= finalDamage;
+
+            //Debug.Log("캐릭터의 강인도 : " + character.characterStatsManager.totalPoiseDefense);
+            //Debug.Log("강인도 데미지 : " + takeDamageEffectData.poiseDamage);
+            character.characterStatsManager.totalPoiseDefense -= takeDamageEffectData.poiseDamage;
+            character.characterStatsManager.poiseResetTimer = character.characterStatsManager.totalPoiseResetTime;
+
+            if (character.characterStatsManager.totalPoiseDefense <= 0) poiseIsBroken = true;
+
+            if (character.characterStatsManager.currentHealth <= 0) {
+                character.characterStatsManager.currentHealth = 0;
+                character.characterStatsManager.isDead = true;
+            }
+        }
+
+        void CheckWhichDirectionDamageCameFrom(CharacterManager character) {
+            if (angleHitFrom >= -30 && angleHitFrom <= 30) {
+                damageAnimation = "Hit_From_Backward";
+            } else if (angleHitFrom < -30 && angleHitFrom > -150) {
+                damageAnimation = "Hit_From_Left";
+            } else if (angleHitFrom < 30 && angleHitFrom < 150) {
+                damageAnimation = "Hit_From_Right";
+            } else {
+                damageAnimation = "Hit_From_Forward";
+            }
+        }
+
+        // 피격 애니메이션 재생
+        // 상태를 만들면 거기서 재생하는게 나을듯?
+        void PlayDamageAnimation(CharacterManager character) {
+            //if (character.isPerformingAction) return;
+
+            if (character.characterStatsManager.isDead) {
+                // 캐릭터가 죽었을 경우
+            }
+
+            //if (!poiseIsBroken) return;
+            //else {
+            character.isPerformingAction = true;
+            Debug.Log(damageAnimation);
+            character.characterAnimatorManager.PlayAnimation(damageAnimation, character.isPerformingAction);
+            //}
         }
     }
 }

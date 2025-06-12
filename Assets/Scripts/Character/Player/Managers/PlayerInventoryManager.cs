@@ -27,37 +27,37 @@ namespace KBH {
             playerAccessoryInventorySlots = new();
         }
 
-        public void ItemCategoryReader(ItemCategory itemCategory, ref List<Item> refList) {
+        public void ItemCategoryReader(Enums.ItemCategoryCode itemCategory, ref List<Item> refList) {
             switch (itemCategory) {
-                case ItemCategory.Consumable_Countable:
-                case ItemCategory.Consumable_Countless:
+                case Enums.ItemCategoryCode.Consumable_Countable:
+                case Enums.ItemCategoryCode.Consumable_Countless:
                     refList = playerConsumableItemInventorySlots;
                     break;
 
-                case ItemCategory.Equipment_Weapon_Melee:
-                case ItemCategory.Equipment_Weapon_Range:
-                case ItemCategory.Equipment_Weapon_Catalyst:
+                case Enums.ItemCategoryCode.Equipment_Weapon_Melee:
+                case Enums.ItemCategoryCode.Equipment_Weapon_Range:
+                case Enums.ItemCategoryCode.Equipment_Weapon_Catalyst:
                     refList = playerWeaponInventorySlots;
                     break;
 
-                case ItemCategory.Equipment_Armor_Helmet:
+                case Enums.ItemCategoryCode.Equipment_Armor_Helmet:
                     refList = playerHelmetInventorySlots;
                     break;
 
-                case ItemCategory.Equipment_Armor_ChestArmor:
+                case Enums.ItemCategoryCode.Equipment_Armor_ChestArmor:
                     refList = playerChestArmorInventorySlots;
                     break;
 
-                case ItemCategory.Equipment_Armor_Guntlets:
+                case Enums.ItemCategoryCode.Equipment_Armor_Gauntlets:
                     refList = playerGuntletsInventorySlots;
                     break;
 
-                case ItemCategory.Equipment_Armor_Greaves:
+                case Enums.ItemCategoryCode.Equipment_Armor_Greaves:
                     refList = playerGreavesInventorySlots;
                     break;
 
-                case ItemCategory.Equipment_Accessory_Cape:
-                case ItemCategory.Equipment_Accessory_Ring:
+                case Enums.ItemCategoryCode.Equipment_Accessory_Cape:
+                case Enums.ItemCategoryCode.Equipment_Accessory_Ring:
                     refList = playerAccessoryInventorySlots;
                     break;
             }
@@ -69,20 +69,20 @@ namespace KBH {
             refList.Add(item);
         }
 
-        public int GetPlayerInventorySlotsCount(ItemCategory itemCategory) {
+        public int GetPlayerInventorySlotsCount(Enums.ItemCategoryCode itemCategory) {
             List<Item> refList = new();
             ItemCategoryReader(itemCategory, ref refList);
             return refList.Count;
         }
 
-        public Item? GetItemFromPlayerInventorySlots(ItemCategory itemCategory, int index) {
+        public Item? GetItemFromPlayerInventorySlots(Enums.ItemCategoryCode itemCategory, int index) {
             List<Item> refList = new();
             ItemCategoryReader(itemCategory, ref refList);
             //Debug.Log(refList[index]);
             return refList[index];
         }
 
-        public void AddToInventory(ItemCategory itemCategory, int index, Func<Item> addThisItem) {
+        public void AddToInventory(Enums.ItemCategoryCode itemCategory, int index, Func<Item> addThisItem) {
             List<Item> refList = new();
             ItemCategoryReader(itemCategory, ref refList);
             Item temp = addThisItem();
@@ -93,7 +93,7 @@ namespace KBH {
                 refList[index] = null;
         }
 
-        public void ResizeInventory(ItemCategory itemCategory) {
+        public void ResizeInventory(Enums.ItemCategoryCode itemCategory) {
             List<Item> refList = new();
             ItemCategoryReader(itemCategory, ref refList);
             for (int i = 0; i < refList.Count; i++) {

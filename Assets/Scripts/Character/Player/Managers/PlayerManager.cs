@@ -66,6 +66,7 @@ namespace KBH {
         protected void LateUpdate() {
             playerAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
             playerAnimatorManager.animator.SetBool("isAttacking", isAttacking);
+            playerAnimatorManager.animator.SetBool("isMoving", isMoving);
             playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
             playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
             playerAnimatorManager.animator.SetBool("isClimbing", isClimbing);

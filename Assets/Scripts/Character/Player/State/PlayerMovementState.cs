@@ -58,8 +58,8 @@ namespace KBH {
             // 달리기, 질주 상태에서 멈췄을 경우
             // stopping 상태에서 더이상 아무런 입력이 없으면 애니메이션을 끝까지 재생
             // 이동입력이 있다면 바로 다시 이동하기 위해 isPerformingAction 이 true 여도 방향키 입력은 받음
-            GetWASDInput();
             if (player.isPerformingAction) return;
+            GetWASDInput();
             HandleRotation();
             HandleMovement();
             HandleMouseInput();

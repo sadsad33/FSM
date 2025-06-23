@@ -8,7 +8,7 @@ namespace KBH {
             base.Enter(character);
             player.RunningStateTimer = 0f;
             if (!player.isAttacking)
-                player.isPerformingAction = true;
+                player.isMoving = true;
             player.playerInputManager.SprintInputTimer = 0f;
         }
 

@@ -7,16 +7,16 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             if (!player.isAttacking && !player.playerInteractionManager.isInteracting)
-                player.playerAnimatorManager.PlayAnimation("Light Stop", player.isPerformingAction);
+                player.playerAnimatorManager.PlayAnimation("Light Stop", player.isMoving);
         }
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
             if (!player.isAttacking && !player.playerInteractionManager.isInteracting) {
                 if (moveAmount > 0) {
-                    player.isPerformingAction = false;
+                    player.isMoving = false;
                 }
-                if (player.playerInputManager.LightAttackInput) player.isPerformingAction = false;
+                if (player.playerInputManager.LightAttackInput) player.isMoving = false;
             }
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
@@ -26,7 +26,7 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.isPerformingAction) {
+            if (!player.isMoving) {
                 player.pmsm.ChangeState(player.pmsm.idlingState);
             }
         }

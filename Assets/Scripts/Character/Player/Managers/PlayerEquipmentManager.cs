@@ -33,6 +33,7 @@ namespace KBH {
             if (currentRightHandSlotIndex >= 3)
                 currentRightHandSlotIndex -= 3;
             rightHandSlot.EquipItemOnSlot(rightHandEquipments[currentRightHandSlotIndex]);
+            LoadRightWeaponDamageCollider();
         }
 
         public void AddToEquipments(Item equipThis) {

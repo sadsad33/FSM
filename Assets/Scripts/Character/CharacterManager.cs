@@ -11,6 +11,9 @@ namespace KBH {
         public CharacterController cc;
         public Rigidbody rigidbody;
 
+        public bool gotHit;
+        public float hitTimer;
+
         public bool isInvulnerable;
         public bool isGrounded;
         public bool isJumping;
@@ -73,7 +76,9 @@ namespace KBH {
         public bool consumingStamina;
         public float staminaRegenerateTimer;
 
+        public StateMachine csm;
         protected virtual void Awake() {
+            csm = new(this);
             cc = GetComponent<CharacterController>();
             characterInteractionManager = GetComponentInChildren<CharacterInteractionManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
@@ -87,6 +92,14 @@ namespace KBH {
         }
 
         protected virtual void Update() {
+            if (gotHit) {
+                if (hitTimer >= 0.25f) {
+                    gotHit = false;
+                    hitTimer = 0.0f;
+                }
+                hitTimer += Time.deltaTime;
+            }
+
             if (rightFoot.position.y > leftFoot.position.y) rightFootUp = true;
             else rightFootUp = false;
 

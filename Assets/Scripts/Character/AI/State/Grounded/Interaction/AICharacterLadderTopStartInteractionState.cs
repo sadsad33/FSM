@@ -8,8 +8,9 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             curInteractable = aiInteraction.currentInteractable;
-            aiCharacter.isClimbing = true;
             aiCharacter.isMoving = true;
+            aiCharacter.isClimbing = true;
+            aiCharacter.cc.enabled = false;
             aiCharacter.isPerformingAction = true;
             aiCharacter.agent.updateRotation = false;
             aiCharacter.aiInteractionManager.isInteracting = true;

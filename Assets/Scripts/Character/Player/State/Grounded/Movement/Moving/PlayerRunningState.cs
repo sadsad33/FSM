@@ -8,6 +8,7 @@ namespace KBH {
         private float canSlidingDelayTimer;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            moveDirection = Vector3.zero;
             player.playerInputManager.SprintInputTimer = 0f;
             if (!sprintInputDelaySet)
                 sprintInputDelaySet = true;
@@ -72,8 +73,9 @@ namespace KBH {
             float speed = player.moveSpeed * moveSpeedModifier;
             moveDirection *= speed;
             //Debug.Log(moveDirection);
-            if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
-                PlayerMaximumVelocity = moveDirection;
+
+            //if (moveDirection.magnitude > CharacterMaximumVelocity.magnitude)
+            //    CharacterMaximumVelocity = moveDirection;
             if (player.cc.enabled)
                 player.cc.Move(moveDirection * Time.deltaTime);
         }

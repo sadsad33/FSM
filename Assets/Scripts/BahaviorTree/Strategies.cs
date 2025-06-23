@@ -74,21 +74,24 @@ namespace KBH {
 
         Vector3 currentStrafeTarget;
         readonly AICharacterCombatStanceState aiCombatStanceState;
-
+        readonly float maxStrafeDistance;
         public StrafeStrategy(Transform entity, Transform target, Enums.CharacterBehaviourCode strafeCode) {
             this.entity = entity;
             this.target = target;
             ai = entity.GetComponent<AICharacterManager>();
             aiCombatStanceState = ai.acsm.aiCombatStanceState;
             aiCombatStanceState.AIBehaviourStatus = strafeCode;
+            maxStrafeDistance = ai.aiStatsManager.AttackDistance * 0.9f;
             PickNewStrafeTarget();
         }
 
         public BTNode.Status Process() {
             if (ai.cc.enabled) ai.cc.enabled = false;
+            
             //Debug.Log("간보기");
             aiCombatStanceState.StrafeBehaviourTimer -= Time.deltaTime;
             if (currentStrafeTarget == ai.transform.position) PickNewStrafeTarget();
+            if (Vector3.Distance(currentStrafeTarget, ai.transform.position) > maxStrafeDistance) PickNewStrafeTarget();
 
             if (aiCombatStanceState.StrafeBehaviourTimer <= 0f) {
                 //Debug.Log("시간 초과");
@@ -113,7 +116,6 @@ namespace KBH {
             // 이동 실행
             Vector3 moveDirection = currentStrafeTarget - ai.transform.position;
             UpdateStrafeAnimation(moveDirection);
-            //entity.LookAt(target);
             moveDirection.Normalize();
             entity.position = Vector3.Lerp(entity.position, currentStrafeTarget, 0.5f * Time.deltaTime);
             //if (ai.cc.enabled) ai.cc.Move(0.35f * Time.deltaTime * moveDirection);
@@ -123,8 +125,7 @@ namespace KBH {
         void PickNewStrafeTarget() {
             //Debug.Log("포지션 수정");
             //strafeTimer = strafeDuration;
-
-            float radius = ai.aiStatsManager.AttackDistance * 0.9f;
+            
             float minAngle = -180f;
             float maxAngle = 180f;
 
@@ -136,7 +137,7 @@ namespace KBH {
 
             float angle = UnityEngine.Random.Range(minAngle, maxAngle);
             Vector3 direction = Quaternion.Euler(0, angle, 0) * ai.transform.forward;
-            Vector3 candidatePos = ai.transform.position + direction.normalized * radius;
+            Vector3 candidatePos = ai.transform.position + direction.normalized * maxStrafeDistance;
 
             if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
                 currentStrafeTarget = hit.position;

@@ -5,7 +5,6 @@ using UnityEngine;
 namespace KBH {
     public class AICharacterMovementState : CharacterMovementState {
         protected AICharacterManager aiCharacter;
-        protected AICharacterEyesManager aiCharacterEyes;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             //Debug.Log("AI Current State : " + this);
@@ -30,7 +29,6 @@ namespace KBH {
             if (aiCharacter.isClimbing) return;
             if (aiCharacter.aiEyesManager.currentTarget != null) {
                 if (!aiCharacter.isPerformingAction || aiCharacter.canRotateDuringAction) {
-                    //Debug.Log("È¸Àü");
                     Vector3 lookDirection = aiCharacter.aiEyesManager.currentTarget.transform.position - aiCharacter.transform.position;
                     lookDirection.y = 0;
                     lookDirection.Normalize();

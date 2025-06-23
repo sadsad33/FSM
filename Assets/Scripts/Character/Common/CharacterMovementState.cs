@@ -7,7 +7,7 @@ namespace KBH {
         protected CharacterManager character;
         protected Vector3 moveDirection;
         protected Vector3 lookingDirection;
-        public Vector3 PlayerMaximumVelocity { get; set; }
+        //public Vector3 CharacterMaximumVelocity { get; set; }
 
         protected float moveSpeedModifier;
         protected bool isBottomGrounded;

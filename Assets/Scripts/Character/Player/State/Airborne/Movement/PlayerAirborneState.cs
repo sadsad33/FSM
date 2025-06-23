@@ -49,8 +49,8 @@ namespace KBH {
             Vector3 targetDirection = moveDirection + aeroInputDirection;
             //if (player.pmsm.GetCurrentState() == player.pmsm.runningJumpState) Debug.Log("RunningJump Target Velocity : " + targetDirection);
             //if (player.pmsm.GetCurrentState() == player.pmsm.fallingState) Debug.Log("Falling Target Velocity : " + targetDirection);
-            if (targetDirection.magnitude > PlayerMaximumVelocity.magnitude)
-                PlayerMaximumVelocity = targetDirection;
+            //if (targetDirection.magnitude > CharacterMaximumVelocity.magnitude)
+            //    CharacterMaximumVelocity = targetDirection;
             if (aeroInputDirection == Vector3.zero) player.cc.Move(targetDirection / 350f);
             else player.cc.Move(targetDirection * Time.deltaTime);
         }

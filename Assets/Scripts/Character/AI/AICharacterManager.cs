@@ -27,6 +27,7 @@ namespace KBH {
             aiEyesManager = GetComponent<AICharacterEyesManager>();
             aiAnimatorManager = GetComponent<AICharacterAnimatorManager>();
             aiInteractionManager = GetComponentInChildren<AICharacterInteractionManager>();
+            CharacterInit();
             acsm = new AICharacterStateMachine(this);
         }
 
@@ -37,7 +38,6 @@ namespace KBH {
 
         protected override void Update() {
             base.Update();
-            CharacterInit();
             acsm.GetCurrentState().Stay(this);
         }
 

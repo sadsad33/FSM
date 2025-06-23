@@ -35,8 +35,8 @@ namespace KBH {
             base.HandleMovement();
             float speed = player.moveSpeed * moveSpeedModifier;
             moveDirection *= speed;
-            if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
-                PlayerMaximumVelocity = moveDirection;
+            //if (moveDirection.magnitude > CharacterMaximumVelocity.magnitude)
+            //    CharacterMaximumVelocity = moveDirection;
             if (player.cc.enabled)
                 player.cc.Move(moveDirection * Time.deltaTime);
         }

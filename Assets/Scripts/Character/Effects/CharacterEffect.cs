@@ -12,5 +12,7 @@ namespace KBH {
         public virtual void ProcessEffect(CharacterManager character) {
             
         }
+
+        public CharacterEffectData GetEffectData() => data;
     }
 }

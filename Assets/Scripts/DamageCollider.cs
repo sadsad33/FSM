@@ -30,7 +30,7 @@ namespace KBH {
         protected virtual void Awake() {
             damageCollider = GetComponentInChildren<Collider>();
         }
-        
+
         public void EnableDamageCollider() {
             //Debug.Log("무기 콜라이더 열기");
             damageCollider.enabled = true;
@@ -48,33 +48,40 @@ namespace KBH {
                 CharacterManager damageTarget = other.GetComponent<CharacterManager>();
                 //BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 //Debug.Log(damageTarget.characterStatsManager.isDead);
-
-                if (damageTarget.characterStatsManager.isDead) return;
                 //Debug.Log("passed DeathCheck");
                 if (damageTarget != null) {
+                    if (damageTarget.characterStatsManager.isDead) return;
+
                     if (damageTarget.characterStatsManager != null) {
                         if (damageTarget.characterStatsManager.teamID == teamID) return;
-                        CheckForParry(damageTarget);
-                        //CheckForBlock(damageTarget, shield, damageTarget.characterStatsManager);
-                        if (hasBeenParried) return;
-                        if (shieldHasBeenHit) return;
-                        damageTarget.characterStatsManager.poiseResetTimer = damageTarget.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
-                        damageTarget.characterStatsManager.totalPoiseDefense -= poiseDamage;
+                        if (damageTarget.isInvulnerable) return;
+                        if (damageTarget.gotHit) return;
+                        else {
+                            CheckForParry(damageTarget);
+                            //CheckForBlock(damageTarget, shield, damageTarget.characterStatsManager);
+                            if (hasBeenParried) return;
+                            if (shieldHasBeenHit) return;
 
-                        //if (damageTarget.characterStatsManager.teamID == 0) {
-                        //    NPCManager npcManager = damageTarget.transform.GetComponent<NPCManager>();
-                        //    if (teamIDNumber == 1) {
-                        //        npcManager.aggravationToEnemy += 30;
-                        //    } else if (teamIDNumber == 2) {
-                        //        npcManager.aggravationToPlayer += 10;
-                        //    }
-                        //    if (npcManager.currentTarget != characterCausingDamage.transform.GetComponent<CharacterStatsManager>()) {
-                        //        npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
-                        //    }
-                        //}
+                            damageTarget.gotHit = true;
+                            damageTarget.characterStatsManager.poiseResetTimer = damageTarget.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
+                            damageTarget.characterStatsManager.totalPoiseDefense -= poiseDamage;
 
-                        contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-                        angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up));
+                            //if (damageTarget.characterStatsManager.teamID == 0) {
+                            //    NPCManager npcManager = damageTarget.transform.GetComponent<NPCManager>();
+                            //    if (teamIDNumber == 1) {
+                            //        npcManager.aggravationToEnemy += 30;
+                            //    } else if (teamIDNumber == 2) {
+                            //        npcManager.aggravationToPlayer += 10;
+                            //    }
+                            //    if (npcManager.currentTarget != characterCausingDamage.transform.GetComponent<CharacterStatsManager>()) {
+                            //        npcManager.changeTargetTimer -= (npcManager.changeTargetTime / 2f);
+                            //    }
+                            //}
+
+                            contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                            angleHitFrom = (Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up));
+                            DealDamage(damageTarget);
+                        }
                     }
                 }
             }

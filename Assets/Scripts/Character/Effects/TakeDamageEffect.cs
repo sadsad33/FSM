@@ -29,7 +29,6 @@ namespace KBH {
         public override void ProcessEffect(CharacterManager character) {
             if (character.characterStatsManager.isDead) return;
             if (character.isInvulnerable) return;
-
             CalculateDamage(character);
             // 강인도에 의해 자세가 무너졌는지에 따른 애니메이션 재생
 
@@ -72,32 +71,42 @@ namespace KBH {
         }
 
         void CheckWhichDirectionDamageCameFrom(CharacterManager character) {
-            if (angleHitFrom >= -30 && angleHitFrom <= 30) {
-                damageAnimation = "Hit_From_Backward";
-            } else if (angleHitFrom < -30 && angleHitFrom > -150) {
-                damageAnimation = "Hit_From_Left";
-            } else if (angleHitFrom < 30 && angleHitFrom < 150) {
-                damageAnimation = "Hit_From_Right";
-            } else {
-                damageAnimation = "Hit_From_Forward";
-            }
+            if (character.isGrounded) {
+                if (angleHitFrom >= -30 && angleHitFrom <= 30) {
+                    damageAnimation = "Hit_From_Backward";
+                } else if (angleHitFrom < -30 && angleHitFrom > -150) {
+                    damageAnimation = "Hit_From_Left";
+                } else if (angleHitFrom < 30 && angleHitFrom < 150) {
+                    damageAnimation = "Hit_From_Right";
+                } else {
+                    damageAnimation = "Hit_From_Forward";
+                }
+            } 
+            //else {
+            //    damageAnimation = "Hit_Airborne";
+            //}
         }
 
         // 피격 애니메이션 재생
         // 상태를 만들면 거기서 재생하는게 나을듯?
         void PlayDamageAnimation(CharacterManager character) {
-            //if (character.isPerformingAction) return;
-
-            if (character.characterStatsManager.isDead) {
-                // 캐릭터가 죽었을 경우
-            }
-
-            //if (!poiseIsBroken) return;
-            //else {
-            character.isPerformingAction = true;
-            Debug.Log(damageAnimation);
-            character.characterAnimatorManager.PlayAnimation(damageAnimation, character.isPerformingAction);
+            //if (character.characterStatsManager.isDead) {
+            //    // 캐릭터가 죽었을 경우
             //}
+            if (!character.isPerformingAction) {
+                //if (!poiseIsBroken) return;
+                //else {
+                character.isPerformingAction = true;
+                //Debug.Log("애니메이션 재생");
+                character.characterAnimatorManager.PlayAnimation(damageAnimation, character.isPerformingAction);
+                //}
+            } else {
+                character.isPerformingAction = true;
+                //Debug.Log("애니메이션 강제 재생");
+                character.characterAnimatorManager.animator.applyRootMotion = character.isPerformingAction;
+                character.characterAnimatorManager.animator.Play(damageAnimation, 3, 0f);
+                character.characterAnimatorManager.animator.Update(0);
+            }
         }
     }
 }

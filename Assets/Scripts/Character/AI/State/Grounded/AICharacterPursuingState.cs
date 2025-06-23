@@ -7,10 +7,11 @@ namespace KBH {
     public class AICharacterPursuingState : AICharacterGroundedState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            aiCharacterEyes = aiCharacter.aiEyesManager;
+            if (!aiCharacter.cc.enabled) aiCharacter.cc.enabled = true;
             aiCharacter.agent.enabled = true;
             aiCharacter.agent.updateRotation = true;
             moveSpeedModifier = 2f;
+            //Debug.Log(aiCharacter.isGrounded);
         }
 
         public override void Stay(CharacterManager character) {
@@ -35,7 +36,7 @@ namespace KBH {
 
         private void HandleMovement() {
             //Debug.Log("움직이기");
-            aiCharacter.agent.SetDestination(aiCharacterEyes.currentTarget.transform.position);
+            aiCharacter.agent.SetDestination(aiCharacter.aiEyesManager.currentTarget.transform.position);
             moveDirection = aiCharacter.agent.desiredVelocity;
             if (aiCharacter.cc.enabled)
                 aiCharacter.cc.Move(Time.deltaTime * moveDirection);

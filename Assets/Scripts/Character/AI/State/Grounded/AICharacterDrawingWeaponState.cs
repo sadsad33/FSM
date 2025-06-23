@@ -9,6 +9,8 @@ namespace KBH {
             aiCharacter.isPerformingAction = true;
             aiCharacter.aiStatsManager.hasDrawnWeapon = true;
             aiCharacter.aiAnimatorManager.PlayAnimation("Draw Sword", aiCharacter.isPerformingAction);
+            aiCharacter.aiEquipmentManager.rightHandSlot.EquipItemOnSlot(aiCharacter.aiEquipmentManager.GetAICurrentRightWeapon());
+            aiCharacter.aiEquipmentManager.LoadRightWeaponDamageCollider();
         }
 
         public override void Stay(CharacterManager character) {

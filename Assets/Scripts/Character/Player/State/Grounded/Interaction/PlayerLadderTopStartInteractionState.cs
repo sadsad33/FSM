@@ -37,7 +37,6 @@ namespace KBH {
         public override void HandleInput(CharacterManager character) {
             base.HandleInput(character);
             if (!player.isPerformingAction && player.transform.position == targetPosition) {
-                Debug.Log("How");
                 player.cc.enabled = true;
                 playerInteraction.pism.ChangeState(playerInteraction.pism.notInteractingState);
             }

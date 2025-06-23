@@ -11,7 +11,7 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            if (character.InAirTimer != 0)
+            if (aiCharacter.InAirTimer != 0)
                 inAirTimer = aiCharacter.InAirTimer;
             aiCharacter.aiAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }

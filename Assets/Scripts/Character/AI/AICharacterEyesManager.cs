@@ -8,7 +8,7 @@ namespace KBH {
         public CharacterManager targetPossible;
         public CharacterManager targetAround;
         public CharacterManager currentTarget;
-        AICharacterManager aiCharacterManager;
+        [SerializeField] AICharacterManager aiCharacterManager;
 
         private void Awake() {
             aiCharacterManager = GetComponent<AICharacterManager>();
@@ -25,7 +25,7 @@ namespace KBH {
             for (int i = 0; i < colliders.Length; i++) {
                 CharacterManager character = colliders[i].transform.GetComponent<CharacterManager>();
 
-                if (character != null && character.transform.gameObject != this.transform.gameObject) {
+                if (character != null && character.transform.gameObject != transform.gameObject) {
                     Vector3 targetDirection = character.transform.position - transform.position;
                     float angle = Vector3.Angle(targetDirection, transform.forward);
                     if (angle < 45 && angle > -45) {
@@ -40,7 +40,7 @@ namespace KBH {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, aiCharacterManager.aiStatsManager.DetectionRadius * 2)) {
                 CharacterManager character = hit.transform.GetComponent<CharacterManager>();
-                if (character != null) {
+                if (character != null && character.transform.gameObject != transform.gameObject) {
                     targetPossible = character;
                 }
             }

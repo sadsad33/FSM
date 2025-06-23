@@ -8,11 +8,15 @@ namespace KBH {
         BehaviourTree combatStanceBT;
         bool treeHasBuilt = false;
         BTNode.Status result;
+
+        float stateTransitionDelay = 1.5f;
+        float stateTransitionTimer;
         public Enums.CharacterBehaviourCode AIBehaviourStatus { get; set; }
         public float StrafeBehaviourTimer { get; set; }
 
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            stateTransitionTimer = 0f;
             StrafeBehaviourTimer = 2f;
             aiCharacter.isCombatStance = true;
             aiCharacter.agent.enabled = false;
@@ -26,6 +30,10 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
+            if (Vector3.Distance(aiCharacter.transform.position, aiCharacter.aiEyesManager.currentTarget.transform.position) > aiCharacter.aiStatsManager.CombatStanceDistance)
+                stateTransitionTimer += Time.deltaTime;
+            else stateTransitionTimer = 0f;
+
         }
 
         public override void Exit(CharacterManager character) {
@@ -34,6 +42,12 @@ namespace KBH {
         public override void Thinking() {
             base.Thinking();
             result = combatStanceBT.Process();
+
+            if (!aiCharacter.isPerformingAction && stateTransitionTimer >= stateTransitionDelay) {
+                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiIdlingState);
+                combatStanceBT.Reset();
+            }
+            
             //Debug.Log(StrafeBehaviourTimer);
             if (result == BTNode.Status.Success || result == BTNode.Status.Failure) {
                 combatStanceBT.Reset();

@@ -231,7 +231,10 @@ namespace KBH {
             this.strategy = strategy;
         }
 
-        public override Status Process() => strategy.Process();
+        public override Status Process() {
+            //Debug.Log(strategy);
+            return strategy.Process();
+        }
         public override void Reset() => strategy.Reset();
     }
 

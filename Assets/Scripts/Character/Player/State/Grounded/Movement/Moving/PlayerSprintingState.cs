@@ -61,8 +61,9 @@ namespace KBH {
             float speed = player.moveSpeed * moveSpeedModifier;
             //currentMovingSpeed = speed;
             moveDirection *= speed;
-            if (moveDirection.magnitude > PlayerMaximumVelocity.magnitude)
-                PlayerMaximumVelocity = moveDirection;
+
+            //if (moveDirection.magnitude > CharacterMaximumVelocity.magnitude)
+            //    CharacterMaximumVelocity = moveDirection;
             if (player.cc.enabled)
                 player.cc.Move(moveDirection * Time.deltaTime);
         }

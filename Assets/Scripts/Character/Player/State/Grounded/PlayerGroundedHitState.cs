@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerLandToMoveState : PlayerLandingState {
+    public class PlayerGroundedHitState : PlayerGroundedState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            //Debug.Log(player.isPerformingAction);
-            if (!player.isAttacking)
-                player.playerAnimatorManager.PlayAnimation("Land To Move", player.isPerformingAction);
+            if (!player.isPerformingAction) player.isPerformingAction = true;
+            if (player.isJumping) player.isJumping = false;
         }
 
         public override void Stay(CharacterManager character) {
-            //Debug.Log(player.isPerformingAction);
             base.Stay(character);
-            //player.cc.Move(Vector3.zero);
         }
 
         public override void Exit(CharacterManager character) {
+            base.Exit(character);
         }
 
         public override void HandleInput() {

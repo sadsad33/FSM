@@ -7,18 +7,23 @@ namespace KBH {
         [SerializeField] Item? currentItemOnSlot;
         GameObject? currentItemModelOnSlot;
         [SerializeField] bool isLeftHandSlot;
+        [SerializeField] Item unarmed;
+        
         public virtual void EquipItemOnSlot(Item item) {
-            if (item == null) return;
-            currentItemOnSlot = item;
-            if (item.itemModel != null)
-                currentItemModelOnSlot = Instantiate(item.itemModel, transform);
+            if (item == null) currentItemOnSlot = unarmed;
+            else currentItemOnSlot = item;
+
+            if (currentItemModelOnSlot != null) Destroy(currentItemModelOnSlot);
+            
+            if (currentItemOnSlot.itemModel != null)
+                currentItemModelOnSlot = Instantiate(currentItemOnSlot.itemModel, transform);
         }
 
         public virtual void UnEquipItemOnSlot() {
             //Debug.Log("아이템 언로드");
-            currentItemOnSlot = null;
             if (currentItemModelOnSlot != null)
                 Destroy(currentItemModelOnSlot);
+            EquipItemOnSlot(unarmed);
         }
 
         public bool IsLeftHandSlot() => isLeftHandSlot;

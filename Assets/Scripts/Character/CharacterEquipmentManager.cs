@@ -32,23 +32,17 @@ namespace KBH {
 
         [Header("Accessory")]
         public List<Item> accessoryEquipments;
-
-
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
         }
 
         protected virtual void Start() {
             LoadHandSlots();
-            if (rightHandEquipments[currentRightHandSlotIndex] != null) {
-                //Debug.Log("오른손에 무기 장착");
-                rightHandSlot.EquipItemOnSlot(rightHandEquipments[currentRightHandSlotIndex]);
-                LoadRightWeaponDamageCollider();
-            }
-            if (leftHandEquipments[currentLeftHandSlotIndex] != null) {
-                leftHandSlot.EquipItemOnSlot(leftHandEquipments[currentLeftHandSlotIndex]);
-                LoadLeftWeaponDamageCollider();
-            }
+            //Debug.Log("오른손에 무기 장착");
+            rightHandSlot.EquipItemOnSlot(rightHandEquipments[currentRightHandSlotIndex]);
+            LoadRightWeaponDamageCollider();
+            leftHandSlot.EquipItemOnSlot(leftHandEquipments[currentLeftHandSlotIndex]);
+            LoadLeftWeaponDamageCollider();
         }
 
         public void SetHelmet() {
@@ -97,7 +91,7 @@ namespace KBH {
             }
         }
 
-        protected virtual void LoadRightWeaponDamageCollider() {
+        public virtual void LoadRightWeaponDamageCollider() {
             rightHandDamageCollider = rightHandSlot.GetItemModelOnSlot().GetComponentInChildren<DamageCollider>();
             WeaponItem temp = rightHandSlot.GetItemOnSlot() as WeaponItem;
             rightHandDamageCollider.physicalDamage = temp.physicalDamage;
@@ -107,7 +101,7 @@ namespace KBH {
             rightHandDamageCollider.DisableDamageCollider();
         }
 
-        protected virtual void LoadLeftWeaponDamageCollider() {
+        public virtual void LoadLeftWeaponDamageCollider() {
             leftHandDamageCollider = leftHandSlot.GetItemModelOnSlot().GetComponentInChildren<DamageCollider>();
             WeaponItem temp = leftHandSlot.GetItemOnSlot() as WeaponItem;
             leftHandDamageCollider.physicalDamage = temp.physicalDamage;

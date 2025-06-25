@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace KBH {
     public class PlayerActionStateMachine : StateMachine {
         public PlayerStandingActionIdlingState standingActionIdlingState;
         public PlayerAirborneActionIdlingState airborneActionIdlingState;
         public PlayerSlidingActionIdlingState slidingActionIdlingState;
-        public PlayerCrouchedActionIdlingState crouchedActionIdlingState;
+        public PlayerCrouchingActionIdlingState crouchedActionIdlingState;
         public PlayerSprintingActionIdlingState sprintingActionIdlingState;
 
         public PlayerOneHandSwordFirstAttackState oneHandSwordFirstAttackState;
@@ -22,6 +23,9 @@ namespace KBH {
         public PlayerCrouchingAttackState crouchingAttackState;
         public PlayerRunningAttackState runningAttackState;
 
+        public PlayerWeaponArtActionState weaponArtActionState;
+        public PlayerHasBeenParriedState hasBeenParriedState;
+        
         public PlayerActionStateMachine(PlayerManager player) : base(player) {
             standingActionIdlingState = new PlayerStandingActionIdlingState();
             oneHandSwordFirstAttackState = new PlayerOneHandSwordFirstAttackState();
@@ -37,11 +41,14 @@ namespace KBH {
             slidingActionIdlingState = new PlayerSlidingActionIdlingState();
             slidingAttackState = new PlayerSlideAttackState();
 
-            crouchedActionIdlingState = new PlayerCrouchedActionIdlingState();
+            crouchedActionIdlingState = new PlayerCrouchingActionIdlingState();
             crouchingAttackState = new PlayerCrouchingAttackState();
 
             sprintingActionIdlingState = new PlayerSprintingActionIdlingState();
             runningAttackState = new PlayerRunningAttackState();
+
+            weaponArtActionState = new();
+            hasBeenParriedState = new();
         }
 
         public override void ChangeState(IState newState) {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace KBH {
-    public class PlayerStandingActionIdlingState : PlayerGroundedActionIdlingState {
+    public class PlayerStandingActionIdlingState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.canAttackDuringAction = false;
@@ -24,6 +24,8 @@ namespace KBH {
                 player.pasm.ChangeState(player.pasm.oneHandSwordFirstAttackState);
             } else if (player.playerInputManager.HeavyAttackInput) {
                 player.pasm.ChangeState(player.pasm.oneHandSwordHeavyAttackState);
+            } else if (player.playerInputManager.WeaponArtInput) {
+                player.pasm.ChangeState(player.pasm.weaponArtActionState);
             }
         }
     }

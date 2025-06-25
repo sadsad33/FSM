@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerOneHandSwordComboAttackState : PlayerActionState {
+    public class PlayerOneHandSwordComboAttackState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(20f);

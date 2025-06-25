@@ -18,7 +18,10 @@ namespace KBH {
         public bool isGrounded;
         public bool isJumping;
         public bool isCrouched;
+
         public bool isParrying;
+        public bool hasBeenParried;
+        
         public bool canBeRiposted;
 
         public bool isClimbing;

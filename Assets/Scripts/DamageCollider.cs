@@ -19,7 +19,6 @@ namespace KBH {
         //public float fireDamage;
 
         protected bool shieldHasBeenHit;
-        bool hasBeenParried;
         protected string currentDamageAnimation;
 
         protected Vector3 contactPoint;
@@ -44,7 +43,6 @@ namespace KBH {
             //if (!characterCausingDamage.IsOwner) return;
             if (other.CompareTag("Character")) {
                 shieldHasBeenHit = false;
-                hasBeenParried = false;
                 CharacterManager damageTarget = other.GetComponent<CharacterManager>();
                 //BlockingCollider shield = other.transform.GetComponentInChildren<BlockingCollider>();
                 //Debug.Log(damageTarget.characterStatsManager.isDead);
@@ -57,12 +55,15 @@ namespace KBH {
                         if (damageTarget.isInvulnerable) return;
                         if (damageTarget.gotHit) return;
                         else {
-                            CheckForParry(damageTarget);
+                            if (damageTarget.isParrying) {
+                                //Debug.Log("패링당함");
+                                characterCausingDamage.hasBeenParried = true;
+                                return;
+                            }
                             //CheckForBlock(damageTarget, shield, damageTarget.characterStatsManager);
-                            if (hasBeenParried) return;
                             if (shieldHasBeenHit) return;
 
-                            damageTarget.gotHit = true;
+                            damageTarget.gotHit = true; // 이걸로 데미지 상태 진입?
                             damageTarget.characterStatsManager.poiseResetTimer = damageTarget.characterStatsManager.totalPoiseResetTime; // 강인도 리셋 시간 설정
                             damageTarget.characterStatsManager.totalPoiseDefense -= poiseDamage;
 
@@ -98,14 +99,6 @@ namespace KBH {
             takeDamageEffectData.poiseDamage = poiseDamage;
             TakeDamageEffect takeDamageEffect = WorldEffectManager.instance.CreateTakeDamageEffect(characterCausingDamage, takeDamageEffectData, angleHitFrom, contactPoint);
             target.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
-        }
-
-        protected virtual void CheckForParry(CharacterManager enemyManager) {
-            if (enemyManager.isParrying) {
-                //Debug.Log("패리 성공");
-                characterCausingDamage.transform.GetComponent<CharacterAnimatorManager>().PlayAnimation("Parried", true);
-                hasBeenParried = true;
-            }
         }
     }
 }

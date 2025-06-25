@@ -7,9 +7,6 @@ namespace KBH {
         //PlayerMovementState currentPlayerMovementState;
         public PlayerIdlingState idlingState;
 
-        public PlayerGroundedHitState groundedHitState;
-        public PlayerAirborneHitState airborneHitState;
-
         #region CrouchingState
         public PlayerStandToCrouchState standToCrouchState;
         public PlayerCrouchToStandState crouchToStandState;
@@ -50,13 +47,12 @@ namespace KBH {
         public PlayerStandingJumpState standingJumpState;
         #endregion
 
+        public PlayerGroundedHitState groundedHitState;
+
         public PlayerMovementStateMachine(PlayerManager player) : base(player) {
 
             idlingState = new PlayerIdlingState();
-
-            groundedHitState = new();
-            airborneHitState = new();
-
+            
             standToCrouchState = new PlayerStandToCrouchState();
             crouchToStandState = new PlayerCrouchToStandState();
             crouchedIdlingState = new PlayerCrouchedIdlingState();
@@ -83,6 +79,8 @@ namespace KBH {
             leftFootUpIdlingState = new();
             climbingUpState = new();
             climbingDownState = new();
+
+            groundedHitState = new();
         }
 
         public override void ChangeState(IState newState) {

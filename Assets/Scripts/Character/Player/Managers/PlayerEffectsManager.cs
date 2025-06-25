@@ -19,7 +19,7 @@ namespace KBH {
                 // 공중에 있을때 공격당할 경우
                 player.pmsm.ChangeState(player.pmsm.groundedHitState);
             }
-            effect.ProcessEffect(character);
+            effect.ProcessEffect(player);
         }
     }
 }

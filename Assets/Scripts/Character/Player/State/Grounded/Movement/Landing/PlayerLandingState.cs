@@ -8,8 +8,6 @@ namespace KBH {
             base.Enter(character);
             //player.InAirTimer = 0f;
             player.canSliding = false;
-            if (!player.isAttacking)
-                player.isPerformingAction = true;
         }
 
         public override void Stay(CharacterManager character) {

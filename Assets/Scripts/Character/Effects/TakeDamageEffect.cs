@@ -71,18 +71,17 @@ namespace KBH {
         }
 
         void CheckWhichDirectionDamageCameFrom(CharacterManager character) {
-            if (character.isGrounded) {
-                if (angleHitFrom >= -30 && angleHitFrom <= 30) {
-                    damageAnimation = "Hit_From_Backward";
-                } else if (angleHitFrom < -30 && angleHitFrom > -150) {
-                    damageAnimation = "Hit_From_Left";
-                } else if (angleHitFrom < 30 && angleHitFrom < 150) {
-                    damageAnimation = "Hit_From_Right";
-                } else {
-                    damageAnimation = "Hit_From_Forward";
-                }
-            } 
-            //else {
+            //if(character.isGrounded){
+            if (angleHitFrom >= -30 && angleHitFrom <= 30) {
+                damageAnimation = "Hit_From_Backward";
+            } else if (angleHitFrom < -30 && angleHitFrom > -150) {
+                damageAnimation = "Hit_From_Left";
+            } else if (angleHitFrom < 30 && angleHitFrom < 150) {
+                damageAnimation = "Hit_From_Right";
+            } else {
+                damageAnimation = "Hit_From_Forward";
+            }
+            //} else {
             //    damageAnimation = "Hit_Airborne";
             //}
         }
@@ -93,19 +92,18 @@ namespace KBH {
             //if (character.characterStatsManager.isDead) {
             //    // 캐릭터가 죽었을 경우
             //}
-            if (!character.isPerformingAction) {
-                //if (!poiseIsBroken) return;
-                //else {
-                character.isPerformingAction = true;
-                //Debug.Log("애니메이션 재생");
-                character.characterAnimatorManager.PlayAnimation(damageAnimation, character.isPerformingAction);
-                //}
-            } else {
-                character.isPerformingAction = true;
+            //if (!poiseIsBroken) return;
+            //else {
+            //character.isPerformingAction = true;
+
+            if (character.characterAnimatorManager.animator.GetCurrentAnimatorStateInfo(3).IsName(damageAnimation)) {
                 //Debug.Log("애니메이션 강제 재생");
                 character.characterAnimatorManager.animator.applyRootMotion = character.isPerformingAction;
                 character.characterAnimatorManager.animator.Play(damageAnimation, 3, 0f);
                 character.characterAnimatorManager.animator.Update(0);
+            } else {
+                //Debug.Log("애니메이션 재생");
+                character.characterAnimatorManager.PlayAnimation(damageAnimation, character.isPerformingAction);
             }
         }
     }

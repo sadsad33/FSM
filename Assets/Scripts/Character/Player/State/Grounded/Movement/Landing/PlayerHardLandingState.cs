@@ -6,8 +6,10 @@ namespace KBH {
     public class PlayerHardLandingState : PlayerLandingState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            if (!player.isAttacking)
+            if (!player.isAttacking && !player.isPerformingAction) {
+                player.isPerformingAction = true;
                 player.playerAnimatorManager.PlayAnimation("Hard Landing", player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {
@@ -20,8 +22,8 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            //if (!player.isPerformingAction)
-            player.pmsm.ChangeState(player.pmsm.idlingState);
+            if (!player.isPerformingAction)
+                player.pmsm.ChangeState(player.pmsm.idlingState);
         }
     }
 }

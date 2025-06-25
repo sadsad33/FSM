@@ -6,9 +6,10 @@ namespace KBH {
     public class PlayerLandToMoveState : PlayerLandingState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            //Debug.Log(player.isPerformingAction);
-            if (!player.isAttacking)
-                player.playerAnimatorManager.PlayAnimation("Land To Move", player.isPerformingAction);
+            if (!player.isAttacking && !player.isPerformingAction) {
+                player.isMoving = true;
+                player.playerAnimatorManager.PlayAnimation("Land To Move", player.isMoving);
+            }
         }
 
         public override void Stay(CharacterManager character) {
@@ -22,7 +23,7 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.isPerformingAction) {
+            if (!player.isMoving) {
                 player.pmsm.ChangeState(player.pmsm.idlingState);
             }
         }

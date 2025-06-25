@@ -6,7 +6,7 @@ namespace KBH {
     public class PlayerGroundedHitState : PlayerGroundedState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            if (!player.isPerformingAction) player.isPerformingAction = true;
+            player.isPerformingAction = true;
             if (player.isJumping) player.isJumping = false;
         }
 

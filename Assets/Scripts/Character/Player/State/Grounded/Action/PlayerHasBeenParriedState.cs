@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerGroundedActionIdlingState : PlayerActionState {
+    public class PlayerHasBeenParriedState : PlayerGroundedActionState{
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            player.isPerformingAction = true;
+            player.playerAnimatorManager.PlayAnimation("Parry_Parried", player.isPerformingAction);
         }
 
         public override void Stay(CharacterManager character) {
@@ -18,6 +20,9 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
+            if (!player.isPerformingAction) {
+                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+            }
         }
     }
 }

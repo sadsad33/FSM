@@ -64,6 +64,7 @@ namespace KBH {
 
             //if (moveDirection.magnitude > CharacterMaximumVelocity.magnitude)
             //    CharacterMaximumVelocity = moveDirection;
+            //Debug.Log(moveDirection.magnitude);
             if (player.cc.enabled)
                 player.cc.Move(moveDirection * Time.deltaTime);
         }

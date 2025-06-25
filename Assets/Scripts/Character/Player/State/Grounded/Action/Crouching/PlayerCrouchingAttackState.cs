@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerCrouchingAttackState : PlayerActionState {
+    public class PlayerCrouchingAttackState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.isPerformingAction = true;

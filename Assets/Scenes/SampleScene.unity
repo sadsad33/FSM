@@ -9402,6 +9402,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 571296975}
+  - {fileID: 901701668}
+  - {fileID: 1653200017}
   m_Father: {fileID: 1533636529}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9790,7 +9792,7 @@ Transform:
   m_GameObject: {fileID: 338580026}
   m_LocalRotation: {x: -0.15304585, y: 0.6903456, z: 0.15304585, w: 0.6903456}
   m_LocalPosition: {x: -0.45, y: 2.067775, z: 20.51}
-  m_LocalScale: {x: 5, y: 0.1, z: 10}
+  m_LocalScale: {x: 5, y: 0.1, z: 28.415}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 526391949}
@@ -21928,6 +21930,51 @@ Transform:
   m_Father: {fileID: 1086913581}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &901701667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 901701668}
+  - component: {fileID: 901701669}
+  m_Layer: 12
+  m_Name: RiposteCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &901701668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901701667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: -0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 293566284}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &901701669
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901701667}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.78759885, z: 0.100000024}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &915909885
 GameObject:
   m_ObjectHideFlags: 0
@@ -45051,11 +45098,14 @@ MonoBehaviour:
   characterStatsManager: {fileID: 0}
   cc: {fileID: 0}
   rigidbody: {fileID: 0}
+  gotHit: 0
+  hitTimer: 0
   isInvulnerable: 0
   isGrounded: 0
   isJumping: 0
   isCrouched: 0
   isParrying: 0
+  hasBeenParried: 0
   canBeRiposted: 0
   isClimbing: 0
   isOnLadderTopEdge: 0
@@ -46471,6 +46521,51 @@ Transform:
   m_Father: {fileID: 850014231}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1653200016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1653200017}
+  - component: {fileID: 1653200018}
+  m_Layer: 12
+  m_Name: BackStabCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1653200017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653200016}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: -0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 293566284}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1653200018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653200016}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1657209011
 GameObject:
   m_ObjectHideFlags: 0
@@ -57432,11 +57527,14 @@ MonoBehaviour:
   characterStatsManager: {fileID: 0}
   cc: {fileID: 0}
   rigidbody: {fileID: 0}
+  gotHit: 0
+  hitTimer: 0
   isInvulnerable: 0
   isGrounded: 0
   isJumping: 0
   isCrouched: 0
   isParrying: 0
+  hasBeenParried: 0
   canBeRiposted: 0
   isClimbing: 0
   isOnLadderTopEdge: 0

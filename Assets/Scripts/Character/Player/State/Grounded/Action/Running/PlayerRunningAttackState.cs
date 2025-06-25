@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerRunningAttackState : PlayerActionState {
+    public class PlayerRunningAttackState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             //player.pmsm.ChangeState(player.pmsm.idlingState);

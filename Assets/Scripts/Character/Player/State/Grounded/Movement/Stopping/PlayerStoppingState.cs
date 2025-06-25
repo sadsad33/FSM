@@ -9,7 +9,8 @@ namespace KBH {
             player.RunningStateTimer = 0f;
             if (!player.isAttacking)
                 player.isMoving = true;
-            player.playerInputManager.SprintInputTimer = 0f;
+            //player.playerInputManager.SprintInputTimer = 0f;
+            player.pasm.ChangeState(player.pasm.standingActionIdlingState);
         }
 
         public override void Stay(CharacterManager character) {

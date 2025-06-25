@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerSprintingActionIdlingState : PlayerGroundedActionState {
+    public class PlayerCrouchingActionIdlingState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
         }
@@ -20,7 +20,7 @@ namespace KBH {
             base.HandleInput();
             if (player.playerStatsManager.currentStamina <= 10f) return;
             else if (player.playerInputManager.LightAttackInput)
-                player.pasm.ChangeState(player.pasm.runningAttackState);
+                player.pasm.ChangeState(player.pasm.crouchingAttackState);
         }
     }
 }

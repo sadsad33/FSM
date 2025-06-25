@@ -24,6 +24,7 @@ namespace KBH {
 
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            moveDirection = Vector3.zero;
             player = character as PlayerManager;
             Debug.Log("Player Current Movement State : " + GetType());
             //Debug.Log("Current State moveDirection : " + moveDirection);

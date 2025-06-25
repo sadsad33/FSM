@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerCrouchedActionIdlingState : PlayerGroundedActionIdlingState {
+    public class PlayerWeaponArtActionState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            player.isPerformingAction = true;
+            // 무기의 정보중 전투기술 항목을 참조해서 애니메이션 이름을 받아오는 식으로
+            player.playerAnimatorManager.PlayAnimation("Parry_Parry", player.isPerformingAction);
         }
 
         public override void Stay(CharacterManager character) {
@@ -13,14 +16,13 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
-            base.Exit(character);
         }
 
         public override void HandleInput() {
             base.HandleInput();
-            if (player.playerStatsManager.currentStamina <= 10f) return;
-            else if (player.playerInputManager.LightAttackInput)
-                player.pasm.ChangeState(player.pasm.crouchingAttackState);
+            if (!player.isPerformingAction) {
+                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+            }
         }
     }
 }

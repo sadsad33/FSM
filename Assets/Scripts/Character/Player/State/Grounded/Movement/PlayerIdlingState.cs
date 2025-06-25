@@ -7,6 +7,8 @@ namespace KBH {
 
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            player.isMoving = false;
+            //player.isPerformingAction = false;
             player.pasm.ChangeState(player.pasm.standingActionIdlingState);
             player.RunningStateTimer = 0f;
             moveSpeedModifier = 0f;
@@ -45,13 +47,13 @@ namespace KBH {
 
         protected override void HandleMovement() {
             base.HandleMovement();
-            float speed = player.moveSpeed * moveSpeedModifier;
-            //currentMovingSpeed = speed;
-            moveDirection *= speed;
-            //if (moveDirection.magnitude > CharacterMaximumVelocity.magnitude)
-            //    CharacterMaximumVelocity = moveDirection;
-            if (player.cc.enabled)
-                player.cc.Move(moveDirection * speed);
+            //float speed = player.moveSpeed * moveSpeedModifier;
+            ////currentMovingSpeed = speed;
+            //moveDirection *= speed;
+            ////if (moveDirection.magnitude > CharacterMaximumVelocity.magnitude)
+            ////    CharacterMaximumVelocity = moveDirection;
+            //if (player.cc.enabled)
+            //    player.cc.Move(moveDirection * speed);
         }
     }
 }

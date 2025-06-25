@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerMeleeJumpLightAttackState : PlayerAirborneActionIdlingState {
+    public class PlayerMeleeJumpLightAttackState : PlayerAirborneActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(15f);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerAirborneActionIdlingState : PlayerActionState {
+    public class PlayerAirborneActionIdlingState : PlayerAirborneActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.playerAnimatorManager.PlayAnimation("One Hand Idle", false);

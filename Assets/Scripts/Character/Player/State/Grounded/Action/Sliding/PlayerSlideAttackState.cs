@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerSlideAttackState : PlayerActionState {
+    public class PlayerSlideAttackState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             //player.pmsm.ChangeState(player.pmsm.notMovingState);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerSlidingActionIdlingState : PlayerGroundedActionIdlingState {
+    public class PlayerSlidingActionIdlingState : PlayerGroundedActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
         }

@@ -217,6 +217,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponArt"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9b0d742-f0c7-426c-99bb-5b66c21eac72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -340,6 +349,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""UIAction1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd983348-65d4-4c88-9b54-ed8d0a060e6d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponArt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -363,6 +383,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerActions_MenuSelection = m_PlayerActions.FindAction("MenuSelection", throwIfNotFound: true);
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActions_UIAction1 = m_PlayerActions.FindAction("UIAction1", throwIfNotFound: true);
+        m_PlayerActions_WeaponArt = m_PlayerActions.FindAction("WeaponArt", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -489,6 +510,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_MenuSelection;
     private readonly InputAction m_PlayerActions_Interact;
     private readonly InputAction m_PlayerActions_UIAction1;
+    private readonly InputAction m_PlayerActions_WeaponArt;
     public struct PlayerActionsActions
     {
         private @PlayerInput m_Wrapper;
@@ -504,6 +526,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @MenuSelection => m_Wrapper.m_PlayerActions_MenuSelection;
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
         public InputAction @UIAction1 => m_Wrapper.m_PlayerActions_UIAction1;
+        public InputAction @WeaponArt => m_Wrapper.m_PlayerActions_WeaponArt;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -546,6 +569,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @UIAction1.started += instance.OnUIAction1;
             @UIAction1.performed += instance.OnUIAction1;
             @UIAction1.canceled += instance.OnUIAction1;
+            @WeaponArt.started += instance.OnWeaponArt;
+            @WeaponArt.performed += instance.OnWeaponArt;
+            @WeaponArt.canceled += instance.OnWeaponArt;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -583,6 +609,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @UIAction1.started -= instance.OnUIAction1;
             @UIAction1.performed -= instance.OnUIAction1;
             @UIAction1.canceled -= instance.OnUIAction1;
+            @WeaponArt.started -= instance.OnWeaponArt;
+            @WeaponArt.performed -= instance.OnWeaponArt;
+            @WeaponArt.canceled -= instance.OnWeaponArt;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -618,5 +647,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMenuSelection(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnUIAction1(InputAction.CallbackContext context);
+        void OnWeaponArt(InputAction.CallbackContext context);
     }
 }

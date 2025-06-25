@@ -19,6 +19,7 @@ namespace KBH {
         public bool LeftWeaponChangeInput { get; set; }
         public bool MenuSelectionInput { get; set; }
         public bool InteractionInput { get; set; }
+        public bool WeaponArtInput { get; set; }
         public bool UIAction1 { get; set; }
 
         private void Awake() {
@@ -56,6 +57,9 @@ namespace KBH {
             PlayerInput.PlayerActions.MenuSelection.performed += i => MenuSelectionInput = true;
 
             PlayerInput.PlayerActions.Interact.performed += i => InteractionInput = true;
+
+            PlayerInput.PlayerActions.WeaponArt.performed += i => WeaponArtInput = true;
+            PlayerInput.PlayerActions.WeaponArt.canceled += i => WeaponArtInput = false;
 
             PlayerInput.PlayerActions.UIAction1.performed += i => UIAction1 = true;
             PlayerInput.PlayerActions.UIAction1.canceled += i => UIAction1 = false;

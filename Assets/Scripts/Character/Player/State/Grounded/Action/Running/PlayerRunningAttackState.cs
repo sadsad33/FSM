@@ -18,13 +18,13 @@ namespace KBH {
 
         public override void Exit(CharacterManager character) {
             base.Exit(character);
-            player.isAttacking = false;
-            player.isPerformingAction = false;
+            //player.isAttacking = false;
+            //player.isPerformingAction = false;
         }
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.isPerformingAction)
+            if (!player.isAttacking && !player.isPerformingAction)
                 player.pasm.ChangeState(player.pasm.standingActionIdlingState);
         }
     }

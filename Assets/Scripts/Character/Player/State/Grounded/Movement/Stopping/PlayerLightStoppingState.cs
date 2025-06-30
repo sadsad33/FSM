@@ -17,6 +17,7 @@ namespace KBH {
                     player.isMoving = false;
                 }
                 if (player.playerInputManager.LightAttackInput) player.isMoving = false;
+                if (player.playerInputManager.JumpInput) player.isMoving = false;
             }
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
@@ -26,7 +27,7 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.isMoving) {
+            if (!player.isMoving || player.playerInteractionManager.isInteracting) {
                 player.pmsm.ChangeState(player.pmsm.idlingState);
             }
         }

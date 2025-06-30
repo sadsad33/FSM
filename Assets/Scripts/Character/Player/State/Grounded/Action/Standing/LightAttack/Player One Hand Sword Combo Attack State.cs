@@ -9,8 +9,8 @@ namespace KBH {
             player.playerStatsManager.DeductStamina(20f);
             player.consumingStamina = true;
             player.canDoComboAttack = false;
-            player.isPerformingAction = true;
             player.isAttacking = true;
+            player.isPerformingAction = true;
             player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack2", player.isPerformingAction);
         }
 

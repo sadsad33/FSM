@@ -20,6 +20,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (player.playerStatsManager.currentStamina <= 0f) return;
+            if (player.isPerformingAction) return;
             else if (player.playerInputManager.LightAttackInput) {
                 if (!TryFatalBlow())
                     player.pasm.ChangeState(player.pasm.oneHandSwordFirstAttackState);

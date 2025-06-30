@@ -20,7 +20,7 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
-            player.isPerformingAction = false;
+            //player.isPerformingAction = false;
             player.consumingStamina = false;
             player.isAttacking = false;
             player.staminaRegenerateTimer = 0f;

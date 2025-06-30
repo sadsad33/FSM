@@ -7,10 +7,10 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.RunningStateTimer = 0f;
-            if (!player.isAttacking)
+            if (!player.isAttacking && !player.isPerformingAction)
                 player.isMoving = true;
             //player.playerInputManager.SprintInputTimer = 0f;
-            player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+            //player.pasm.ChangeState(player.pasm.standingActionIdlingState);
         }
 
         public override void Stay(CharacterManager character) {

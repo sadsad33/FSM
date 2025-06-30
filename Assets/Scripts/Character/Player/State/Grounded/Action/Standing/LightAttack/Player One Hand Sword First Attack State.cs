@@ -8,8 +8,8 @@ namespace KBH {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(20f);
             player.consumingStamina = true;
-            player.isPerformingAction = true;
             player.isAttacking = true;
+            player.isPerformingAction = true;
             player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack1", player.isPerformingAction);
         }
 

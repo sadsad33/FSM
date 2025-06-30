@@ -8,7 +8,6 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             if (!player.isAttacking && !player.isPerformingAction) {
-                
                 player.playerAnimatorManager.PlayAnimation("Falling", false);
             }
         }

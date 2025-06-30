@@ -12,6 +12,8 @@ namespace KBH {
 
         public bool playDamageAnimation = true;
         public bool manuallySelectDamageAnimation = false;
-        
+
+        public float angleHitFrom;
+        public Vector3 contactPoint;
     }
 }

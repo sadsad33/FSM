@@ -97,7 +97,9 @@ namespace KBH {
             TakeDamageEffectData takeDamageEffectData = Instantiate(WorldEffectManager.instance.takeDamageEffectData);
             takeDamageEffectData.physicalDamage = physicalDamage;
             takeDamageEffectData.poiseDamage = poiseDamage;
-            TakeDamageEffect takeDamageEffect = WorldEffectManager.instance.CreateTakeDamageEffect(characterCausingDamage, takeDamageEffectData, angleHitFrom, contactPoint);
+            takeDamageEffectData.angleHitFrom = angleHitFrom;
+            takeDamageEffectData.contactPoint = contactPoint;
+            TakeDamageEffect takeDamageEffect = WorldEffectManager.instance.CreateTakeDamageEffect(characterCausingDamage, takeDamageEffectData);
             target.characterEffectsManager.ProcessEffectInstantly(takeDamageEffect);
         }
     }

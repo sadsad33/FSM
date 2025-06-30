@@ -22,7 +22,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.idlingState);
-            else if (player.playerInputManager.CrouchInput && !player.isCrouched) {
+            else if (player.playerInputManager.CrouchInput && !player.isCrouching) {
                 player.pmsm.standToCrouchState.tr = player.transform.position;
                 player.pmsm.ChangeState(player.pmsm.standToCrouchState);
             } else if (!player.playerInputManager.WalkInput) {

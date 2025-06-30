@@ -14,7 +14,8 @@ namespace KBH {
             if (!treeHasBuilt) {
                 lightAttackBT = BuildBehaviourTree();
                 treeHasBuilt = true;
-            }
+            } else
+                lightAttackBT.Reset();
         }
 
         public override void Stay(CharacterManager character) {

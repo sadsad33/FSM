@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class AICharacterDrawingWeaponState : AICharacterGroundedState {
+    public class AICharacterBeingRipostedState : AICharacterGroundedState {
+
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             aiCharacter.isPerformingAction = true;
-            aiCharacter.aiStatsManager.hasDrawnWeapon = true;
-            aiCharacter.aiAnimatorManager.PlayAnimation("Draw Sword", aiCharacter.isPerformingAction);
-            aiCharacter.aiEquipmentManager.rightHandSlot.EquipItemOnSlot(aiCharacter.aiEquipmentManager.GetAICurrentRightWeapon());
-            aiCharacter.aiEquipmentManager.LoadRightWeaponDamageCollider();
+            aiCharacter.beingRiposted = false;
+            aiCharacter.aiAnimatorManager.PlayAnimation("Parry_Stabbed", aiCharacter.isPerformingAction);
         }
 
         public override void Stay(CharacterManager character) {
@@ -18,12 +17,16 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
+            base.Exit(character);
         }
 
         public override void Thinking() {
             base.Thinking();
             if (!aiCharacter.isPerformingAction) {
-                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiIdlingState);
+                if (aiCharacter.aiStatsManager.isDead) {
+                    
+                } else
+                    aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiRipostedGetUpState);
             }
         }
     }

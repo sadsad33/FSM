@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class AICharacterGroundedState : AICharacterMovementState {
+    public class PlayerRipostingState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            player.isPerformingAction = true;
+            player.playerAnimatorManager.PlayAnimation("Parry_Stab", player.isPerformingAction);
         }
 
         public override void Stay(CharacterManager character) {
@@ -16,15 +18,11 @@ namespace KBH {
             base.Exit(character);
         }
 
-        public override void Thinking() {
-            base.Thinking();
-            if (!aiCharacter.isGrounded) {
-                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiFallingState);
-            } 
-            if (aiCharacter.beingBackstabbed) {
-                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiBeingBackstabbedState);
+        public override void HandleInput() {
+            base.HandleInput();
+            if (!player.isPerformingAction) {
+                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
             }
         }
-
     }
 }

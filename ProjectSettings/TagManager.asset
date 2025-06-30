@@ -7,6 +7,8 @@ TagManager:
   - Interactable
   - Character
   - LadderInteractionEndingPosition
+  - Riposte
+  - Backstab
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - Slope
   - Stair
   - AI
-  - 
-  - 
+  - Riposte
+  - Backstab
   - 
   - 
   - 

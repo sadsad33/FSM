@@ -45,10 +45,11 @@ namespace KBH {
             aiAnimatorManager.animator.SetBool("isPerformingAction", isPerformingAction);
             aiAnimatorManager.animator.SetBool("isAttacking", isAttacking);
             aiAnimatorManager.animator.SetBool("isGrounded", isGrounded);
-            aiAnimatorManager.animator.SetBool("isCrouched", isCrouched);
+            aiAnimatorManager.animator.SetBool("isCrouched", isCrouching);
             aiAnimatorManager.animator.SetBool("isClimbing", isClimbing);
             aiAnimatorManager.animator.SetBool("rightFootUp", rightFootUp);
             aiAnimatorManager.animator.SetBool("isCombatStance", isCombatStance);
+            aiAnimatorManager.animator.SetBool("isDead", aiStatsManager.isDead);
         }
 
         protected override void CharacterInit() {

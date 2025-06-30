@@ -19,7 +19,7 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
-            player.isCrouched = false;
+            player.isCrouching = false;
             player.playerAnimatorManager.disableOnAnimatorMove = false;
             player.pasm.ChangeState(player.pasm.standingActionIdlingState);
         }

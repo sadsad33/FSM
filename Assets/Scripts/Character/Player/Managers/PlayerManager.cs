@@ -68,9 +68,10 @@ namespace KBH {
             playerAnimatorManager.animator.SetBool("isAttacking", isAttacking);
             playerAnimatorManager.animator.SetBool("isMoving", isMoving);
             playerAnimatorManager.animator.SetBool("isGrounded", isGrounded);
-            playerAnimatorManager.animator.SetBool("isCrouched", isCrouched);
+            playerAnimatorManager.animator.SetBool("isCrouched", isCrouching);
             playerAnimatorManager.animator.SetBool("isClimbing", isClimbing);
             playerAnimatorManager.animator.SetBool("rightFootUp", rightFootUp);
+            playerAnimatorManager.animator.SetBool("isDead", playerStatsManager.isDead);
             playerInputManager.LightAttackInput = false;
             playerInputManager.HeavyAttackInput = false;
             playerInputManager.JumpInput = false;

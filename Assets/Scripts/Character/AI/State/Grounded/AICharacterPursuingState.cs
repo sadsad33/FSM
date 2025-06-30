@@ -25,6 +25,7 @@ namespace KBH {
         }
 
         public override void Thinking() {
+            base.Thinking();
             HandleMovement();
             if (aiCharacter.agent.isOnOffMeshLink) {
                 aiCharacter.agent.autoTraverseOffMeshLink = false;

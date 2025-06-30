@@ -25,7 +25,10 @@ namespace KBH {
 
         public PlayerWeaponArtActionState weaponArtActionState;
         public PlayerHasBeenParriedState hasBeenParriedState;
-        
+
+        public PlayerRipostingState ripostingState;
+        public PlayerBackstabbingState backstabbingState;
+
         public PlayerActionStateMachine(PlayerManager player) : base(player) {
             standingActionIdlingState = new PlayerStandingActionIdlingState();
             oneHandSwordFirstAttackState = new PlayerOneHandSwordFirstAttackState();
@@ -49,6 +52,9 @@ namespace KBH {
 
             weaponArtActionState = new();
             hasBeenParriedState = new();
+
+            ripostingState = new();
+            backstabbingState = new();
         }
 
         public override void ChangeState(IState newState) {

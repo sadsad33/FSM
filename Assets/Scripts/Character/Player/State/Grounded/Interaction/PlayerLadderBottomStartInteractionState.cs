@@ -10,7 +10,7 @@ namespace KBH {
             curInteractable = playerInteraction.currentInteractable;
             player.isClimbing = true;
             player.isPerformingAction = true;
-            //player.playerInteractionManager.isInteracting = true;
+            player.playerInteractionManager.isInteracting = true;
             player.playerAnimatorManager.PlayAnimation("Ladder_StartBottom", player.isPerformingAction);
             targetPosition = curInteractable.GetComponent<Ladder>().GetClimbingStartPosition();
             curInteractable.Interact(player);

@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class AICharacterDrawingWeaponState : AICharacterGroundedState {
+    public class AICharacterRipostedGetUpState : AICharacterGroundedState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             aiCharacter.isPerformingAction = true;
-            aiCharacter.aiStatsManager.hasDrawnWeapon = true;
-            aiCharacter.aiAnimatorManager.PlayAnimation("Draw Sword", aiCharacter.isPerformingAction);
-            aiCharacter.aiEquipmentManager.rightHandSlot.EquipItemOnSlot(aiCharacter.aiEquipmentManager.GetAICurrentRightWeapon());
-            aiCharacter.aiEquipmentManager.LoadRightWeaponDamageCollider();
+            aiCharacter.aiAnimatorManager.PlayAnimation("Parry_Stabbed_GetUp", aiCharacter.isPerformingAction);
         }
 
         public override void Stay(CharacterManager character) {

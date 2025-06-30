@@ -25,7 +25,9 @@ namespace KBH {
             if (!treeHasBuilt) {
                 combatStanceBT = BuildBehaviourTree();
                 treeHasBuilt = true;
-            }
+            } else
+                combatStanceBT.Reset();
+
         }
 
         public override void Stay(CharacterManager character) {

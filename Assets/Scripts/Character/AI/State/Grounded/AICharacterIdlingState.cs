@@ -25,6 +25,7 @@ namespace KBH {
         }
 
         public override void Thinking() {
+            base.Thinking();
             if (!hasSelectedTarget) SelectTarget();
             else if (aiCharacter.aiStatsManager.hasDrawnWeapon) aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiPursuingState);
             else aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiDrawingWeaponState);

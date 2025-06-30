@@ -8,7 +8,7 @@ namespace KBH {
         private float canSlidingDelayTimer;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            
+
             player.playerInputManager.SprintInputTimer = 0f;
             if (!sprintInputDelaySet)
                 sprintInputDelaySet = true;
@@ -39,14 +39,14 @@ namespace KBH {
                     player.pmsm.ChangeState(player.pmsm.lightStoppingState);
                 else
                     player.pmsm.ChangeState(player.pmsm.idlingState);
-            } else if(!player.isPerformingAction){
+            } else if (!player.isPerformingAction) {
                 if (player.playerInputManager.JumpInput && player.playerStatsManager.currentStamina > 10f) {
                     player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
                     player.pmsm.ChangeState(player.pmsm.runningJumpState);
                 } else if (player.playerInputManager.CrouchInput) {
                     if (player.canSliding)
                         player.pmsm.ChangeState(player.pmsm.slidingState);
-                    else if (!player.isCrouched) {
+                    else if (!player.isCrouching) {
                         player.pmsm.standToCrouchState.tr = player.transform.position;
                         player.pmsm.ChangeState(player.pmsm.standToCrouchState);
                     }

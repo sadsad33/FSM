@@ -8,7 +8,7 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             //Debug.Log(player.isCrouched);
-            player.isCrouched = true;
+            player.isCrouching = true;
             player.isPerformingAction = true;
             player.playerAnimatorManager.disableOnAnimatorMove = true;
             player.playerAnimatorManager.PlayAnimation("Standing To Crouched", false);

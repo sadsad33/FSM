@@ -8,6 +8,7 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             aiCharacter.isPerformingAction = true;
+            aiCharacter.aiInteractionManager.riposteCollider.SetActive(true);
             aiCharacter.aiAnimatorManager.PlayAnimation("Parry_Parried", aiCharacter.isPerformingAction);
         }
 
@@ -21,8 +22,13 @@ namespace KBH {
 
         public override void Thinking() {
             base.Thinking();
-            if (!aiCharacter.isPerformingAction) {
+            if (aiCharacter.beingRiposted) {
                 aiCharacter.hasBeenParried = false;
+                aiCharacter.aiInteractionManager.riposteCollider.SetActive(false);
+                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiBeingRipostedState);
+            } else if (!aiCharacter.isPerformingAction) {
+                aiCharacter.hasBeenParried = false;
+                aiCharacter.aiInteractionManager.riposteCollider.SetActive(false);
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiIdlingState);
             }
         }

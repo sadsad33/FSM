@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class AICharacterGroundedState : AICharacterMovementState {
+    public class PlayerLightAttackState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
         }
@@ -16,15 +16,8 @@ namespace KBH {
             base.Exit(character);
         }
 
-        public override void Thinking() {
-            base.Thinking();
-            if (!aiCharacter.isGrounded) {
-                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiFallingState);
-            } 
-            if (aiCharacter.beingBackstabbed) {
-                aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiBeingBackstabbedState);
-            }
+        public override void HandleInput() {
+            base.HandleInput();
         }
-
     }
 }

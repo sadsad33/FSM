@@ -28,7 +28,14 @@ namespace KBH {
         public AICharacterBewaringState aiBewaringState;
         public AICharacterCombatStanceState aiCombatStanceState;
 
+        public AICharacterGroundedHitState aiGroundedHitState;
+
         public AICharacterHasBeenParriedState aiHasBeenParriedState;
+        public AICharacterBeingRipostedState aiBeingRipostedState;
+        public AICharacterBeingBackstabbedState aiBeingBackstabbedState;
+
+        public AICharacterRipostedGetUpState aiRipostedGetUpState;
+        public AICharacterBackstabbedGetUpState aiBackstabbedGetUpState;
         public AICharacterStateMachine(CharacterManager character) : base(character) {
             aiIdlingState = new();
             aiPursuingState = new();
@@ -53,7 +60,14 @@ namespace KBH {
             aiLightAttackState = new();
             aiHeavyAttackState = new();
 
+            aiGroundedHitState = new();
+
             aiHasBeenParriedState = new();
+            aiBeingRipostedState = new();
+            aiBeingBackstabbedState = new();
+
+            aiRipostedGetUpState = new();
+            aiBackstabbedGetUpState = new();
         }
 
         public override void ChangeState(IState newState) {

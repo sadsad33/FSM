@@ -17,12 +17,13 @@ namespace KBH {
         public bool isInvulnerable;
         public bool isGrounded;
         public bool isJumping;
-        public bool isCrouched;
+        public bool isCrouching;
 
         public bool isParrying;
         public bool hasBeenParried;
-        
         public bool canBeRiposted;
+        public bool beingRiposted;
+        public bool beingBackstabbed;
 
         public bool isClimbing;
         public bool isOnLadderTopEdge;

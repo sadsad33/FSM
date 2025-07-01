@@ -8,7 +8,7 @@ namespace KBH {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(15f);
             player.consumingStamina = true;
-            player.isAttacking = true;
+            //player.isAttacking = true;
             player.isPerformingAction = true;
             player.playerAnimatorManager.PlayAnimation("Light Attack Landing", player.isPerformingAction);
         }
@@ -25,7 +25,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.isAttacking && !player.isPerformingAction)
-                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+                player.psm.ChangeState(player.psm.idlingState);
         }
     }
 }

@@ -9,7 +9,8 @@ namespace KBH {
             base.Enter(character);
             player.isMoving = false;
             //player.isPerformingAction = false;
-            player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+            if(player.pasm.GetCurrentState() != player.pasm.standingActionIdlingState)
+                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
             player.RunningStateTimer = 0f;
             moveSpeedModifier = 0f;
             player.playerInputManager.SprintInputTimer = 0f;
@@ -26,21 +27,21 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
-            
+
         }
 
         public override void HandleInput() {
             base.HandleInput();
             if (player.playerInputManager.CrouchInput) {
-                player.pmsm.standToCrouchState.tr = player.transform.position;
-                player.pmsm.ChangeState(player.pmsm.standToCrouchState);
+                player.psm.standToCrouchState.tr = player.transform.position;
+                player.psm.ChangeState(player.psm.standToCrouchState);
             } else if (player.playerInputManager.JumpInput) {
-                player.pmsm.ChangeState(player.pmsm.standingJumpState);
+                player.psm.ChangeState(player.psm.standingJumpState);
             } else if (moveAmount > 0f) {
                 if (player.playerInputManager.WalkInput) {
-                    player.pmsm.ChangeState(player.pmsm.walkingState);
+                    player.psm.ChangeState(player.psm.walkingState);
                 } else {
-                    player.pmsm.ChangeState(player.pmsm.runningState);
+                    player.psm.ChangeState(player.psm.runningState);
                 }
             }
         }

@@ -27,23 +27,22 @@ namespace KBH {
             base.HandleInput();
             if (player.isGrounded) {
                 //Debug.Log("ÂøÁö ¼Óµµ : " + MovingVelocityInAir);
-                if (inAirTimer <= 0.5f) {
+                if (player.isAttacking) {
+                    player.psm.ChangeState(player.psm.lightAttackLandingState);
+                } else if (inAirTimer <= 0.5f) {
                     if (moveAmount <= 0f) {
                         //Debug.Log("Player InAirTimer : " + player.InAirTimer);
-                        player.pmsm.ChangeState(player.pmsm.lightLandingState);
-                    }
-                    else {
+                        player.psm.ChangeState(player.psm.lightLandingState);
+                    } else {
                         //Debug.Log("Player InAirTimer : " + player.InAirTimer);
-                        player.pmsm.ChangeState(player.pmsm.landToMoveState);
+                        player.psm.ChangeState(player.psm.landToMoveState);
                     }
-                }
-                else if (inAirTimer <= 1f) {
+                } else if (inAirTimer <= 1f) {
                     //Debug.Log("Player InAirTimer : " + player.InAirTimer);
-                    player.pmsm.ChangeState(player.pmsm.mediumLandingState);
-                }
-                else {
+                    player.psm.ChangeState(player.psm.mediumLandingState);
+                } else {
                     //Debug.Log("Player InAirTimer : " + player.InAirTimer);
-                    player.pmsm.ChangeState(player.pmsm.hardLandingState);
+                    player.psm.ChangeState(player.psm.hardLandingState);
                 }
                 MovingVelocityInAir = Vector3.zero;
             }

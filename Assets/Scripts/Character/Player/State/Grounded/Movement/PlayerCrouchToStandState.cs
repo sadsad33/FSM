@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerCrouchToStandState : PlayerGroundedState {
+    public class PlayerCrouchToStandState : PlayerMovingState {
         public Vector3 tr;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
@@ -14,7 +14,6 @@ namespace KBH {
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-
             player.playerAnimatorManager.animator.SetFloat("Vertical", 0f, 0.1f, Time.deltaTime);
         }
 
@@ -27,7 +26,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.isPerformingAction)
-                player.pmsm.ChangeState(player.pmsm.idlingState);
+                player.psm.ChangeState(player.psm.idlingState);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace KBH {
         public Vector3 tr;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            player.pasm.ChangeState(player.pasm.crouchedActionIdlingState);
         }
 
         public override void Stay(CharacterManager character) {
@@ -21,9 +22,9 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.playerInputManager.CrouchInput) {
-                player.pmsm.ChangeState(player.pmsm.crouchToStandState);
+                player.psm.ChangeState(player.psm.crouchToStandState);
             } else if (moveAmount > 0f)
-                player.pmsm.ChangeState(player.pmsm.crouchedWalkingState);
+                player.psm.ChangeState(player.psm.crouchedWalkingState);
         }
     }
 }

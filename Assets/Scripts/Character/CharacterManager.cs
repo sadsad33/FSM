@@ -97,7 +97,7 @@ namespace KBH {
 
         protected virtual void Update() {
             if (gotHit) {
-                if (hitTimer >= 0.25f) {
+                if (hitTimer >= 0.3f) {
                     gotHit = false;
                     hitTimer = 0.0f;
                 }

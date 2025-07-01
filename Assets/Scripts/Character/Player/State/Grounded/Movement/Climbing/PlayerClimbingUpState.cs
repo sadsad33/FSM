@@ -23,9 +23,9 @@ namespace KBH {
             base.HandleInput();
             if (!player.isPerformingAction) {
                 if (player.rightFootUp)
-                    player.pmsm.ChangeState(player.pmsm.rightFootUpIdlingState);
+                    player.psm.ChangeState(player.psm.rightFootUpIdlingState);
                 else
-                    player.pmsm.ChangeState(player.pmsm.leftFootUpIdlingState);
+                    player.psm.ChangeState(player.psm.leftFootUpIdlingState);
             }
         }
     }

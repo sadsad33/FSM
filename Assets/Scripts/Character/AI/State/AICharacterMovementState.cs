@@ -7,7 +7,7 @@ namespace KBH {
         protected AICharacterManager aiCharacter;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            //Debug.Log("AI Current State : " + this);
+            Debug.Log("AI Current State : " + this);
             aiCharacter = character as AICharacterManager;
         }
 

@@ -18,9 +18,7 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (player.playerStatsManager.currentStamina <= 10f) return;
-            else if (player.playerInputManager.LightAttackInput)
-                player.pasm.ChangeState(player.pasm.crouchingAttackState);
+            
         }
     }
 }

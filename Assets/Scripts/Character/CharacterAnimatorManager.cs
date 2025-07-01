@@ -47,6 +47,10 @@ namespace KBH {
             character.isMoving = false;
         }
 
+        public void FinishJump() {
+            character.isJumping = false;
+        }
+
         public void EnableAttack() {
             character.canAttackDuringAction = true;
         }

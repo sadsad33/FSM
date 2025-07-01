@@ -20,8 +20,8 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.playerInputManager.CrouchInput) player.pmsm.ChangeState(player.pmsm.crouchToStandState);
-            else if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.crouchedIdlingState);
+            if (!player.playerInputManager.CrouchInput) player.psm.ChangeState(player.psm.crouchToStandState);
+            else if (moveAmount <= 0f) player.psm.ChangeState(player.psm.crouchedIdlingState);
         }
 
         protected override void HandleRotation() {

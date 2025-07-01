@@ -19,7 +19,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (player.hasBeenParried)
-                player.pasm.ChangeState(player.pasm.hasBeenParriedState);
+                player.psm.ChangeState(player.psm.hasBeenParriedState);
         }
     }
 }

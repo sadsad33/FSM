@@ -52,7 +52,7 @@ namespace KBH {
                         playerInteraction.pism.ChangeState(playerInteraction.pism.ladderTopStartInteractionState);
                         break;
                 }
-                player.pmsm.ChangeState(player.pmsm.rightFootUpIdlingState);
+                player.psm.ChangeState(player.psm.rightFootUpIdlingState);
             }
         }
     }

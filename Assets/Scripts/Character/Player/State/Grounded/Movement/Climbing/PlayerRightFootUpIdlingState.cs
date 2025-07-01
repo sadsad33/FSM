@@ -22,13 +22,13 @@ namespace KBH {
             if (verticalInput > 0f) {
                 if (player.isOnLadderTopEdge) {
                     player.playerInteractionManager.pism.ChangeState(player.playerInteractionManager.pism.ladderTopEndInteractionState);
-                    player.pmsm.ChangeState(player.pmsm.idlingState);
-                } else player.pmsm.ChangeState(player.pmsm.climbingUpState);
+                    player.psm.ChangeState(player.psm.idlingState);
+                } else player.psm.ChangeState(player.psm.climbingUpState);
             } else if (verticalInput < 0f) {
                 if (player.isOnLadderBottomEdge) {
                     player.playerInteractionManager.pism.ChangeState(player.playerInteractionManager.pism.ladderBottomEndInteractionState);
-                    player.pmsm.ChangeState(player.pmsm.idlingState);
-                } else player.pmsm.ChangeState(player.pmsm.climbingDownState);
+                    player.psm.ChangeState(player.psm.idlingState);
+                } else player.psm.ChangeState(player.psm.climbingDownState);
             } else return;
         }
     }

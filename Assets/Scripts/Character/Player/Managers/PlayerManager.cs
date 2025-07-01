@@ -10,7 +10,7 @@ namespace KBH {
         public PlayerAnimatorManager playerAnimatorManager;
         public PlayerStatsManager playerStatsManager;
         public PlayerInputManager playerInputManager;
-        public PlayerMovementStateMachine pmsm;
+        public PlayerStateMachine psm;
         public PlayerActionStateMachine pasm;
         
 
@@ -26,19 +26,19 @@ namespace KBH {
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerInteractionManager = GetComponentInChildren<PlayerInteractionManager>();
-            pmsm = new PlayerMovementStateMachine(this);
+            psm = new PlayerStateMachine(this);
             pasm = new PlayerActionStateMachine(this);
             CameraManager.instance.AssignCameraToPlayer(this);
         }
 
         protected override void Start() {
-            pmsm.ChangeState(pmsm.idlingState);
+            psm.ChangeState(psm.idlingState);
             //pasm.ChangeState(pasm.standingActionIdlingState);
         }
 
         protected override void Update() {
             base.Update();
-            pmsm.GetCurrentState().Stay(this);
+            psm.GetCurrentState().Stay(this);
             //pasm.GetCurrentState().Stay(this);
             
             if (playerInputManager.RightWeaponChangeInput) {

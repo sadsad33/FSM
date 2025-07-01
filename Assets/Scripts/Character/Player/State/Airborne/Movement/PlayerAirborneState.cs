@@ -10,6 +10,8 @@ namespace KBH {
         public Vector3 MovingVelocityInAir { get; set; } // 공중에 떠 있는 상태에서의 이동방향
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            if (player.pasm.GetCurrentState() != player.pasm.airborneActionIdlingState) 
+                player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
         }
 
         public override void Stay(CharacterManager character) {
@@ -25,6 +27,11 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             //Debug.Log("Airborne State HandleInput 의 MoveDirection : " + moveDirection);
+            if (player.canAttackDuringAction && player.playerInputManager.LightAttackInput) {
+                if (player.playerStatsManager.currentStamina <= 10f) return;
+                player.psm.meleeJumpLightAttackState.SetVelocity(MovingVelocityInAir);
+                player.psm.ChangeState(player.psm.meleeJumpLightAttackState);
+            }
         }
 
         protected override void HandleRotation() {

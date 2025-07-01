@@ -36,15 +36,18 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (player.playerStatsManager.currentStamina <= 0) player.pmsm.ChangeState(player.pmsm.runningState);
+            if (player.playerStatsManager.currentStamina <= 0) player.psm.ChangeState(player.psm.runningState);
             if (moveAmount <= 0f) {
-                player.pmsm.ChangeState(player.pmsm.mediumStoppingState);
+                player.psm.ChangeState(player.psm.mediumStoppingState);
             } else {
-                if (player.playerInputManager.JumpInput) {
-                    player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
-                    player.pmsm.ChangeState(player.pmsm.runningJumpState);
+                if (player.playerInputManager.LightAttackInput) {
+                    if (player.playerStatsManager.currentStamina <= 10f) return;
+                    player.psm.ChangeState(player.psm.runningAttackState);
+                } else if (player.playerInputManager.JumpInput) {
+                    player.psm.runningJumpState.MovingVelocityInAir = moveDirection;
+                    player.psm.ChangeState(player.psm.runningJumpState);
                 } else if (!player.playerInputManager.SprintInput) {
-                    player.pmsm.ChangeState(player.pmsm.runningState);
+                    player.psm.ChangeState(player.psm.runningState);
                 }
             }
         }

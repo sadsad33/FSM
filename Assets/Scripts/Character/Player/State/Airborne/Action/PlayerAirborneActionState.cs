@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace KBH {
     public class PlayerAirborneActionState : PlayerActionState {
+
+        protected float maximumHeight;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
         }

@@ -25,7 +25,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.isAttacking && !player.isPerformingAction)
-                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+                player.psm.ChangeState(player.psm.idlingState);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace KBH {
         private float canSlidingDelayTimer;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-
+            if (player.pasm.GetCurrentState() != player.pasm.standingActionIdlingState) player.pasm.ChangeState(player.pasm.standingActionIdlingState);
             player.playerInputManager.SprintInputTimer = 0f;
             if (!sprintInputDelaySet)
                 sprintInputDelaySet = true;
@@ -36,23 +36,23 @@ namespace KBH {
             base.HandleInput();
             if (moveAmount <= 0f) {
                 if (player.RunningStateTimer >= 0.5f)
-                    player.pmsm.ChangeState(player.pmsm.lightStoppingState);
+                    player.psm.ChangeState(player.psm.lightStoppingState);
                 else
-                    player.pmsm.ChangeState(player.pmsm.idlingState);
+                    player.psm.ChangeState(player.psm.idlingState);
             } else if (!player.isPerformingAction) {
                 if (player.playerInputManager.JumpInput && player.playerStatsManager.currentStamina > 10f) {
-                    player.pmsm.runningJumpState.MovingVelocityInAir = moveDirection;
-                    player.pmsm.ChangeState(player.pmsm.runningJumpState);
+                    player.psm.runningJumpState.MovingVelocityInAir = moveDirection;
+                    player.psm.ChangeState(player.psm.runningJumpState);
                 } else if (player.playerInputManager.CrouchInput) {
                     if (player.canSliding)
-                        player.pmsm.ChangeState(player.pmsm.slidingState);
+                        player.psm.ChangeState(player.psm.slidingState);
                     else if (!player.isCrouching) {
-                        player.pmsm.standToCrouchState.tr = player.transform.position;
-                        player.pmsm.ChangeState(player.pmsm.standToCrouchState);
+                        player.psm.standToCrouchState.tr = player.transform.position;
+                        player.psm.ChangeState(player.psm.standToCrouchState);
                     }
-                } else if (player.playerInputManager.WalkInput) player.pmsm.ChangeState(player.pmsm.walkingState);
+                } else if (player.playerInputManager.WalkInput) player.psm.ChangeState(player.psm.walkingState);
                 else if (player.playerInputManager.SprintInput && player.playerInputManager.SprintInputTimer >= 0.3f)
-                    player.pmsm.ChangeState(player.pmsm.sprintingState);
+                    player.psm.ChangeState(player.psm.sprintingState);
             }
         }
 

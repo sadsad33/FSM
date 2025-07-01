@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerMovementStateMachine : StateMachine {
+    public class PlayerStateMachine : StateMachine {
         //PlayerMovementState currentPlayerMovementState;
         public PlayerIdlingState idlingState;
 
@@ -47,9 +47,29 @@ namespace KBH {
         public PlayerStandingJumpState standingJumpState;
         #endregion
 
+        public PlayerOneHandSwordFirstAttackState oneHandSwordFirstAttackState;
+        public PlayerOneHandSwordComboAttackState oneHandSwordComboAttackState;
+        public PlayerOneHandSwordFinalAttackState oneHandSwordFinalAttackState;
+
+        public PlayerOneHandSwordHeavyAttackState oneHandSwordHeavyAttackState;
+        public PlayerOneHandSwordHeavyAttackComboState oneHandSwordHeavyAttackComboState;
+
+        public PlayerMeleeJumpLightAttackState meleeJumpLightAttackState;
+        public PlayerLightAttackLandingState lightAttackLandingState;
+
+        public PlayerSlideAttackState slidingAttackState;
+        public PlayerRunningAttackState runningAttackState;
+        public PlayerCrouchingAttackState crouchingAttackState;
+
+        public PlayerWeaponArtActionState weaponArtActionState;
+        public PlayerHasBeenParriedState hasBeenParriedState;
+
+        public PlayerRipostingState ripostingState;
+        public PlayerBackstabbingState backstabbingState;
+
         public PlayerGroundedHitState groundedHitState;
 
-        public PlayerMovementStateMachine(PlayerManager player) : base(player) {
+        public PlayerStateMachine(PlayerManager player) : base(player) {
 
             idlingState = new PlayerIdlingState();
             
@@ -79,6 +99,25 @@ namespace KBH {
             leftFootUpIdlingState = new();
             climbingUpState = new();
             climbingDownState = new();
+
+            oneHandSwordFirstAttackState = new();
+            oneHandSwordComboAttackState = new();
+            oneHandSwordFinalAttackState = new();
+
+            oneHandSwordHeavyAttackState = new();
+            oneHandSwordHeavyAttackComboState = new();
+
+            meleeJumpLightAttackState = new();
+            lightAttackLandingState = new();
+
+            slidingAttackState = new();
+            runningAttackState = new();
+            crouchingAttackState = new();
+            weaponArtActionState = new();
+
+            hasBeenParriedState = new();
+            ripostingState = new();
+            backstabbingState = new();
 
             groundedHitState = new();
         }

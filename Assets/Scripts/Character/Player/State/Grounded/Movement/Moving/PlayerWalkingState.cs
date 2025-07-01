@@ -7,6 +7,7 @@ namespace KBH {
 
         public override void Enter(CharacterManager character) {
             base.Enter(character);
+            if (player.pasm.GetCurrentState() != player.pasm.standingActionIdlingState) player.pasm.ChangeState(player.pasm.standingActionIdlingState);
             moveSpeedModifier = 0.6f;
         }
 
@@ -21,12 +22,12 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (moveAmount <= 0f) player.pmsm.ChangeState(player.pmsm.idlingState);
+            if (moveAmount <= 0f) player.psm.ChangeState(player.psm.idlingState);
             else if (player.playerInputManager.CrouchInput && !player.isCrouching) {
-                player.pmsm.standToCrouchState.tr = player.transform.position;
-                player.pmsm.ChangeState(player.pmsm.standToCrouchState);
+                player.psm.standToCrouchState.tr = player.transform.position;
+                player.psm.ChangeState(player.psm.standToCrouchState);
             } else if (!player.playerInputManager.WalkInput) {
-                player.pmsm.ChangeState(player.pmsm.runningState);
+                player.psm.ChangeState(player.psm.runningState);
             }
         }
 

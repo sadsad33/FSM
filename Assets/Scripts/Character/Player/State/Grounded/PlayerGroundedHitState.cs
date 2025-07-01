@@ -11,15 +11,8 @@ namespace KBH {
             player.isPerformingAction = true;
             if (player.isJumping) player.isJumping = false;
             if (player.isCrouching) player.isCrouching = false;
-            if (player.playerAnimatorManager.animator.GetCurrentAnimatorStateInfo(3).IsName(damageAnimation)) {
-                //Debug.Log("애니메이션 강제 재생");
-                player.playerAnimatorManager.animator.applyRootMotion = player.isPerformingAction;
-                player.playerAnimatorManager.animator.Play(damageAnimation, 3, 0f);
-                player.playerAnimatorManager.animator.Update(0);
-            } else {
-                //Debug.Log("애니메이션 재생");
-                player.playerAnimatorManager.PlayAnimation(damageAnimation, player.isPerformingAction);
-            }
+            player.playerAnimatorManager.animator.applyRootMotion = player.isPerformingAction;
+            player.playerAnimatorManager.animator.CrossFade(damageAnimation, 0f, 3, 0f);
         }
 
         public override void Stay(CharacterManager character) {
@@ -33,7 +26,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.isPerformingAction) {
-                player.pmsm.ChangeState(player.pmsm.idlingState);
+                player.psm.ChangeState(player.psm.idlingState);
             }
         }
 

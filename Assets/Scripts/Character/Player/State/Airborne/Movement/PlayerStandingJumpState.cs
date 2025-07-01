@@ -9,7 +9,7 @@ namespace KBH {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(20f);
             player.consumingStamina = true;
-            player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
+            //player.pasm.ChangeState(player.pasm.airborneActionIdlingState);
             Vector3 playerYVelocity;
             player.isJumping = true;
             maximumHeight = player.transform.position.y + player.MaximumJumpHeight;
@@ -34,7 +34,7 @@ namespace KBH {
             base.HandleInput();
             if (player.transform.position.y >= maximumHeight) {
                 player.isJumping = false;
-                player.pmsm.ChangeState(player.pmsm.fallingState);
+                player.psm.ChangeState(player.psm.fallingState);
             }
         }
 

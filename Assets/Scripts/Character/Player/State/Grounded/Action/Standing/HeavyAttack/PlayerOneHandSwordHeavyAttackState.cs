@@ -29,15 +29,15 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.isPerformingAction)
-                player.pasm.ChangeState(player.pasm.standingActionIdlingState);
+                player.psm.ChangeState(player.psm.idlingState);
         }
 
         private void HandleComboAttack() {
             if (player.canDoComboAttack && player.playerStatsManager.currentStamina >= 15f) {
                 if (player.playerInputManager.HeavyAttackInput)
-                    player.pasm.ChangeState(player.pasm.oneHandSwordHeavyAttackComboState);
+                    player.psm.ChangeState(player.psm.oneHandSwordHeavyAttackComboState);
                 else if (player.playerInputManager.LightAttackInput)
-                    player.pasm.ChangeState(player.pasm.oneHandSwordComboAttackState);
+                    player.psm.ChangeState(player.psm.oneHandSwordComboAttackState);
             }
         }
 

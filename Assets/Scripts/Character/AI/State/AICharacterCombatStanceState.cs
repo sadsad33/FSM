@@ -45,16 +45,17 @@ namespace KBH {
             base.Thinking();
             result = combatStanceBT.Process();
 
+            if (result == BTNode.Status.Success || result == BTNode.Status.Failure) {
+                combatStanceBT.Reset();
+                //Debug.Log("트리 리셋");
+            }
+
             if (!aiCharacter.isPerformingAction && stateTransitionTimer >= stateTransitionDelay) {
                 aiCharacter.acsm.ChangeState(aiCharacter.acsm.aiIdlingState);
                 combatStanceBT.Reset();
             }
             
             //Debug.Log(StrafeBehaviourTimer);
-            if (result == BTNode.Status.Success || result == BTNode.Status.Failure) {
-                combatStanceBT.Reset();
-                //Debug.Log("트리 리셋");
-            }
 
             // 공격 상태로의 전이는, 상태 내에서 이후 행동을 결정하기 위해 실행되자마자 전이되도록 함
             if (AIBehaviourStatus == Enums.CharacterBehaviourCode.LightAttack) {

@@ -11,16 +11,18 @@ namespace KBH {
             aiCharacter.isPerformingAction = true;
             if (aiCharacter.isJumping) aiCharacter.isJumping = false;
             if (aiCharacter.isCrouching) aiCharacter.isCrouching = false;
-            
-            if (aiCharacter.aiAnimatorManager.animator.GetCurrentAnimatorStateInfo(3).IsName(damageAnimation)) {
-                //Debug.Log("애니메이션 강제 재생");
-                aiCharacter.aiAnimatorManager.animator.applyRootMotion = aiCharacter.isPerformingAction;
-                aiCharacter.aiAnimatorManager.animator.Play(damageAnimation, 3, 0f);
-                aiCharacter.aiAnimatorManager.animator.Update(0);
-            } else {
-                //Debug.Log("애니메이션 재생");
-                aiCharacter.aiAnimatorManager.PlayAnimation(damageAnimation, aiCharacter.isPerformingAction);
-            }
+
+            //if (aiCharacter.aiAnimatorManager.animator.GetCurrentAnimatorStateInfo(3).IsName(damageAnimation)) {
+            //    //Debug.Log("애니메이션 강제 재생");
+            //    aiCharacter.aiAnimatorManager.animator.applyRootMotion = aiCharacter.isPerformingAction;
+            //    aiCharacter.aiAnimatorManager.animator.Play(damageAnimation, 3, 0f);
+            //    aiCharacter.aiAnimatorManager.animator.Update(0);
+            //} else {
+            //    //Debug.Log("애니메이션 재생");
+            //    aiCharacter.aiAnimatorManager.PlayAnimation(damageAnimation, aiCharacter.isPerformingAction);
+            //}
+            aiCharacter.aiAnimatorManager.animator.applyRootMotion = aiCharacter.isPerformingAction;
+            aiCharacter.aiAnimatorManager.animator.CrossFade(damageAnimation, 0f, 3, 0f);
         }
 
         public override void Stay(CharacterManager character) {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerOneHandSwordFinalAttackState : PlayerStandingAttackActionState {
+    public class PlayerOneHandWeaponLightComboAttackState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(20f);
@@ -11,11 +11,15 @@ namespace KBH {
             player.canDoComboAttack = false;
             player.isAttacking = true;
             player.isPerformingAction = true;
-            player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack3", player.isPerformingAction);
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.lightAttackAnimations[1], player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
+            HandleComboAttack();
             HandleRotation();
         }
 
@@ -27,8 +31,19 @@ namespace KBH {
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.isPerformingAction)
+            if (!player.isPerformingAction) {
                 player.psm.ChangeState(player.psm.idlingState);
+            }
+        }
+
+        private void HandleComboAttack() {
+            if (player.canDoComboAttack && player.playerStatsManager.currentStamina >= 10f) {
+                if (player.playerInputManager.LightAttackInput) {
+                    player.psm.ChangeState(player.psm.oneHandWeaponLightFinalAttackState);
+                } else if (player.playerInputManager.HeavyAttackInput) {
+                    player.psm.ChangeState(player.psm.oneHandWeaponHeavyAttackComboState);
+                }
+            }
         }
 
         private void HandleRotation() {

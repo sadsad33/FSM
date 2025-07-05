@@ -3,44 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerOneHandSwordComboAttackState : PlayerStandingAttackActionState {
+    public class PlayerOneHandWeaponHeavyComboAttackState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            player.playerStatsManager.DeductStamina(20f);
+            player.playerStatsManager.DeductStamina(30f);
             player.consumingStamina = true;
             player.canDoComboAttack = false;
-            player.isAttacking = true;
             player.isPerformingAction = true;
-            player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack2", player.isPerformingAction);
+            player.isAttacking = true;
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.heavyAttackAnimations[1], player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {
             base.Stay(character);
-            HandleComboAttack();
             HandleRotation();
         }
 
         public override void Exit(CharacterManager character) {
+            //player.isPerformingAction = false;
             player.consumingStamina = false;
-            player.staminaRegenerateTimer = 0f;
             player.isAttacking = false;
+            player.staminaRegenerateTimer = 0f;
         }
 
         public override void HandleInput() {
             base.HandleInput();
-            if (!player.isPerformingAction) {
+            if (!player.isPerformingAction)
                 player.psm.ChangeState(player.psm.idlingState);
-            }
-        }
-
-        private void HandleComboAttack() {
-            if (player.canDoComboAttack && player.playerStatsManager.currentStamina >= 10f) {
-                if (player.playerInputManager.LightAttackInput) {
-                    player.psm.ChangeState(player.psm.oneHandSwordFinalAttackState);
-                } else if (player.playerInputManager.HeavyAttackInput) {
-                    player.psm.ChangeState(player.psm.oneHandSwordHeavyAttackComboState);
-                }
-            }
         }
 
         private void HandleRotation() {

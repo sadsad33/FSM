@@ -21,3 +21,10 @@ MonoBehaviour:
   physicalDamage: 0
   poiseDamage: 0
   offensivePoiseBonus: 0
+  lightAttackAnimations:
+  - Unarmed_LightAttack1
+  - Unarmed_LightAttack2
+  - Unarmed_LightAttack3
+  heavyAttackAnimations:
+  - Unarmed_HeavyAttack1
+  - Unarmed_HeavyAttack2

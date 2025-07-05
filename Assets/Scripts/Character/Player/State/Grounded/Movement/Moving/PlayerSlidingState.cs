@@ -36,6 +36,9 @@ namespace KBH {
             base.HandleInput();
             if (player.canAttackDuringAction && player.playerInputManager.LightAttackInput) {
                 if (player.playerStatsManager.currentStamina <= 10f) return;
+                // юс╫ц
+                MeleeWeaponItem item = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                if (item.slidAttackAnimation == "") return;
                 player.psm.slidingAttackState.SetVelocity(direction, speed);
                 player.psm.ChangeState(player.psm.slidingAttackState);
             } else if (!player.isMoving) {

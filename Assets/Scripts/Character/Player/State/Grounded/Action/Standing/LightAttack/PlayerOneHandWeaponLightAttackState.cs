@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerOneHandSwordFirstAttackState : PlayerStandingAttackActionState {
+    public class PlayerOneHandWeaponLightAttackState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.playerStatsManager.DeductStamina(20f);
             player.consumingStamina = true;
             player.isAttacking = true;
             player.isPerformingAction = true;
-            player.playerAnimatorManager.PlayAnimation("OH_Sword_Attack1", player.isPerformingAction);
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.lightAttackAnimations[0], player.isPerformingAction);
+            }
+
         }
 
         public override void Stay(CharacterManager character) {
@@ -36,9 +40,9 @@ namespace KBH {
         private void HandleComboAttack() {
             if (player.canDoComboAttack && player.playerStatsManager.currentStamina >= 10f) {
                 if (player.playerInputManager.LightAttackInput) {
-                    player.psm.ChangeState(player.psm.oneHandSwordComboAttackState);
+                    player.psm.ChangeState(player.psm.oneHandWeaponLightComboAttackState);
                 } else if (player.playerInputManager.HeavyAttackInput)
-                    player.psm.ChangeState(player.psm.oneHandSwordHeavyAttackState);
+                    player.psm.ChangeState(player.psm.oneHandWeaponHeavyAttackState);
             }
         }
 

@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerOneHandSwordHeavyAttackComboState : PlayerStandingAttackActionState {
+    public class PlayerOneHandWeaponLightFinalAttackState : PlayerStandingAttackActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            player.playerStatsManager.DeductStamina(30f);
+            player.playerStatsManager.DeductStamina(20f);
             player.consumingStamina = true;
             player.canDoComboAttack = false;
-            player.isPerformingAction = true;
             player.isAttacking = true;
-            player.playerAnimatorManager.PlayAnimation("OH_Sword_HeavyAttack2", player.isPerformingAction);
+            player.isPerformingAction = true;
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.lightAttackAnimations[2], player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {
@@ -20,10 +23,9 @@ namespace KBH {
         }
 
         public override void Exit(CharacterManager character) {
-            //player.isPerformingAction = false;
             player.consumingStamina = false;
-            player.isAttacking = false;
             player.staminaRegenerateTimer = 0f;
+            player.isAttacking = false;
         }
 
         public override void HandleInput() {

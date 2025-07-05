@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerCrouchedIdlingState : PlayerGroundedState {
+    public class PlayerCrouchIdleState : PlayerGroundedState {
         public Vector3 tr;
         public override void Enter(CharacterManager character) {
             base.Enter(character);
@@ -24,7 +24,7 @@ namespace KBH {
             if (!player.playerInputManager.CrouchInput) {
                 player.psm.ChangeState(player.psm.crouchToStandState);
             } else if (moveAmount > 0f)
-                player.psm.ChangeState(player.psm.crouchedWalkingState);
+                player.psm.ChangeState(player.psm.crouchWalkState);
         }
     }
 }

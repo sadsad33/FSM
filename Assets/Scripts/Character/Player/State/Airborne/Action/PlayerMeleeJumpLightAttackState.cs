@@ -12,7 +12,10 @@ namespace KBH {
             player.consumingStamina = true;
             player.isAttacking = true;
             //if(player.isJumping)player.isJumping = false;
-            player.playerAnimatorManager.PlayAnimation("Melee Jump Light Attack", false);
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.jumpAttackAnimation, player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {

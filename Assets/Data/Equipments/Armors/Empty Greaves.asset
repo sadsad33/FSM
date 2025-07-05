@@ -17,5 +17,6 @@ MonoBehaviour:
   itemModel: {fileID: 0}
   itemName: 
   flavorText: 
-  physicalAbsorption: 0
+  weight: 0
   armorCode: 0
+  physicalAbsorption: 0

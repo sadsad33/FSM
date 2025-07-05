@@ -8,7 +8,11 @@ namespace KBH {
             base.Enter(character);
             player.isPerformingAction = true;
             //player.pmsm.ChangeState(player.pmsm.notMovingState);
-            player.playerAnimatorManager.PlayAnimation("Crouching Attack", player.isPerformingAction);
+            //player.playerAnimatorManager.PlayAnimation("Crouching Attack", player.isPerformingAction);
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.crouchAttackAnimation, player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {
@@ -24,7 +28,7 @@ namespace KBH {
             base.HandleInput();
             if (!player.isPerformingAction)
                 //player.pasm.ChangeState(player.pasm.crouchedActionIdlingState);
-                player.psm.ChangeState(player.psm.crouchedIdlingState);
+                player.psm.ChangeState(player.psm.crouchIdleState);
         }
     }
 }

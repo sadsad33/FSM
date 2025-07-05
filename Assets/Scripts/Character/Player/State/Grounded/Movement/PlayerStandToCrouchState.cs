@@ -28,7 +28,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.isPerformingAction)
-                player.psm.ChangeState(player.psm.crouchedIdlingState);
+                player.psm.ChangeState(player.psm.crouchIdleState);
         }
     }
 }

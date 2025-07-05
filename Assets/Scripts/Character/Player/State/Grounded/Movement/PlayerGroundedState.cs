@@ -38,15 +38,17 @@ namespace KBH {
                     else {
                         if (player.pasm.GetCurrentState() == player.pasm.standingActionIdlingState) {
                             if (!TryFatalBlow())
-                                player.psm.ChangeState(player.psm.oneHandSwordFirstAttackState);
+                                player.psm.ChangeState(player.psm.oneHandWeaponLightAttackState);
                         } else if (player.pasm.GetCurrentState() == player.pasm.crouchedActionIdlingState) {
+                            MeleeWeaponItem item = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                            if (item.crouchAttackAnimation == "") return;
                             player.psm.ChangeState(player.psm.crouchingAttackState);
                         }
                     }
                 } else if (player.playerInputManager.HeavyAttackInput) {
                     if (player.isPerformingAction || player.playerStatsManager.currentStamina <= 20f) return;
                     else if (player.pasm.GetCurrentState() == player.pasm.standingActionIdlingState) {
-                        player.psm.ChangeState(player.psm.oneHandSwordHeavyAttackState);
+                        player.psm.ChangeState(player.psm.oneHandWeaponHeavyAttackState);
                     }
                 } else if (player.playerInputManager.WeaponArtInput) {
                     if (player.isPerformingAction) return;

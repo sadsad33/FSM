@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace KBH {
-    public class PlayerCrouchedWalkingState : PlayerMovingState {
+    public class PlayerCrouchWalkState : PlayerMovingState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             moveSpeedModifier = 0.3f;
@@ -21,7 +21,7 @@ namespace KBH {
         public override void HandleInput() {
             base.HandleInput();
             if (!player.playerInputManager.CrouchInput) player.psm.ChangeState(player.psm.crouchToStandState);
-            else if (moveAmount <= 0f) player.psm.ChangeState(player.psm.crouchedIdlingState);
+            else if (moveAmount <= 0f) player.psm.ChangeState(player.psm.crouchIdleState);
         }
 
         protected override void HandleRotation() {

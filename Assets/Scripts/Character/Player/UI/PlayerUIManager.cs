@@ -71,6 +71,9 @@ namespace KBH {
 
         public void HandleESCInput() {
             if (uiStack.Peek() == hudUI) {
+                player.cursorSet = false;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 OpenWindow(menuSelectionUI);
             } else {
                 CloseWindow();
@@ -102,7 +105,9 @@ namespace KBH {
         public void CloseWindow() {
             uiStack.Peek().SetActive(false);
             uiStack.Pop();
-            if (uiStack.Peek() != hudUI) uiStack.Peek().SetActive(true);
+            if (uiStack.Peek() != hudUI) {
+                uiStack.Peek().SetActive(true);
+            }
             //Debug.Log("Current Stack Top : " + uiStack.Peek());
         }
 

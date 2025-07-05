@@ -10,8 +10,8 @@ namespace KBH {
         #region CrouchingState
         public PlayerStandToCrouchState standToCrouchState;
         public PlayerCrouchToStandState crouchToStandState;
-        public PlayerCrouchedIdlingState crouchedIdlingState;
-        public PlayerCrouchedWalkingState crouchedWalkingState;
+        public PlayerCrouchIdleState crouchIdleState;
+        public PlayerCrouchWalkState crouchWalkState;
         #endregion
 
         #region MovingStates
@@ -47,12 +47,12 @@ namespace KBH {
         public PlayerStandingJumpState standingJumpState;
         #endregion
 
-        public PlayerOneHandSwordFirstAttackState oneHandSwordFirstAttackState;
-        public PlayerOneHandSwordComboAttackState oneHandSwordComboAttackState;
-        public PlayerOneHandSwordFinalAttackState oneHandSwordFinalAttackState;
+        public PlayerOneHandWeaponLightAttackState oneHandWeaponLightAttackState;
+        public PlayerOneHandWeaponLightComboAttackState oneHandWeaponLightComboAttackState;
+        public PlayerOneHandWeaponLightFinalAttackState oneHandWeaponLightFinalAttackState;
 
-        public PlayerOneHandSwordHeavyAttackState oneHandSwordHeavyAttackState;
-        public PlayerOneHandSwordHeavyAttackComboState oneHandSwordHeavyAttackComboState;
+        public PlayerOneHandWeaponHeavyAttackState oneHandWeaponHeavyAttackState;
+        public PlayerOneHandWeaponHeavyComboAttackState oneHandWeaponHeavyAttackComboState;
 
         public PlayerMeleeJumpLightAttackState meleeJumpLightAttackState;
         public PlayerLightAttackLandingState lightAttackLandingState;
@@ -75,8 +75,8 @@ namespace KBH {
             
             standToCrouchState = new PlayerStandToCrouchState();
             crouchToStandState = new PlayerCrouchToStandState();
-            crouchedIdlingState = new PlayerCrouchedIdlingState();
-            crouchedWalkingState = new PlayerCrouchedWalkingState();
+            crouchIdleState = new PlayerCrouchIdleState();
+            crouchWalkState = new PlayerCrouchWalkState();
 
             walkingState = new PlayerWalkingState();
             runningState = new PlayerRunningState();
@@ -100,12 +100,12 @@ namespace KBH {
             climbingUpState = new();
             climbingDownState = new();
 
-            oneHandSwordFirstAttackState = new();
-            oneHandSwordComboAttackState = new();
-            oneHandSwordFinalAttackState = new();
+            oneHandWeaponLightAttackState = new();
+            oneHandWeaponLightComboAttackState = new();
+            oneHandWeaponLightFinalAttackState = new();
 
-            oneHandSwordHeavyAttackState = new();
-            oneHandSwordHeavyAttackComboState = new();
+            oneHandWeaponHeavyAttackState = new();
+            oneHandWeaponHeavyAttackComboState = new();
 
             meleeJumpLightAttackState = new();
             lightAttackLandingState = new();

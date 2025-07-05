@@ -11,7 +11,10 @@ namespace KBH {
             base.Enter(character);
             //player.pmsm.ChangeState(player.pmsm.notMovingState);
             player.isAttacking = true;
-            player.playerAnimatorManager.PlayAnimation("Slide Attack", player.isAttacking);
+            if (player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() is MeleeWeaponItem) {
+                MeleeWeaponItem meleeWeapon = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                player.playerAnimatorManager.PlayAnimation(meleeWeapon.slidAttackAnimation, player.isPerformingAction);
+            }
         }
 
         public override void Stay(CharacterManager character) {

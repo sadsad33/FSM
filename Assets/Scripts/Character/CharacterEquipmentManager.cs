@@ -112,15 +112,17 @@ namespace KBH {
         }
 
         public void OpenDamageCollider() {
-            Debug.Log("¿­·È´Ù");
+            //Debug.Log("¿­·È´Ù");
             if (rightHandDamageCollider != null) rightHandDamageCollider.EnableDamageCollider();
             if (leftHandDamageCollider != null) leftHandDamageCollider.EnableDamageCollider();
         }
 
         public void CloseDamageCollider() {
-            Debug.Log("´ÝÇû´Ù");
+            //Debug.Log("´ÝÇû´Ù");
             if (rightHandDamageCollider != null) rightHandDamageCollider.DisableDamageCollider();
             if (leftHandDamageCollider != null) leftHandDamageCollider.DisableDamageCollider();
         }
+
+
     }
 }

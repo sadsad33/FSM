@@ -29,6 +29,9 @@ namespace KBH {
             //Debug.Log("Airborne State HandleInput ÀÇ MoveDirection : " + moveDirection);
             if (player.canAttackDuringAction && player.playerInputManager.LightAttackInput) {
                 if (player.playerStatsManager.currentStamina <= 10f) return;
+                // ÀÓ½Ã
+                MeleeWeaponItem item = player.playerEquipmentManager.rightHandSlot.GetItemOnSlot() as MeleeWeaponItem;
+                if (item.jumpAttackAnimation == "") return;
                 player.psm.meleeJumpLightAttackState.SetVelocity(MovingVelocityInAir);
                 player.psm.ChangeState(player.psm.meleeJumpLightAttackState);
             }

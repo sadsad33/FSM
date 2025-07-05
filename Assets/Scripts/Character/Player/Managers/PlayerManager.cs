@@ -12,8 +12,8 @@ namespace KBH {
         public PlayerInputManager playerInputManager;
         public PlayerStateMachine psm;
         public PlayerActionStateMachine pasm;
-        
 
+        public bool cursorSet = false;
         protected override void Awake() {
             base.Awake();
             CharacterInit();
@@ -33,11 +33,17 @@ namespace KBH {
 
         protected override void Start() {
             psm.ChangeState(psm.idlingState);
+            
             //pasm.ChangeState(pasm.standingActionIdlingState);
         }
 
         protected override void Update() {
             base.Update();
+            if (!cursorSet && PlayerUIManager.instance.GetUIStackSize() == 1) {
+                cursorSet = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
             psm.GetCurrentState().Stay(this);
             //pasm.GetCurrentState().Stay(this);
             

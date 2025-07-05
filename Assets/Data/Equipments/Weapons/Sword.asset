@@ -21,3 +21,14 @@ MonoBehaviour:
   physicalDamage: 1
   poiseDamage: 100
   offensivePoiseBonus: 0
+  lightAttackAnimations:
+  - OH_Sword_Attack1
+  - OH_Sword_Attack2
+  - OH_Sword_Attack3
+  heavyAttackAnimations:
+  - OH_Sword_HeavyAttack1
+  - OH_Sword_HeavyAttack2
+  jumpAttackAnimation: Melee Jump Light Attack
+  slidAttackAnimation: Slide Attack
+  crouchAttackAnimation: Crouching Attack
+  runningAttackAnimation: Running Attack

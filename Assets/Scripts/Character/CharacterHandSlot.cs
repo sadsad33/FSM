@@ -8,13 +8,13 @@ namespace KBH {
         GameObject? currentItemModelOnSlot;
         [SerializeField] bool isLeftHandSlot;
         [SerializeField] Item unarmed;
-        
+
         public virtual void EquipItemOnSlot(Item item) {
             if (item == null) currentItemOnSlot = unarmed;
             else currentItemOnSlot = item;
 
             if (currentItemModelOnSlot != null) Destroy(currentItemModelOnSlot);
-            
+
             if (currentItemOnSlot.itemModel != null)
                 currentItemModelOnSlot = Instantiate(currentItemOnSlot.itemModel, transform);
         }
@@ -28,7 +28,10 @@ namespace KBH {
 
         public bool IsLeftHandSlot() => isLeftHandSlot;
 
-        public Item GetItemOnSlot() => currentItemOnSlot;
+        public Item GetItemOnSlot() {
+            //if (currentItemOnSlot == unarmed) return null;
+            return currentItemOnSlot;
+        }
 
         public GameObject GetItemModelOnSlot() => currentItemModelOnSlot;
     }

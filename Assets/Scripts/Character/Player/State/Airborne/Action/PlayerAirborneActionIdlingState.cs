@@ -6,7 +6,7 @@ namespace KBH {
     public class PlayerAirborneActionIdlingState : PlayerAirborneActionState {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
-            player.playerAnimatorManager.PlayAnimation("One Hand Idle", false);
+            //player.playerAnimatorManager.PlayAnimation("One Hand Idle", false);
         }
 
         public override void Stay(CharacterManager character) {

@@ -27,7 +27,7 @@ namespace KBH {
         // 무기 콜라이더 열고 닫기
 
         protected virtual void Awake() {
-            damageCollider = GetComponentInChildren<Collider>();
+            damageCollider = GetComponent<Collider>();
         }
 
         public void EnableDamageCollider() {

@@ -204,6 +204,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TwoHanding",
+                    "type": "Button",
+                    "id": "b0c27a93-4b27-4c25-ae26-756176328145",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -336,6 +345,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "WeaponArt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "851f3f1c-38c7-4c9f-b190-99a5338978b5",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TwoHanding",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

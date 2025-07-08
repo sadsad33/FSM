@@ -32,6 +32,7 @@ namespace KBH {
         public bool isPerformingAction;
         public bool isAttacking;
         public bool isMoving;
+        public bool isTwoHanding;
 
         public bool canAttackDuringAction;
         public bool canRotateDuringAction;

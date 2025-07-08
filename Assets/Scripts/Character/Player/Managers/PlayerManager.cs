@@ -46,7 +46,12 @@ namespace KBH {
             }
             psm.GetCurrentState().Stay(this);
             //pasm.GetCurrentState().Stay(this);
-            
+
+            if (playerInputManager.TwoHandingInput) {
+                playerInputManager.TwoHandingInput = false;
+                playerEquipmentManager.HandleTwoHandingAnimation();
+            }
+
             if (playerInputManager.RightWeaponChangeInput) {
                 playerEquipmentManager.ChangeRightHandWeapon();
             }
@@ -78,6 +83,7 @@ namespace KBH {
             playerAnimatorManager.animator.SetBool("isClimbing", isClimbing);
             playerAnimatorManager.animator.SetBool("rightFootUp", rightFootUp);
             playerAnimatorManager.animator.SetBool("isDead", playerStatsManager.isDead);
+            playerAnimatorManager.animator.SetBool("isTwoHanding", isTwoHanding);
             playerInputManager.LightAttackInput = false;
             playerInputManager.HeavyAttackInput = false;
             playerInputManager.JumpInput = false;

@@ -91,6 +91,7 @@ namespace KBH {
                     playerEquipment.rightHandEquipments[index] = null; // 장비매니저에 해당 정보를 비움
                     if (index == playerEquipment.currentRightHandSlotIndex) { // 현재 손에 들고있는 장비라면 바로 적용
                         playerEquipment.rightHandSlot.UnEquipItemOnSlot();
+                        playerEquipment.HandleRightHandAnimation();
                         playerEquipment.LoadRightWeaponDamageCollider();
                     }
                     LoadItemsOnEquipmentWindow(); // 장비창에 반영
@@ -112,6 +113,7 @@ namespace KBH {
                     playerEquipment.leftHandEquipments[index] = null;
                     if (index == playerEquipment.currentLeftHandSlotIndex) {
                         playerEquipment.leftHandSlot.UnEquipItemOnSlot();
+                        playerEquipment.HandleLeftHandAnimation();
                         playerEquipment.LoadLeftWeaponDamageCollider();
                     }
                     LoadItemsOnEquipmentWindow();

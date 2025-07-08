@@ -6,7 +6,6 @@ namespace KBH {
         public override void Enter(CharacterManager character) {
             base.Enter(character);
             player.canAttackDuringAction = false;
-            player.playerAnimatorManager.PlayAnimation("One Hand Idle", false);
         }
 
         public override void Stay(CharacterManager character) {
@@ -22,8 +21,8 @@ namespace KBH {
             if (player.playerStatsManager.currentStamina <= 0f) return;
             if (player.isPerformingAction) return;
             //else if (player.playerInputManager.LightAttackInput) {
-                //if (!TryFatalBlow())
-                    //player.pasm.ChangeState(player.pasm.oneHandSwordFirstAttackState);
+            //if (!TryFatalBlow())
+            //player.pasm.ChangeState(player.pasm.oneHandSwordFirstAttackState);
             //} else if (player.playerInputManager.HeavyAttackInput) {
             //    player.psm.ChangeState(player.psm.oneHandSwordHeavyAttackState);
             //} else if (player.playerInputManager.WeaponArtInput) {
@@ -31,6 +30,6 @@ namespace KBH {
             //}
         }
 
-        
+
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 namespace KBH {
     public class WeaponItem : EquipmentItem {
         // Stats
+        public bool isUnarmed;
         public float physicalDamage;
 
         // 무기 관련 애니메이션(공격, 방어 등)

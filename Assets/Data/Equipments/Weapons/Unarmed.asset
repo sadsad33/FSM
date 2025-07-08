@@ -18,9 +18,11 @@ MonoBehaviour:
   itemName: "\uC5C6\uC74C"
   flavorText: 
   weight: 0
+  isUnarmed: 1
   physicalDamage: 0
   poiseDamage: 0
   offensivePoiseBonus: 0
+  isUnarmed: 0
   lightAttackAnimations:
   - Unarmed_LightAttack1
   - Unarmed_LightAttack2
@@ -28,3 +30,7 @@ MonoBehaviour:
   heavyAttackAnimations:
   - Unarmed_HeavyAttack1
   - Unarmed_HeavyAttack2
+  jumpAttackAnimation: 
+  slidAttackAnimation: 
+  crouchAttackAnimation: 
+  runningAttackAnimation: 

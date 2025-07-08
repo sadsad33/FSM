@@ -21,6 +21,7 @@ namespace KBH {
         public bool InteractionInput { get; set; }
         public bool WeaponArtInput { get; set; }
         public bool UIAction1 { get; set; }
+        public bool TwoHandingInput { get; set; }
 
         private void Awake() {
             if (PlayerInput == null)
@@ -63,6 +64,8 @@ namespace KBH {
 
             PlayerInput.PlayerActions.UIAction1.performed += i => UIAction1 = true;
             PlayerInput.PlayerActions.UIAction1.canceled += i => UIAction1 = false;
+
+            PlayerInput.PlayerActions.TwoHanding.performed += i => TwoHandingInput = true;
 
             PlayerInput.Enable();
         }

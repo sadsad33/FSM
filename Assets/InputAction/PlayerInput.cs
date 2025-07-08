@@ -226,6 +226,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TwoHanding"",
+                    ""type"": ""Button"",
+                    ""id"": ""b0c27a93-4b27-4c25-ae26-756176328145"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -360,6 +369,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""WeaponArt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""851f3f1c-38c7-4c9f-b190-99a5338978b5"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TwoHanding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -384,6 +404,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActions_UIAction1 = m_PlayerActions.FindAction("UIAction1", throwIfNotFound: true);
         m_PlayerActions_WeaponArt = m_PlayerActions.FindAction("WeaponArt", throwIfNotFound: true);
+        m_PlayerActions_TwoHanding = m_PlayerActions.FindAction("TwoHanding", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -511,6 +532,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Interact;
     private readonly InputAction m_PlayerActions_UIAction1;
     private readonly InputAction m_PlayerActions_WeaponArt;
+    private readonly InputAction m_PlayerActions_TwoHanding;
     public struct PlayerActionsActions
     {
         private @PlayerInput m_Wrapper;
@@ -527,6 +549,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
         public InputAction @UIAction1 => m_Wrapper.m_PlayerActions_UIAction1;
         public InputAction @WeaponArt => m_Wrapper.m_PlayerActions_WeaponArt;
+        public InputAction @TwoHanding => m_Wrapper.m_PlayerActions_TwoHanding;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -572,6 +595,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @WeaponArt.started += instance.OnWeaponArt;
             @WeaponArt.performed += instance.OnWeaponArt;
             @WeaponArt.canceled += instance.OnWeaponArt;
+            @TwoHanding.started += instance.OnTwoHanding;
+            @TwoHanding.performed += instance.OnTwoHanding;
+            @TwoHanding.canceled += instance.OnTwoHanding;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -612,6 +638,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @WeaponArt.started -= instance.OnWeaponArt;
             @WeaponArt.performed -= instance.OnWeaponArt;
             @WeaponArt.canceled -= instance.OnWeaponArt;
+            @TwoHanding.started -= instance.OnTwoHanding;
+            @TwoHanding.performed -= instance.OnTwoHanding;
+            @TwoHanding.canceled -= instance.OnTwoHanding;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -648,5 +677,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnUIAction1(InputAction.CallbackContext context);
         void OnWeaponArt(InputAction.CallbackContext context);
+        void OnTwoHanding(InputAction.CallbackContext context);
     }
 }

@@ -19,7 +19,6 @@ namespace KBH {
 
         protected override void Start() {
             base.Start();
-
             SetHelmet();
             SetChestArmor();
             SetGauntlets();
@@ -33,7 +32,43 @@ namespace KBH {
             if (currentRightHandSlotIndex >= 3)
                 currentRightHandSlotIndex -= 3;
             rightHandSlot.EquipItemOnSlot(rightHandEquipments[currentRightHandSlotIndex]);
+            HandleRightHandAnimation();
             LoadRightWeaponDamageCollider();
+        }
+
+        public void ChangeLeftHandWeapon() {
+            if (leftHandSlot.GetItemOnSlot() != null) leftHandSlot.UnEquipItemOnSlot();
+            currentLeftHandSlotIndex++;
+            if (currentLeftHandSlotIndex >= 3)
+                currentLeftHandSlotIndex -= 3;
+            leftHandSlot.EquipItemOnSlot(leftHandEquipments[currentLeftHandSlotIndex]);
+            HandleLeftHandAnimation();
+            LoadLeftWeaponDamageCollider();
+        }
+
+        public void HandleTwoHandingAnimation() {
+            if (player.isTwoHanding) {
+                player.isTwoHanding = false;
+                player.playerAnimatorManager.PlayAnimation("Two Hand Empty", false);
+            } else {
+                player.isTwoHanding = true;
+                player.playerAnimatorManager.PlayAnimation("Two Hand Idle", false);
+            }
+        }
+
+        public void HandleRightHandAnimation() {
+            if ((rightHandSlot.GetItemOnSlot() as WeaponItem).isUnarmed) {
+                Debug.Log("hi");
+                player.playerAnimatorManager.PlayAnimation("Right Hand Empty", false);
+            } else
+                player.playerAnimatorManager.PlayAnimation("Right Hand Idle", false);
+        }
+
+        public void HandleLeftHandAnimation() {
+            if ((leftHandSlot.GetItemOnSlot() as WeaponItem).isUnarmed)
+                player.playerAnimatorManager.PlayAnimation("Left Hand Empty", false);
+            else
+                player.playerAnimatorManager.PlayAnimation("Left Hand Idle", false);
         }
 
         public void AddToEquipments(Item equipThis) {
@@ -43,6 +78,7 @@ namespace KBH {
                 if (equipWin.selectedIndex == currentRightHandSlotIndex) {
                     rightHandSlot.UnEquipItemOnSlot();
                     rightHandSlot.EquipItemOnSlot(rightHandEquipments[currentRightHandSlotIndex]);
+                    HandleRightHandAnimation();
                     LoadRightWeaponDamageCollider();
                 }
             } else if (equipWin.leftHandIsSelected) {
@@ -50,6 +86,7 @@ namespace KBH {
                 if (equipWin.selectedIndex == currentLeftHandSlotIndex) {
                     leftHandSlot.UnEquipItemOnSlot();
                     leftHandSlot.EquipItemOnSlot(leftHandEquipments[currentLeftHandSlotIndex]);
+                    HandleLeftHandAnimation();
                     LoadLeftWeaponDamageCollider();
                 }
             } else if (equipWin.helmetIsSelected) {

@@ -34,10 +34,10 @@ namespace KBH {
         public List<Item> accessoryEquipments;
         protected virtual void Awake() {
             character = GetComponent<CharacterManager>();
+            LoadHandSlots();
         }
 
         protected virtual void Start() {
-            LoadHandSlots();
             //Debug.Log("오른손에 무기 장착");
             rightHandSlot.EquipItemOnSlot(rightHandEquipments[currentRightHandSlotIndex]);
             LoadRightWeaponDamageCollider();
@@ -122,7 +122,5 @@ namespace KBH {
             if (rightHandDamageCollider != null) rightHandDamageCollider.DisableDamageCollider();
             if (leftHandDamageCollider != null) leftHandDamageCollider.DisableDamageCollider();
         }
-
-
     }
 }
